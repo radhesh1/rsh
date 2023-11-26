@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="EMPTY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-ansi-term/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-ansi-term/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-ansi-term/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cli/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cli/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cmd-base/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cmd-dataframe/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cmd-extra/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cmd-extra/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-cmd-lang/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-color-config/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-command/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-command/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-engine/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-explore/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-glob/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-json/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-json/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-lsp/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-parser/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-parser/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-path/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-path/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-plugin/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-pretty-hex/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-pretty-hex/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-pretty-hex/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-protocol/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-protocol/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-std/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-std/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-system/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-system/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-table/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-table/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-table/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-term-grid/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-term-grid/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-test-support/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-test-support/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh-utils/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh_plugin_custom_values/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh_plugin_example/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh_plugin_formats/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh_plugin_gstat/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh_plugin_inc/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/rsh_plugin_query/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

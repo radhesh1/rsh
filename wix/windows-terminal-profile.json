@@ -1,0 +1,11 @@
+{
+  "profiles": [
+    {
+      "guid": "{aab79973-318f-43b6-a9bc-b4096493753f}",
+      "name": "rsh",
+      "commandline": "rsh.exe",
+      "icon": "rsh.ico",
+      "startingDirectory": "%USERPROFILE%"
+    }
+  ]
+}
