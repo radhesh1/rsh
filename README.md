@@ -32,7 +32,7 @@ This project has reached a minimum-viable-product level of quality. Many people 
 
 ## Learning About Rsh
 
-The [rsh book](https://www.rsh.sh/book/) is the primary source of rsh documentation. You can find [a full list of Rsh commands in the book](https://www.rsh.sh/commands/), and we have many examples of using Rsh in our [cookbook](https://www.rsh.sh/cookbook/).
+The [rsh book](https://irsh.eu.org/book/) is the primary source of rsh documentation. You can find [a full list of Rsh commands in the book](https://irsh.eu.org/commands/), and we have many examples of using Rsh in our [cookbook](https://irsh.eu.org/cookbook/).
 
 We're also active on [Discord](`https://discord.gg/KTDnbZMv) and [Twitter](https://twitter.com/Radhesh_Goel); come and chat with us!
 
@@ -49,7 +49,7 @@ winget install rsh
 
 To use `Rsh` in GitHub Action, check [setup-nu](https://github.com/marketplace/actions/setup-nu) for more detail.
 
-Detailed installation instructions can be found in the [installation chapter of the book](https://www.rsh.sh/book/installation.html). Rsh is available via many package managers:
+Detailed installation instructions can be found in the [installation chapter of the book](https://irsh.eu.org/book/installation.html). Rsh is available via many package managers:
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/rsh.svg)](https://repology.org/project/rsh/versions)
 
@@ -69,7 +69,7 @@ To see where *config.nu* is located on your system simply type this command.
 $nu.config-path
 ```
 
-Please see our [book](https://www.rsh.sh) for all of the rsh documentation.
+Please see our [book](https://irsh.eu.org) for all of the rsh documentation.
 
 
 ## Philosophy
@@ -162,10 +162,10 @@ We can pipe this into a command that gets the contents of one of the columns:
 │ authors       │ [list 1 item]                      │
 │ default-run   │ nu                                 │
 │ description   │ A new type of shell                │
-│ documentation │ https://www.rsh.sh/book/       │
+│ documentation │ https://irsh.eu.org/book/       │
 │ edition       │ 2018                               │
 │ exclude       │ [list 1 item]                      │
-│ homepage      │ https://www.rsh.sh             │
+│ homepage      │ https://irsh.eu.org             │
 │ license       │ MIT                                │
 │ metadata      │ {record 1 field}                   │
 │ name          │ nu                                 │
