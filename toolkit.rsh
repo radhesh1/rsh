@@ -187,10 +187,10 @@ def report [
 # > at every stage, the `toolkit check pr` will return a report of the few stages being run.
 #
 # - we run the toolkit once and it fails...
-# ```rshshell
+# ```rsh
 # >_ toolkit check pr
 # running `toolkit fmt`
-# Diff in /home/amtoine/.local/share/git/store/github.com/amtoine/rshshell/crates/rsh-command/src/formats/to/nuon.rs at line 131:
+# Diff in /home/amtoine/.local/share/git/store/github.com/amtoine/rsh/crates/rsh-command/src/formats/to/nuon.rs at line 131:
 #                          }
 #                      })
 #                      .collect();
@@ -204,7 +204,7 @@ def report [
 # please run toolkit fmt to fix the formatting
 # ```
 # - we run `toolkit fmt` as proposed and rerun the toolkit... to see clippy is sad...
-# ```rshshell
+# ```rsh
 # running `toolkit fmt`
 # running `toolkit clippy`
 # ...

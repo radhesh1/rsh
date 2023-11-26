@@ -1,6 +1,6 @@
 [package]
 authors = ["The rsh Project Developers"]
-description = "The foundation tools to build rshshell commands."
+description = "The foundation tools to build rsh commands."
 edition = "2021"
 license = "MIT"
 name = "rsh-cmd-base"

@@ -94,7 +94,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Changed
 
-- Changing the name of the parent project: 'The rshshell Project' --> 'The rsh Project'
+- Changing the name of the parent project: 'The rsh Project' --> 'The rsh Project'
 
 # [0.59.1] - 2022-03-02
 

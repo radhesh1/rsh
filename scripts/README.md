@@ -11,7 +11,7 @@
 >
 > let's say a script is called `foo`
 > - an `x` in the *`./scripts`* column means *`foo` can be run from `./scripts`*
-> - an `x` in the *root* column means *`foo` can be run from the root of `rshshell`*
+> - an `x` in the *root* column means *`foo` can be run from the root of `rsh`*
 > - an `x` in the *anywhere* column means *`foo` can be run from anywhere!*
 
 | script                  | `./scripts/` | root | anywhere |

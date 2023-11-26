@@ -53,7 +53,7 @@ impl Command for History {
             let ctrlc = engine_state.ctrlc.clone();
 
             let mut history_path = config_path;
-            history_path.push("rshshell");
+            history_path.push("rsh");
             match engine_state.config.history_file_format {
                 HistoryFileFormat::Sqlite => {
                     history_path.push("history.sqlite3");

@@ -47,7 +47,7 @@ const RESET_APPLICATION_MODE: &str = "\x1b[?1l";
 pub fn evaluate_repl(
     engine_state: &mut EngineState,
     stack: &mut Stack,
-    rshshell_path: &str,
+    rsh_path: &str,
     prerun_command: Option<Spanned<String>>,
     load_std_lib: Option<Spanned<String>>,
     entire_start_time: Instant,
@@ -118,7 +118,7 @@ pub fn evaluate_repl(
 
     start_time = std::time::Instant::now();
     let history_path = crate::config_files::get_history_path(
-        rshshell_path,
+        rsh_path,
         engine_state.config.history_file_format,
     );
     if let Some(history_path) = history_path.as_deref() {
@@ -679,7 +679,7 @@ pub fn evaluate_repl(
                     eprintln!("Error: {err:?}");
                     // TODO: Identify possible error cases where a hard failure is preferable
                     // Ignoring and reporting could hide bigger problems
-                    // e.g. https://github.com/radhesh1/rshshell/issues/6452
+                    // e.g. https://github.com/radhesh1/rsh/issues/6452
                     // Alternatively only allow that expected failures let the REPL loop
                 }
                 if shell_integration {
@@ -842,7 +842,7 @@ fn trailing_slash_looks_like_path() {
 fn are_session_ids_in_sync() {
     let engine_state = &mut EngineState::new();
     let history_path_o =
-        crate::config_files::get_history_path("rshshell", engine_state.config.history_file_format);
+        crate::config_files::get_history_path("rsh", engine_state.config.history_file_format);
     assert!(history_path_o.is_some());
     let history_path = history_path_o.as_deref().unwrap();
     let line_editor = reedline::Reedline::create();

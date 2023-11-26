@@ -128,13 +128,13 @@ mimalloc = ["rsh-cmd-lang/mimalloc", "dep:mimalloc"]
 which-support = ["rsh-command/which-support", "rsh-cmd-lang/which-support"]
 trash-support = ["rsh-command/trash-support", "rsh-cmd-lang/trash-support"]
 
-# Extra feature for rshshell
+# Extra feature for rsh
 extra = ["dep:rsh-cmd-extra", "rsh-cmd-lang/extra"]
 
-# Dataframe feature for rshshell
+# Dataframe feature for rsh
 dataframe = ["dep:rsh-cmd-dataframe", "rsh-cmd-lang/dataframe"]
 
-# SQLite commands for rshshell
+# SQLite commands for rsh
 sqlite = ["rsh-command/sqlite", "rsh-cmd-lang/sqlite"]
 
 [profile.release]

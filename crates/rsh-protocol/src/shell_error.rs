@@ -706,7 +706,7 @@ pub enum ShellError {
         span: Span,
     },
 
-    /// Failed to find a file during a rshshell operation.
+    /// Failed to find a file during a rsh operation.
     ///
     /// ## Resolution
     ///

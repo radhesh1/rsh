@@ -14,7 +14,7 @@ use std::{cmp::Ordering, fmt::Display, hash::Hasher};
 
 use super::{utils::DEFAULT_ROWS, rshLazyFrame};
 
-// DataFrameValue is an encapsulation of rshshell Value that can be used
+// DataFrameValue is an encapsulation of rsh Value that can be used
 // to define the PolarsObject Trait. The polars object trait allows to
 // create dataframes with mixed datatypes
 #[derive(Clone, Debug)]

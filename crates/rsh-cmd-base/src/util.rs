@@ -56,8 +56,8 @@ pub fn process_range(range: &Range) -> Result<(isize, isize), MakeRangeError> {
     Ok((start, end))
 }
 
-const HELP_MSG: &str = "rshshell's config file can be found with the command: $rsh.config-path. \
-For more help: (https://rshshell.sh/book/configuration.html#configurations-with-built-in-commands)";
+const HELP_MSG: &str = "rsh's config file can be found with the command: $rsh.config-path. \
+For more help: (https://rsh.sh/book/configuration.html#configurations-with-built-in-commands)";
 
 fn get_editor_commandline(
     value: &Value,

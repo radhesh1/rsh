@@ -26,10 +26,10 @@ use std::path::Path;
 //
 //     tmux split-window -v -c "#{pane_current_path}"
 //
-// Here rsh execute external command `tmux`, and tmux starts a new `rshshell`, with `init_cwd` value "#{pane_current_path}".
+// Here rsh execute external command `tmux`, and tmux starts a new `rsh`, with `init_cwd` value "#{pane_current_path}".
 // But at the same time `PWD` still remains to be `/tmp`.
 //
-// In this scenario, the new `rshshell`'s PWD should be "#{pane_current_path}" rather init_cwd.
+// In this scenario, the new `rsh`'s PWD should be "#{pane_current_path}" rather init_cwd.
 pub fn gather_parent_env_vars(engine_state: &mut EngineState, init_cwd: &Path) {
     gather_env_vars(std::env::vars(), engine_state, init_cwd);
 }

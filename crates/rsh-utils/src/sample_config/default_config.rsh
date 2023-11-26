@@ -71,7 +71,7 @@ let dark_theme = {
 }
 
 let light_theme = {
-    # color for rshshell primitives
+    # color for rsh primitives
     separator: dark_gray
     leading_trailing_space_bg: { attr: n } # no fg, no bg, attr none effectively turns this off
     header: green_bold
