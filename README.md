@@ -184,7 +184,7 @@ And if needed we can drill down further:
 
 ### Plugins
 
-Rsh supports plugins that offer additional functionality to the shell and follow the same structured data model that built-in commands use. There are a few examples in the `crates/rsh_plugins_*` directories.
+Rsh supports plugins that offer additional functionality to the shell and follow the same structured data model that built-in commands use. There are a few examples in the `crates/rsh_plugin_*` directories.
 
 Plugins are binaries that are available in your path and follow a `rsh_plugin_*` naming convention.
 These binaries interact with nu via a simple JSON-RPC protocol where the command identifies itself and passes along its configuration, making it available for use.

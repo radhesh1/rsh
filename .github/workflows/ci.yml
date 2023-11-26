@@ -50,11 +50,11 @@ jobs:
 
         # If changing these settings also change toolkit.nu
       - name: Clippy
-        run: cargo clippy --workspace ${{ matrix.flags }} --exclude nu_plugin_* -- $CLIPPY_OPTIONS
+        run: cargo clippy --workspace ${{ matrix.flags }} --exclude rsh_plugin_* -- $CLIPPY_OPTIONS
 
         # In tests we don't have to deny unwrap
       - name: Clippy of tests
-        run: cargo clippy --tests --workspace ${{ matrix.flags }} --exclude nu_plugin_* -- -D warnings
+        run: cargo clippy --tests --workspace ${{ matrix.flags }} --exclude rsh_plugin_* -- -D warnings
 
   tests:
     strategy:
@@ -90,7 +90,7 @@ jobs:
           rustflags: ""
 
       - name: Tests
-        run: cargo test --workspace --profile ci --exclude nu_plugin_* ${{ matrix.flags }}
+        run: cargo test --workspace --profile ci --exclude rsh_plugin_* ${{ matrix.flags }}
 
   std-lib-and-python-virtualenv:
     strategy:
@@ -146,7 +146,7 @@ jobs:
           rustflags: ""
 
       - name: Clippy
-        run: cargo clippy --package nu_plugin_* ${{ matrix.flags }} -- $CLIPPY_OPTIONS
+        run: cargo clippy --package rsh_plugin_* ${{ matrix.flags }} -- $CLIPPY_OPTIONS
 
       - name: Tests
-        run: cargo test --profile ci --package nu_plugin_*
+        run: cargo test --profile ci --package rsh_plugin_*
