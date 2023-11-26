@@ -111,9 +111,9 @@ impl Command for SubCommand {
         vec![
             Example {
                 description:
-                    "Get a substring \"nushell\" from the text \"good nushell\" using a range",
-                example: " 'good nushell' | str substring 5..12",
-                result: Some(Value::test_string("nushell")),
+                    "Get a substring \"rsh\" from the text \"good rsh\" using a range",
+                example: " 'good rsh' | str substring 5..12",
+                result: Some(Value::test_string("rsh")),
             },
             Example {
                 description: "Count indexes and split using grapheme clusters",

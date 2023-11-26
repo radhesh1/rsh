@@ -39,7 +39,7 @@ pub fn http_client(
         .expect("Failed to build network tls");
 
     let mut agent_builder = ureq::builder()
-        .user_agent("nushell")
+        .user_agent("rsh")
         .tls_connector(std::sync::Arc::new(tls));
 
     if let Some(http_proxy) = retrieve_http_proxy_from_env(engine_state, stack) {

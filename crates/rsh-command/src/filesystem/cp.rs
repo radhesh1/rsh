@@ -29,7 +29,7 @@ impl Command for Cp {
     }
 
     fn usage(&self) -> &str {
-        "Old nushell version of Copy files."
+        "Old rsh version of Copy files."
     }
 
     fn search_terms(&self) -> Vec<&str> {

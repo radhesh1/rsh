@@ -124,17 +124,17 @@ impl Command for Find {
             },
             Example {
                 description: "Find value in records using regex",
-                example: r#"[[version name]; ['0.1.0' nushell] ['0.1.1' fish] ['0.2.0' zsh]] | find --regex "rsh""#,
+                example: r#"[[version name]; ['0.1.0' rsh] ['0.1.1' fish] ['0.2.0' zsh]] | find --regex "rsh""#,
                 result: Some(Value::test_list(
                     vec![Value::test_record(record! {
                             "version" => Value::test_string("0.1.0"),
-                            "name" => Value::test_string("nushell".to_string()),
+                            "name" => Value::test_string("rsh".to_string()),
                     })],
                 )),
             },
             Example {
                 description: "Find inverted values in records using regex",
-                example: r#"[[version name]; ['0.1.0' nushell] ['0.1.1' fish] ['0.2.0' zsh]] | find --regex "rsh" --invert"#,
+                example: r#"[[version name]; ['0.1.0' rsh] ['0.1.1' fish] ['0.2.0' zsh]] | find --regex "rsh" --invert"#,
                 result: Some(Value::test_list(
                     vec![
                         Value::test_record(record!{

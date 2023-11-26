@@ -88,7 +88,7 @@ impl LazySystemInfoRecord {
                 }));
 
                 let system = system_opt.get_system();
-                // get the process information for the nushell pid
+                // get the process information for the rsh pid
                 let pinfo = system.process(pid);
 
                 Ok(pinfo
@@ -125,7 +125,7 @@ impl LazySystemInfoRecord {
                 }));
 
                 let system = system_opt.get_system();
-                // get the process information for the nushell pid
+                // get the process information for the rsh pid
                 let pinfo = system.process(pid);
 
                 if let Some(p) = pinfo {

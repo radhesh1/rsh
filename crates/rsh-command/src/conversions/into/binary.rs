@@ -70,7 +70,7 @@ impl Command for SubCommand {
     fn examples(&self) -> Vec<Example> {
         vec![
             Example {
-                description: "convert string to a nushell binary primitive",
+                description: "convert string to a rsh binary primitive",
                 example: "'This is a string that is exactly 52 characters long.' | into binary",
                 result: Some(Value::binary(
                     "This is a string that is exactly 52 characters long."
@@ -81,7 +81,7 @@ impl Command for SubCommand {
                 )),
             },
             Example {
-                description: "convert a number to a nushell binary primitive",
+                description: "convert a number to a rsh binary primitive",
                 example: "1 | into binary",
                 result: Some(Value::binary(
                     i64::from(1).to_ne_bytes().to_vec(),
@@ -89,7 +89,7 @@ impl Command for SubCommand {
                 )),
             },
             Example {
-                description: "convert a boolean to a nushell binary primitive",
+                description: "convert a boolean to a rsh binary primitive",
                 example: "true | into binary",
                 result: Some(Value::binary(
                     i64::from(1).to_ne_bytes().to_vec(),
@@ -97,17 +97,17 @@ impl Command for SubCommand {
                 )),
             },
             Example {
-                description: "convert a filesize to a nushell binary primitive",
+                description: "convert a filesize to a rsh binary primitive",
                 example: "ls | where name == LICENSE | get size | into binary",
                 result: None,
             },
             Example {
-                description: "convert a filepath to a nushell binary primitive",
+                description: "convert a filepath to a rsh binary primitive",
                 example: "ls | where name == LICENSE | get name | path expand | into binary",
                 result: None,
             },
             Example {
-                description: "convert a float to a nushell binary primitive",
+                description: "convert a float to a rsh binary primitive",
                 example: "1.234 | into binary",
                 result: Some(Value::binary(
                     1.234f64.to_ne_bytes().to_vec(),
@@ -115,7 +115,7 @@ impl Command for SubCommand {
                 )),
             },
             Example {
-                description: "convert an int to a nushell binary primitive with compact enabled",
+                description: "convert an int to a rsh binary primitive with compact enabled",
                 example: "10 | into binary --compact",
                 result: Some(Value::binary(vec![10], Span::test_data())),
             },

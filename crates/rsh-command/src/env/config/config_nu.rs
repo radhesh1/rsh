@@ -49,7 +49,7 @@ impl Command for ConfigRsh {
             },
             Example {
                 description: "allow saving the default `config.rsh` locally",
-                example: "config rsh --default | save -f ~/.config/nushell/default_config.rsh",
+                example: "config rsh --default | save -f ~/.config/rsh/default_config.rsh",
                 result: None,
             },
         ]

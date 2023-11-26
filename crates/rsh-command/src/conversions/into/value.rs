@@ -32,7 +32,7 @@ impl Command for IntoValue {
     }
 
     fn usage(&self) -> &str {
-        "Infer nushell datatype for each cell."
+        "Infer rsh datatype for each cell."
     }
 
     fn examples(&self) -> Vec<Example> {
@@ -356,7 +356,7 @@ mod test {
 
     #[test]
     fn test_float_parse() {
-        // The regex should work on all these but nushell's float parser is more strict
+        // The regex should work on all these but rsh's float parser is more strict
         assert!(FLOAT_RE.is_match("0.1"));
         assert!(FLOAT_RE.is_match("3.0"));
         assert!(FLOAT_RE.is_match("3.00001"));

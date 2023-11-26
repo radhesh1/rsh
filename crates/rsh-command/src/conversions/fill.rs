@@ -85,19 +85,19 @@ impl Command for Fill {
             Example {
                 description:
                     "Fill a string on the left side to a width of 15 with the character '─'",
-                example: "'nushell' | fill --alignment l --character '─' --width 15",
-                result: Some(Value::string("nushell────────", Span::test_data())),
+                example: "'rsh' | fill --alignment l --character '─' --width 15",
+                result: Some(Value::string("rsh────────", Span::test_data())),
             },
             Example {
                 description:
                     "Fill a string on the right side to a width of 15 with the character '─'",
-                example: "'nushell' | fill --alignment r --character '─' --width 15",
-                result: Some(Value::string("────────nushell", Span::test_data())),
+                example: "'rsh' | fill --alignment r --character '─' --width 15",
+                result: Some(Value::string("────────rsh", Span::test_data())),
             },
             Example {
                 description: "Fill a string on both sides to a width of 15 with the character '─'",
-                example: "'nushell' | fill --alignment m --character '─' --width 15",
-                result: Some(Value::string("────nushell────", Span::test_data())),
+                example: "'rsh' | fill --alignment m --character '─' --width 15",
+                result: Some(Value::string("────rsh────", Span::test_data())),
             },
             Example {
                 description:

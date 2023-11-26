@@ -52,8 +52,8 @@ impl Command for Inspect {
 
         let table = inspect_table::build_table(input_val, description, cols.0 as usize);
 
-        // Note that this is printed to stderr. The reason for this is so it doesn't disrupt the regular nushell
-        // tabular output. If we printed to stdout, nushell would get confused with two outputs.
+        // Note that this is printed to stderr. The reason for this is so it doesn't disrupt the regular rsh
+        // tabular output. If we printed to stdout, rsh would get confused with two outputs.
         eprintln!("{table}\n");
 
         Ok(original_input.into_pipeline_data_with_metadata(input_metadata))

@@ -14,7 +14,7 @@ impl Command for HelpOperators {
     }
 
     fn usage(&self) -> &str {
-        "Show help on nushell operators."
+        "Show help on rsh operators."
     }
 
     fn signature(&self) -> Signature {

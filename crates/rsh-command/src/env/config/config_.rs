@@ -20,7 +20,7 @@ impl Command for ConfigMeta {
     }
 
     fn usage(&self) -> &str {
-        "Edit nushell configuration files."
+        "Edit rsh configuration files."
     }
 
     fn extra_usage(&self) -> &str {

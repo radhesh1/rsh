@@ -1263,7 +1263,7 @@ fn test_expand_big_0() {
             "│                  │ │               │ ╰──────────┴────╯ │ │",
             "│                  │ │ name          │ rsh                │ │",
             "│                  │ │ repository    │ https://github.co │ │",
-            "│                  │ │               │ m/nushell/rsh │ │",
+            "│                  │ │               │ m/rsh/rsh │ │",
             "│                  │ │ rust-version  │ 1.60              │ │",
             "│                  │ │ version       │ 0.74.1            │ │",
             "│                  │ ╰───────────────┴───────────────────╯ │",

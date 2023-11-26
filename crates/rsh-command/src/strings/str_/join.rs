@@ -78,7 +78,7 @@ impl Command for StrJoin {
             Example {
                 description: "Create a string from input",
                 example: "['rsh', 'shell'] | str join",
-                result: Some(Value::test_string("nushell")),
+                result: Some(Value::test_string("rsh")),
             },
             Example {
                 description: "Create a string from input with a separator",

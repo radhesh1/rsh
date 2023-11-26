@@ -143,7 +143,7 @@ impl Command for Ast {
             },
             Example {
                 description:
-                    "Print the ast of a pipeline with an error, as json, in a nushell table",
+                    "Print the ast of a pipeline with an error, as json, in a rsh table",
                 example: "ast 'for x in 1..10 { echo $x ' --json | get block | from json",
                 result: None,
             },

@@ -237,8 +237,8 @@ fn join(
     Value::list(result, span)
 }
 
-// Join rows of `this` (a nushell table) to rows of `other` (a lookup-table
-// containing rows of a nushell table).
+// Join rows of `this` (a rsh table) to rows of `other` (a lookup-table
+// containing rows of a rsh table).
 #[allow(clippy::too_many_arguments)]
 fn join_rows(
     result: &mut Vec<Value>,

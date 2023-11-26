@@ -26,12 +26,12 @@ impl Command for ConfigReset {
     }
 
     fn usage(&self) -> &str {
-        "Reset nushell environment configurations to default, and saves old config files in the config location as oldconfig.rsh and oldenv.rsh."
+        "Reset rsh environment configurations to default, and saves old config files in the config location as oldconfig.rsh and oldenv.rsh."
     }
 
     fn examples(&self) -> Vec<Example> {
         vec![Example {
-            description: "reset nushell configuration files",
+            description: "reset rsh configuration files",
             example: "config reset",
             result: None,
         }]
@@ -60,7 +60,7 @@ impl Command for ConfigReset {
                 ));
             }
         };
-        config_path.push("nushell");
+        config_path.push("rsh");
         if !only_env {
             let mut nu_config = config_path.clone();
             nu_config.push("config.rsh");

@@ -74,12 +74,12 @@ impl Command for SubCommand {
     fn examples(&self) -> Vec<Example> {
         vec![Example {
             description: "get the edit distance between two strings",
-            example: "'nushell' | str distance 'nutshell'",
+            example: "'rsh' | str distance 'nutshell'",
             result: Some(Value::test_int(1)),
         },
         Example {
             description: "Compute edit distance between strings in table and another string, using cell paths",
-            example: "[{a: 'nutshell' b: 'numetal'}] | str distance 'nushell' 'a' 'b'",
+            example: "[{a: 'nutshell' b: 'numetal'}] | str distance 'rsh' 'a' 'b'",
             result: Some(Value::test_list (
                 vec![
                     Value::test_record(record! {
@@ -89,7 +89,7 @@ impl Command for SubCommand {
         },
         Example {
             description: "Compute edit distance between strings in record and another string, using cell paths",
-            example: "{a: 'nutshell' b: 'numetal'} | str distance 'nushell' a b",
+            example: "{a: 'nutshell' b: 'numetal'} | str distance 'rsh' a b",
             result: Some(
                     Value::test_record(record! {
                         "a" => Value::test_int(1),

@@ -17,7 +17,7 @@ impl Command for HelpExterns {
     }
 
     fn usage(&self) -> &str {
-        "Show help on nushell externs."
+        "Show help on rsh externs."
     }
 
     fn signature(&self) -> Signature {

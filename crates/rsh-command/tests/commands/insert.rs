@@ -83,7 +83,7 @@ fn insert_support_lazy_record() {
 #[test]
 fn lazy_record_test_values() {
     let actual = rsh!(
-        r#"lazy make --columns ["haskell", "futures", "nushell"] --get-value { |lazything| $lazything + "!" } | values | length"#
+        r#"lazy make --columns ["haskell", "futures", "rsh"] --get-value { |lazything| $lazything + "!" } | values | length"#
     );
     assert_eq!(actual.out, "3");
 }

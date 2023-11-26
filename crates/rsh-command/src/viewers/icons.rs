@@ -31,7 +31,7 @@ impl Icons {
 // Helper function to convert ansi_term style to nu_ansi_term. unfortunately
 // this is necessary because ls_colors has a dependency on ansi_term vs nu_ansi_term
 // double unfortunately, now we have a dependency on both. we may have to bring
-// in ls_colors crate to nushell
+// in ls_colors crate to rsh
 // pub fn iconify_style_ansi_to_nu<'a>(style: ansi_term::Style) -> nu_ansi_term::Style {
 //     let bg = match style.background {
 //         Some(c) => match c {

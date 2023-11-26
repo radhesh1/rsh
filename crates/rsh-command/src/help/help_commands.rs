@@ -18,7 +18,7 @@ impl Command for HelpCommands {
     }
 
     fn usage(&self) -> &str {
-        "Show help on nushell commands."
+        "Show help on rsh commands."
     }
 
     fn signature(&self) -> Signature {

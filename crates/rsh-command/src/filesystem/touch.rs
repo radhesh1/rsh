@@ -105,7 +105,7 @@ impl Command for Touch {
                             .metadata()
                             .expect("should be a valid path") // Should never fail as the path exists
                             .modified()
-                            .expect("should have metadata") // This should always be valid as it is available on all nushell's supported platforms (Linux, Windows, MacOS)
+                            .expect("should have metadata") // This should always be valid as it is available on all rsh's supported platforms (Linux, Windows, MacOS)
                             .into(),
                     );
 
@@ -114,7 +114,7 @@ impl Command for Touch {
                             .metadata()
                             .expect("should be a valid path") // Should never fail as the path exists
                             .accessed()
-                            .expect("should have metadata") // This should always be valid as it is available on all nushell's supported platforms (Linux, Windows, MacOS)
+                            .expect("should have metadata") // This should always be valid as it is available on all rsh's supported platforms (Linux, Windows, MacOS)
                             .into(),
                     );
                 }

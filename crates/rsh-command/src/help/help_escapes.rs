@@ -14,7 +14,7 @@ impl Command for HelpEscapes {
     }
 
     fn usage(&self) -> &str {
-        "Show help on nushell string escapes."
+        "Show help on rsh string escapes."
     }
 
     fn signature(&self) -> Signature {

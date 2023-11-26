@@ -45,7 +45,7 @@ impl Command for ConfigEnv {
             },
             Example {
                 description: "allow saving the default `env.rsh` locally",
-                example: "config env --default | save -f ~/.config/nushell/default_env.rsh",
+                example: "config env --default | save -f ~/.config/rsh/default_env.rsh",
                 result: None,
             },
         ]

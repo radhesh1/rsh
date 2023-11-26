@@ -17,7 +17,7 @@ impl Command for HelpAliases {
     }
 
     fn usage(&self) -> &str {
-        "Show help on nushell aliases."
+        "Show help on rsh aliases."
     }
 
     fn signature(&self) -> Signature {

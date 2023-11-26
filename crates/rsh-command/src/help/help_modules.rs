@@ -17,7 +17,7 @@ impl Command for HelpModules {
     }
 
     fn usage(&self) -> &str {
-        "Show help on nushell modules."
+        "Show help on rsh modules."
     }
 
     fn extra_usage(&self) -> &str {
