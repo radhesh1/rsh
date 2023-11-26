@@ -1,10 +1,9 @@
 # Rsh <!-- omit in toc -->
-[![Crates.io](https://img.shields.io/crates/v/nu.svg)](https://crates.io/crates/nu)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/radhesh1/rsh/ci.yml?branch=main)](https://github.com/radhesh1/rsh/actions)
 [![Nightly Build](https://github.com/radhesh1/rsh/actions/workflows/nightly-build.yml/badge.svg)](https://github.com/radhesh1/rsh/actions/workflows/nightly-build.yml)
-[![Discord](https://img.shields.io/discord/601130461678272522.svg?logo=discord)](https://discord.gg/NtAbbGn)
+
+[//]: # ([![Discord]&#40;https://img.shields.io/discord/601130461678272522.svg?logo=discord&#41;]&#40;`https://discord.gg/KTDnbZMv&#41;)
 [![The Changelog #363](https://img.shields.io/badge/The%20Changelog-%23363-61c192.svg)](https://changelog.com/podcast/363)
-[![@nu_shell](https://img.shields.io/badge/twitter-@nu_shell-1DA1F3?style=flat-square)](https://twitter.com/nu_shell)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/radhesh1/rsh)](https://github.com/radhesh1/rsh/graphs/commit-activity)
 [![GitHub contributors](https://img.shields.io/github/contributors/radhesh1/rsh)](https://github.com/radhesh1/rsh/graphs/contributors)
 
@@ -35,7 +34,7 @@ This project has reached a minimum-viable-product level of quality. Many people 
 
 The [rsh book](https://www.rsh.sh/book/) is the primary source of rsh documentation. You can find [a full list of Rsh commands in the book](https://www.rsh.sh/commands/), and we have many examples of using Rsh in our [cookbook](https://www.rsh.sh/cookbook/).
 
-We're also active on [Discord](https://discord.gg/NtAbbGn) and [Twitter](https://twitter.com/nu_shell); come and chat with us!
+We're also active on [Discord](`https://discord.gg/KTDnbZMv) and [Twitter](https://twitter.com/Radhesh_Goel); come and chat with us!
 
 ## Installation
 

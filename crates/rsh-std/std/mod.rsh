@@ -282,7 +282,7 @@ $"(ansi green)     __  ,(ansi reset)
 (ansi green)'|, . ,'   (ansi reset)based on the (ansi green)rsh(ansi reset) language,
 (ansi green) !_-\(_\\    (ansi reset)where all data is structured!
 
-Please join our (ansi purple)Discord(ansi reset) community at (ansi purple)https://discord.gg/NtAbbGn(ansi reset)
+Please join our (ansi purple)Discord(ansi reset) community at (ansi purple)`https://discord.gg/KTDnbZMv(ansi reset)
 Our (ansi green_bold)GitHub(ansi reset) repository is at (ansi green_bold)https://github.com/radhesh1/rsh(ansi reset)
 Our (ansi green)Documentation(ansi reset) is located at (ansi green)https://irsh.eu.org(ansi reset)
 (ansi cyan)Tweet(ansi reset) us at (ansi cyan_bold)@rsh_shell(ansi reset)
