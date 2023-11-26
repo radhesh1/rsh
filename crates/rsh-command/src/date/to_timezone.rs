@@ -21,7 +21,7 @@ impl Command for SubCommand {
     fn signature(&self) -> Signature {
         Signature::build("date to-timezone")
             .input_output_types(vec![(Type::Date, Type::Date), (Type::String, Type::Date)])
-            .allow_variants_without_examples(true) // https://github.com/nushell/nushell/issues/7032
+            .allow_variants_without_examples(true) // https://github.com/radhesh1/rsh/issues/7032
             .required("time zone", SyntaxShape::String, "time zone description")
             .category(Category::Date)
     }

@@ -16,7 +16,7 @@ impl Command for SubCommand {
                 (Type::Date, Type::String),
                 (Type::String, Type::String),
             ])
-            .allow_variants_without_examples(true) // https://github.com/nushell/nushell/issues/7032
+            .allow_variants_without_examples(true) // https://github.com/radhesh1/rsh/issues/7032
             .switch("list", "lists strftime cheatsheet", Some('l'))
             .optional(
                 "format string",

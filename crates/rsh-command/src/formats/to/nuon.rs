@@ -340,7 +340,7 @@ fn needs_quotes(string: &str) -> bool {
     match string {
         // `true`/`false`/`null` are active keywords in JSON and NUON
         // `&&` is denied by the rsh parser for diagnostics reasons
-        // (https://github.com/nushell/nushell/pull/7241)
+        // (https://github.com/radhesh1/rsh/pull/7241)
         // TODO: remove the extra check in the nuon codepath
         "true" | "false" | "null" | "&&" => return true,
         _ => (),

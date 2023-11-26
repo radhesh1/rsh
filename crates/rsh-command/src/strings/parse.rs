@@ -380,7 +380,7 @@ impl Iterator for ParseStreamerExternal {
         // extend across chunk boundaries.
         // This is a stop-gap solution until the `regex` crate supports streaming or an alternative
         // solution is found.
-        // See https://github.com/nushell/nushell/issues/9795
+        // See https://github.com/radhesh1/rsh/issues/9795
         while let Some(Ok(chunks)) = &mut chunk {
             match self.stream.next() {
                 Some(Ok(mut next_chunk)) => chunks.append(&mut next_chunk),

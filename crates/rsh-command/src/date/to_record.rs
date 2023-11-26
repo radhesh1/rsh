@@ -21,7 +21,7 @@ impl Command for SubCommand {
                 (Type::Date, Type::Record(vec![])),
                 (Type::String, Type::Record(vec![])),
             ])
-            .allow_variants_without_examples(true) // https://github.com/nushell/nushell/issues/7032
+            .allow_variants_without_examples(true) // https://github.com/radhesh1/rsh/issues/7032
             .category(Category::Date)
     }
 

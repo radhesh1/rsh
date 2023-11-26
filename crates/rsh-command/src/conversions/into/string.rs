@@ -48,7 +48,7 @@ impl Command for SubCommand {
                 (Type::Table(vec![]), Type::Table(vec![])),
                 (Type::Record(vec![]), Type::Record(vec![])),
             ])
-            .allow_variants_without_examples(true) // https://github.com/nushell/nushell/issues/7032
+            .allow_variants_without_examples(true) // https://github.com/radhesh1/rsh/issues/7032
             .rest(
                 "rest",
                 SyntaxShape::CellPath,

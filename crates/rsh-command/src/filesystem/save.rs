@@ -356,7 +356,7 @@ fn stream_to_file(
     span: Span,
     progress: bool,
 ) -> Result<PipelineData, ShellError> {
-    // https://github.com/nushell/nushell/pull/9377 contains the reason
+    // https://github.com/radhesh1/rsh/pull/9377 contains the reason
     // for not using BufWriter<File>
     let mut writer = file;
 
