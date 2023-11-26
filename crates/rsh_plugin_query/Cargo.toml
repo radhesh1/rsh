@@ -1,0 +1,26 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "A rsh plugin to query JSON, XML, and various web data"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh_plugin_query"
+edition = "2021"
+license = "MIT"
+name = "rsh_plugin_query"
+version = "0.87.2"
+
+[lib]
+doctest = false
+bench = false
+
+[[bin]]
+name = "rsh_plugin_query"
+bench = false
+
+[dependencies]
+rsh-plugin = { path = "../rsh-plugin", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+
+gjson = "0.8"
+scraper = { default-features = false, version = "0.18" }
+sxd-document = "0.3"
+sxd-xpath = "0.4"

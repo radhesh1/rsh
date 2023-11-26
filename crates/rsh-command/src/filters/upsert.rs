@@ -1,0 +1,239 @@
+use rsh_engine::{eval_block, CallExt};
+use rsh_protocol::ast::{Call, CellPath, PathMember};
+use rsh_protocol::engine::{Closure, Command, EngineState, Stack};
+use rsh_protocol::{
+    record, Category, Example, FromValue, IntoInterruptiblePipelineData, IntoPipelineData,
+    PipelineData, ShellError, Signature, SyntaxShape, Type, Value,
+};
+
+#[derive(Clone)]
+pub struct Upsert;
+
+impl Command for Upsert {
+    fn name(&self) -> &str {
+        "upsert"
+    }
+
+    fn signature(&self) -> Signature {
+        Signature::build("upsert")
+            .input_output_types(vec![
+                (Type::Record(vec![]), Type::Record(vec![])),
+                (Type::Table(vec![]), Type::Table(vec![])),
+                (
+                    Type::List(Box::new(Type::Any)),
+                    Type::List(Box::new(Type::Any)),
+                ),
+            ])
+            .required(
+                "field",
+                SyntaxShape::CellPath,
+                "the name of the column to update or insert",
+            )
+            .required(
+                "replacement value",
+                SyntaxShape::Any,
+                "the new value to give the cell(s), or a closure to create the value",
+            )
+            .allow_variants_without_examples(true)
+            .category(Category::Filters)
+    }
+
+    fn usage(&self) -> &str {
+        "Update an existing column to have a new value, or insert a new column."
+    }
+
+    fn search_terms(&self) -> Vec<&str> {
+        vec!["add"]
+    }
+
+    fn run(
+        &self,
+        engine_state: &EngineState,
+        stack: &mut Stack,
+        call: &Call,
+        input: PipelineData,
+    ) -> Result<PipelineData, ShellError> {
+        upsert(engine_state, stack, call, input)
+    }
+
+    fn examples(&self) -> Vec<Example> {
+        vec![Example {
+            description: "Update a record's value",
+            example: "{'name': 'rsh', 'stars': 5} | upsert name 'Rsh'",
+            result: Some(Value::test_record(record! {
+                "name" => Value::test_string("Rsh"),
+                "stars" => Value::test_int(5),
+            })),
+        },
+        Example {
+            description: "Update each row of a table",
+            example: "[[name lang]; [Rsh ''] [Reedline '']] | upsert lang 'Rust'",
+            result: Some(Value::test_list(
+                vec![
+                    Value::test_record(record! {
+                        "name" => Value::test_string("Rsh"),
+                        "lang" => Value::test_string("Rust"),
+                    }),
+                    Value::test_record(record! {
+                        "name" => Value::test_string("Reedline"),
+                        "lang" => Value::test_string("Rust"),
+                    }),
+                ],
+            )),
+        },
+        Example {
+            description: "Insert a new entry into a single record",
+            example: "{'name': 'rsh', 'stars': 5} | upsert language 'Rust'",
+            result: Some(Value::test_record(record! {
+                "name" =>     Value::test_string("rsh"),
+                "stars" =>    Value::test_int(5),
+                "language" => Value::test_string("Rust"),
+            })),
+        }, Example {
+            description: "Use in closure form for more involved updating logic",
+            example: "[[count fruit]; [1 'apple']] | enumerate | upsert item.count {|e| ($e.item.fruit | str length) + $e.index } | get item",
+            result: Some(Value::test_list(
+                vec![Value::test_record(record! {
+                    "count" => Value::test_int(5),
+                    "fruit" => Value::test_string("apple"),
+                })],
+            )),
+        },
+        Example {
+            description: "Upsert an int into a list, updating an existing value based on the index",
+            example: "[1 2 3] | upsert 0 2",
+            result: Some(Value::test_list(
+                vec![Value::test_int(2), Value::test_int(2), Value::test_int(3)],
+            )),
+        },
+        Example {
+            description: "Upsert an int into a list, inserting a new value based on the index",
+            example: "[1 2 3] | upsert 3 4",
+            result: Some(Value::test_list(
+                vec![
+                    Value::test_int(1),
+                    Value::test_int(2),
+                    Value::test_int(3),
+                    Value::test_int(4),
+                ],
+            )),
+        },
+        ]
+    }
+}
+
+fn upsert(
+    engine_state: &EngineState,
+    stack: &mut Stack,
+    call: &Call,
+    input: PipelineData,
+) -> Result<PipelineData, ShellError> {
+    let span = call.head;
+
+    let cell_path: CellPath = call.req(engine_state, stack, 0)?;
+    let replacement: Value = call.req(engine_state, stack, 1)?;
+
+    let redirect_stdout = call.redirect_stdout;
+    let redirect_stderr = call.redirect_stderr;
+
+    let engine_state = engine_state.clone();
+    let ctrlc = engine_state.ctrlc.clone();
+
+    // Replace is a block, so set it up and run it instead of using it as the replacement
+    if replacement.as_block().is_ok() {
+        let capture_block = Closure::from_value(replacement)?;
+        let block = engine_state.get_block(capture_block.block_id).clone();
+
+        let mut stack = stack.captures_to_stack(capture_block.captures);
+        let orig_env_vars = stack.env_vars.clone();
+        let orig_env_hidden = stack.env_hidden.clone();
+
+        input.map(
+            move |mut input| {
+                // with_env() is used here to ensure that each iteration uses
+                // a different set of environment variables.
+                // Hence, a 'cd' in the first loop won't affect the next loop.
+                stack.with_env(&orig_env_vars, &orig_env_hidden);
+
+                if let Some(var) = block.signature.get_positional(0) {
+                    if let Some(var_id) = &var.var_id {
+                        stack.add_var(*var_id, input.clone())
+                    }
+                }
+
+                let output = eval_block(
+                    &engine_state,
+                    &mut stack,
+                    &block,
+                    input.clone().into_pipeline_data(),
+                    redirect_stdout,
+                    redirect_stderr,
+                );
+
+                match output {
+                    Ok(pd) => {
+                        if let Err(e) =
+                            input.upsert_data_at_cell_path(&cell_path.members, pd.into_value(span))
+                        {
+                            return Value::error(e, span);
+                        }
+
+                        input
+                    }
+                    Err(e) => Value::error(e, span),
+                }
+            },
+            ctrlc,
+        )
+    } else {
+        if let Some(PathMember::Int { val, span, .. }) = cell_path.members.first() {
+            let mut input = input.into_iter();
+            let mut pre_elems = vec![];
+
+            for idx in 0..*val {
+                if let Some(v) = input.next() {
+                    pre_elems.push(v);
+                } else {
+                    return Err(ShellError::AccessBeyondEnd {
+                        max_idx: idx,
+                        span: *span,
+                    });
+                }
+            }
+
+            // Skip over the replaced value
+            let _ = input.next();
+
+            return Ok(pre_elems
+                .into_iter()
+                .chain(vec![replacement])
+                .chain(input)
+                .into_pipeline_data(ctrlc));
+        }
+
+        input.map(
+            move |mut input| {
+                let replacement = replacement.clone();
+
+                if let Err(e) = input.upsert_data_at_cell_path(&cell_path.members, replacement) {
+                    return Value::error(e, span);
+                }
+
+                input
+            },
+            ctrlc,
+        )
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_examples() {
+        use crate::test_examples;
+
+        test_examples(Upsert {})
+    }
+}

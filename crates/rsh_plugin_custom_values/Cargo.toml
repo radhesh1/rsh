@@ -1,0 +1,16 @@
+[package]
+name = "rsh_plugin_custom_values"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh_plugin_custom_values"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "rsh_plugin_custom_values"
+bench = false
+
+[dependencies]
+rsh-plugin = { path = "../rsh-plugin", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2", features = ["plugin"] }
+serde = { version = "1.0", default-features = false }
+typetag = "0.2"

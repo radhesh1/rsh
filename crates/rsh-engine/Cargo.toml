@@ -1,0 +1,20 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "rsh's evaluation engine"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-engine"
+edition = "2021"
+license = "MIT"
+name = "rsh-engine"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-protocol = { path = "../rsh-protocol", features = ["plugin"], version = "0.87.2" }
+rsh-path = { path = "../rsh-path", version = "0.87.2" }
+rsh-glob = { path = "../rsh-glob", version = "0.87.2" }
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+
+[features]
+plugin = []

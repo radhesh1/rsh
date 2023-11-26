@@ -1,0 +1,45 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "CLI-related functionality for Rsh"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-cli"
+edition = "2021"
+license = "MIT"
+name = "rsh-cli"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dev-dependencies]
+rsh-cmd-lang = { path = "../rsh-cmd-lang", version = "0.87.2" }
+rsh-command = { path = "../rsh-command", version = "0.87.2" }
+rsh-test-support = { path = "../rsh-test-support", version = "0.87.2" }
+rstest = { version = "0.18.1", default-features = false }
+
+[dependencies]
+rsh-cmd-base = { path = "../rsh-cmd-base", version = "0.87.2" }
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-path = { path = "../rsh-path", version = "0.87.2" }
+rsh-parser = { path = "../rsh-parser", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+rsh-color-config = { path = "../rsh-color-config", version = "0.87.2" }
+nu-ansi-term = "0.49.0"
+reedline = { version = "0.26.0", features = ["bashisms", "sqlite"] }
+
+chrono = { default-features = false, features = ["std"], version = "0.4" }
+crossterm = "0.27"
+fancy-regex = "0.11"
+fuzzy-matcher = "0.3"
+is_executable = "1.0"
+log = "0.4"
+miette = { version = "5.10", features = ["fancy-no-backtrace"] }
+once_cell = "1.18"
+percent-encoding = "2"
+pathdiff = "0.2"
+sysinfo = "0.29"
+unicode-segmentation = "1.10"
+uuid = { version = "1.6.0", features = ["v4"] }
+
+[features]
+plugin = []

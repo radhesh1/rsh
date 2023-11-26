@@ -1,0 +1,23 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "Color configuration code used by rsh"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-color-config"
+edition = "2021"
+license = "MIT"
+name = "rsh-color-config"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+nu-ansi-term = "0.49.0"
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-json = { path = "../rsh-json", version = "0.87.2" }
+
+serde = { version = "1.0", features = ["derive"] }
+
+[dev-dependencies]
+rsh-test-support = { path = "../rsh-test-support", version = "0.87.2" }

@@ -1,0 +1,29 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "rsh table pager"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-explore"
+edition = "2021"
+license = "MIT"
+name = "rsh-explore"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dependencies]
+nu-ansi-term = "0.49.0"
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+rsh-parser = { path = "../rsh-parser", version = "0.87.2" }
+rsh-color-config = { path = "../rsh-color-config", version = "0.87.2" }
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-table = { path = "../rsh-table", version = "0.87.2" }
+rsh-json = { path = "../rsh-json", version = "0.87.2" }
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+
+terminal_size = "0.2"
+strip-ansi-escapes = "0.2.0"
+crossterm = "0.27"
+ratatui = "0.23"
+ansi-str = "0.8"
+unicode-width = "0.1"
+lscolors = { version = "0.15", default-features = false, features = ["nu-ansi-term"] }

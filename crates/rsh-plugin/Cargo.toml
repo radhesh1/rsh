@@ -1,0 +1,20 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "Functionality for building rsh plugins"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-plugin"
+edition = "2021"
+license = "MIT"
+name = "rsh-plugin"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+
+bincode = "1.3"
+rmp-serde = "1.1"
+serde = { version = "1.0" }
+serde_json = { version = "1.0" }

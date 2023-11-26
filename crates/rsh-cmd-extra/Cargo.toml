@@ -1,0 +1,42 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "rsh's extra commands that are not part of the 1.0 api standard."
+edition = "2021"
+license = "MIT"
+name = "rsh-cmd-extra"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-cmd-extra"
+version = "0.87.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-parser = { path = "../rsh-parser", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+rsh-cmd-base = { path = "../rsh-cmd-base", version = "0.87.2" }
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+
+# Potential dependencies for extras
+heck = "0.4.1"
+num-traits = "0.2"
+ahash = "0.8.3"
+nu-ansi-term = "0.49.0"
+fancy-regex = "0.11.0"
+rust-embed = "8.0.0"
+serde = "1.0.164"
+rsh-pretty-hex = { version = "0.87.2", path = "../rsh-pretty-hex" }
+rsh-json = { version = "0.87.2", path = "../rsh-json" }
+serde_urlencoded = "0.7.1"
+htmlescape = "0.3.1"
+
+[features]
+extra = ["default"]
+default = []
+
+[dev-dependencies]
+rsh-cmd-lang = { path = "../rsh-cmd-lang", version = "0.87.2" }
+rsh-command = { path = "../rsh-command", version = "0.87.2" }
+rsh-test-support = { path = "../rsh-test-support", version = "0.87.2" }

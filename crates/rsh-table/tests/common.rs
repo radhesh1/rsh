@@ -1,0 +1,56 @@
+#![allow(dead_code)]
+
+use rsh_table::{string_width, rshTable, rshTableConfig};
+use tabled::grid::records::vec_records::CellInfo;
+
+pub struct TestCase {
+    cfg: rshTableConfig,
+    termwidth: usize,
+    expected: Option<String>,
+}
+
+impl TestCase {
+    pub fn new(cfg: rshTableConfig, termwidth: usize, expected: Option<String>) -> Self {
+        Self {
+            cfg,
+            termwidth,
+            expected,
+        }
+    }
+}
+
+type Data = Vec<Vec<CellInfo<String>>>;
+
+pub fn test_table<I: IntoIterator<Item = TestCase>>(data: Data, tests: I) {
+    for (i, test) in tests.into_iter().enumerate() {
+        let actual = create_table(data.clone(), test.cfg.clone(), test.termwidth);
+
+        assert_eq!(
+            actual, test.expected,
+            "\nfail i={:?} termwidth={}",
+            i, test.termwidth
+        );
+
+        if let Some(table) = actual {
+            assert!(string_width(&table) <= test.termwidth);
+        }
+    }
+}
+
+pub fn create_table(data: Data, config: rshTableConfig, termwidth: usize) -> Option<String> {
+    let table = rshTable::from(data);
+    table.draw(config, termwidth)
+}
+
+pub fn create_row(count_columns: usize) -> Vec<CellInfo<String>> {
+    let mut row = Vec::with_capacity(count_columns);
+    for i in 0..count_columns {
+        row.push(CellInfo::new(i.to_string()));
+    }
+
+    row
+}
+
+pub fn cell(text: &str) -> CellInfo<String> {
+    CellInfo::new(text.to_string())
+}

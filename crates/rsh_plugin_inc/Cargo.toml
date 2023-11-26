@@ -1,0 +1,22 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "A version incrementer plugin for Rsh"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh_plugin_inc"
+edition = "2021"
+license = "MIT"
+name = "rsh_plugin_inc"
+version = "0.87.2"
+
+[lib]
+doctest = false
+bench = false
+
+[[bin]]
+name = "rsh_plugin_inc"
+bench = false
+
+[dependencies]
+rsh-plugin = { path = "../rsh-plugin", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2", features = ["plugin"] }
+
+semver = "1.0"

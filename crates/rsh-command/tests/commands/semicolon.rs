@@ -1,0 +1,24 @@
+use rsh_test_support::rsh;
+use rsh_test_support::playground::Playground;
+
+#[test]
+fn semicolon_allows_lhs_to_complete() {
+    Playground::setup("create_test_1", |dirs, _sandbox| {
+        let actual = rsh!(
+            cwd: dirs.test(),
+            "touch i_will_be_created_semi.txt; echo done"
+        );
+
+        let path = dirs.test().join("i_will_be_created_semi.txt");
+
+        assert!(path.exists());
+        assert_eq!(actual.out, "done");
+    })
+}
+
+#[test]
+fn semicolon_lhs_error_stops_processing() {
+    let actual = rsh!("where 1 1; echo done");
+
+    assert!(!actual.out.contains("done"));
+}

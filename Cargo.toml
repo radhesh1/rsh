@@ -1,0 +1,177 @@
+[package]
+authors = ["Radhesh Goel"]
+build = "scripts/build.rs"
+default-run = "rsh"
+description = "A rustic shell"
+documentation = "https://gitbook.io"
+edition = "2021"
+homepage = "https://gitbook.io"
+license = "MIT"
+name = "rsh"
+repository = "https://github.com/radhesh1/rsh"
+rust-version = "1.60"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+#[dependencies]
+#pkg-url = "{ repo }/releases/download/{ version }/{ name }-{ version }-{ target }.{ archive-format }"
+#pkg-fmt = "tgz"
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-fmt = "zip"
+
+[workspace]
+members = [
+    "crates/rsh-cli",
+    "crates/rsh-engine",
+    "crates/rsh-parser",
+    "crates/rsh-system",
+    "crates/rsh-cmd-base",
+    "crates/rsh-cmd-extra",
+    "crates/rsh-cmd-lang",
+    "crates/rsh-cmd-dataframe",
+    "crates/rsh-command",
+    "crates/rsh-lsp",
+    "crates/rsh-protocol",
+    "crates/rsh-plugin",
+    "crates/rsh_plugin_inc",
+    "crates/rsh_plugin_gstat",
+    "crates/rsh_plugin_example",
+    "crates/rsh_plugin_query",
+    "crates/rsh_plugin_custom_values",
+    "crates/rsh_plugin_formats",
+    "crates/rsh-std",
+    "crates/rsh-utils",
+]
+
+[dependencies]
+rsh-cli = { path = "crates/rsh-cli", version = "0.87.2" }
+rsh-color-config = { path = "crates/rsh-color-config", version = "0.87.2" }
+rsh-cmd-base = { path = "crates/rsh-cmd-base", version = "0.87.2" }
+rsh-cmd-lang = { path = "./crates/rsh-cmd-lang", version = "0.87.2" }
+rsh-cmd-dataframe = { path = "./crates/rsh-cmd-dataframe", version = "0.87.2", features = ["dataframe"], optional = true }
+rsh-cmd-extra = { path = "./crates/rsh-cmd-extra", version = "0.87.2", optional = true }
+rsh-command = { path = "./crates/rsh-command", version = "0.87.2" }
+rsh-engine = { path = "crates/rsh-engine", version = "0.87.2" }
+rsh-explore = { path = "crates/rsh-explore", version = "0.87.2" }
+rsh-json = { path = "crates/rsh-json", version = "0.87.2" }
+rsh-lsp = { path = "crates/rsh-lsp/", version = "0.87.2" }
+rsh-parser = { path = "crates/rsh-parser", version = "0.87.2" }
+rsh-path = { path = "crates/rsh-path", version = "0.87.2" }
+rsh-plugin = { path = "crates/rsh-plugin", optional = true, version = "0.87.2" }
+rsh-pretty-hex = { path = "crates/rsh-pretty-hex", version = "0.87.2" }
+rsh-protocol = { path = "crates/rsh-protocol", version = "0.87.2" }
+rsh-system = { path = "crates/rsh-system", version = "0.87.2" }
+rsh-table = { path = "crates/rsh-table", version = "0.87.2" }
+rsh-term-grid = { path = "crates/rsh-term-grid", version = "0.87.2" }
+rsh-std = { path = "crates/rsh-std", version = "0.87.2" }
+rsh-utils = { path = "crates/rsh-utils", version = "0.87.2" }
+nu-ansi-term = "0.49.0"
+reedline = { version = "0.26.0", features = ["bashisms", "sqlite"] }
+
+crossterm = "0.27"
+ctrlc = "3.4"
+log = "0.4"
+miette = { version = "5.10", features = ["fancy-no-backtrace"] }
+mimalloc = { version = "0.1.37", default-features = false, optional = true }
+serde_json = "1.0"
+simplelog = "0.12"
+time = "0.3"
+
+[target.'cfg(not(target_os = "windows"))'.dependencies]
+# Our dependencies don't use OpenSSL on Windows
+openssl = { version = "0.10", features = ["vendored"], optional = true }
+signal-hook = { version = "0.3", default-features = false }
+
+[target.'cfg(windows)'.build-dependencies]
+winresource = "0.1"
+
+[target.'cfg(target_family = "unix")'.dependencies]
+nix = { version = "0.27", default-features = false, features = [
+    "signal",
+    "process",
+    "fs",
+    "term",
+] }
+
+[dev-dependencies]
+rsh-test-support = { path = "crates/rsh-test-support", version = "0.87.2" }
+assert_cmd = "2.0"
+criterion = "0.5"
+pretty_assertions = "1.4"
+rstest = { version = "0.18", default-features = false }
+serial_test = "2.0"
+tempfile = "3.8"
+
+[features]
+plugin = [
+    "rsh-plugin",
+    "rsh-cli/plugin",
+    "rsh-parser/plugin",
+    "rsh-command/plugin",
+    "rsh-protocol/plugin",
+    "rsh-engine/plugin",
+]
+default = ["plugin", "which-support", "trash-support", "sqlite", "mimalloc"]
+stable = ["default"]
+wasi = ["rsh-cmd-lang/wasi"]
+# NOTE: individual features are also passed to `rsh-cmd-lang` that uses them to generate the feature matrix in the `version` command
+
+# Enable to statically link OpenSSL (perl is required, to build OpenSSL https://docs.rs/openssl/latest/openssl/);
+# otherwise the system version will be used. Not enabled by default because it takes a while to build
+static-link-openssl = ["dep:openssl", "rsh-cmd-lang/static-link-openssl"]
+
+mimalloc = ["rsh-cmd-lang/mimalloc", "dep:mimalloc"]
+
+# Stable (Default)
+which-support = ["rsh-command/which-support", "rsh-cmd-lang/which-support"]
+trash-support = ["rsh-command/trash-support", "rsh-cmd-lang/trash-support"]
+
+# Extra feature for rshshell
+extra = ["dep:rsh-cmd-extra", "rsh-cmd-lang/extra"]
+
+# Dataframe feature for rshshell
+dataframe = ["dep:rsh-cmd-dataframe", "rsh-cmd-lang/dataframe"]
+
+# SQLite commands for rshshell
+sqlite = ["rsh-command/sqlite", "rsh-cmd-lang/sqlite"]
+
+[profile.release]
+opt-level = "s"     # Optimize for size
+strip = "debuginfo"
+lto = "thin"
+
+# build with `cargo build --profile profiling`
+# to analyze performance with tooling like linux perf
+[profile.profiling]
+inherits = "release"
+strip = false
+debug = true
+
+# build with `cargo build --profile ci`
+# to analyze performance with tooling like linux perf
+[profile.ci]
+inherits = "dev"
+strip = false
+debug = false
+
+# Main rsh binary
+[[bin]]
+name = "rsh"
+path = "src/main.rs"
+bench = false
+
+# To use a development version of a dependency please use a global override here
+# changing versions in each sub-crate of the workspace is tedious
+[patch.crates-io]
+# reedline = { git = "https://github.com/radhesh1/reedline.git", branch = "main" }
+# rsh-ansi-term = {git = "https://github.com/radhesh1/rsh-ansi-term.git", branch = "main"}
+# uu_cp = { git = "https://github.com/uutils/coreutils.git", branch = "main" }
+
+# Criterion benchmarking setup
+# Run all benchmarks with `cargo bench`
+# Run individual benchmarks like `cargo bench -- <regex>` e.g. `cargo bench -- parse`
+[[bench]]
+name = "benchmarks"
+harness = false

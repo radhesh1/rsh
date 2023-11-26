@@ -1,0 +1,16 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "Rsh grid printing"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/nu-term-grid"
+edition = "2021"
+license = "MIT"
+name = "rsh-term-grid"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+
+unicode-width = "0.1"

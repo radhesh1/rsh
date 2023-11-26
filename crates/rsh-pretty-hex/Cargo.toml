@@ -1,0 +1,21 @@
+[package]
+authors = ["Andrei Volnin <wolandr@gmail.com>", "The rsh Project Developers"]
+description = "Pretty hex dump of bytes slice in the common style."
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/nu-pretty-hex"
+edition = "2021"
+license = "MIT"
+name = "rsh-pretty-hex"
+version = "0.87.2"
+
+[lib]
+doctest = false
+name = "rsh_pretty_hex"
+path = "src/lib.rs"
+bench = false
+
+[dependencies]
+nu-ansi-term = "0.49.0"
+
+[dev-dependencies]
+heapless = { version = "0.7", default-features = false }
+rand = "0.8"

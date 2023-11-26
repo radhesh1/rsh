@@ -1,0 +1,70 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "rsh's dataframe commands based on polars."
+edition = "2021"
+license = "MIT"
+name = "rsh-cmd-dataframe"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-cmd-dataframe"
+version = "0.87.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-parser = { path = "../rsh-parser", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+
+# Potential dependencies for extras
+chrono = { version = "0.4", features = ["std", "unstable-locales"], default-features = false }
+chrono-tz = "0.8"
+fancy-regex = "0.11"
+indexmap = { version = "2.1" }
+num = { version = "0.4", optional = true }
+serde = { version = "1.0", features = ["derive"] }
+sqlparser = { version = "0.36.1", optional = true }
+polars-io = { version = "0.33", features = ["avro"], optional = true }
+
+[dependencies.polars]
+features = [
+	"arg_where",
+	"checked_arithmetic",
+	"concat_str",
+	"cross_join",
+	"csv",
+	"cum_agg",
+	"default",
+	"dtype-categorical",
+	"dtype-datetime",
+	"dtype-struct",
+	"dtype-i8",
+	"dtype-i16",
+	"dtype-u8",
+	"dtype-u16",
+	"dynamic_group_by",
+	"ipc",
+	"is_in",
+	"json",
+	"lazy",
+	"object",
+	"parquet",
+	"random",
+	"rolling_window",
+	"rows",
+	"serde",
+	"serde-lazy",
+	"strings",
+	"to_dummies",
+]
+optional = true
+version = "0.33"
+
+[features]
+dataframe = ["num", "polars", "polars-io", "sqlparser"]
+default = []
+
+[dev-dependencies]
+rsh-cmd-lang = { path = "../rsh-cmd-lang", version = "0.87.2" }
+rsh-test-support = { path = "../rsh-test-support", version = "0.87.2" }

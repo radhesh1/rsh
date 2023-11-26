@@ -1,0 +1,36 @@
+[package]
+authors = ["The rsh Project Developers"]
+build = "build.rs"
+description = "rsh's core language commands"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-cmd-lang"
+edition = "2021"
+license = "MIT"
+name = "rsh-cmd-lang"
+version = "0.87.2"
+
+[lib]
+bench = false
+
+[dependencies]
+rsh-engine = { path = "../rsh-engine", version = "0.87.2" }
+rsh-parser = { path = "../rsh-parser", version = "0.87.2" }
+rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+nu-ansi-term = "0.49.0"
+
+fancy-regex = "0.11"
+itertools = "0.11"
+shadow-rs = { version = "0.24", default-features = false }
+
+[build-dependencies]
+shadow-rs = { version = "0.24", default-features = false }
+
+[features]
+mimalloc = []
+which-support = []
+trash-support = []
+sqlite = []
+dataframe = []
+static-link-openssl = []
+wasi = []
+extra = []

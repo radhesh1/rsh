@@ -1,0 +1,21 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "Path handling library for rsh"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-path"
+edition = "2021"
+license = "MIT"
+name = "rsh-path"
+version = "0.87.2"
+exclude = ["/fuzz"]
+
+[lib]
+bench = false
+
+[dependencies]
+dirs-next = "2.0"
+
+[target.'cfg(windows)'.dependencies]
+omnipath = "0.1"
+
+[target.'cfg(all(unix, not(target_os = "macos"), not(target_os = "android")))'.dependencies]
+pwd = "1.3"

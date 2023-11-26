@@ -1,0 +1,14 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "The standard library of rsh"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-std"
+edition = "2021"
+license = "MIT"
+name = "rsh-std"
+version = "0.87.2"
+
+[dependencies]
+miette = { version = "5.10", features = ["fancy-no-backtrace"] }
+rsh-parser = { version = "0.87.2", path = "../rsh-parser" }
+rsh-protocol = { version = "0.87.2", path = "../rsh-protocol" }
+rsh-engine = { version = "0.87.2", path = "../rsh-engine" }

@@ -1,0 +1,22 @@
+[package]
+authors = ["The rsh Project Developers"]
+description = "Support for writing rsh tests"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rsh-test-support"
+edition = "2021"
+license = "MIT"
+name = "rsh-test-support"
+version = "0.87.2"
+
+[lib]
+doctest = false
+bench = false
+
+[dependencies]
+rsh-path = { path = "../rsh-path", version = "0.87.2" }
+rsh-glob = { path = "../rsh-glob", version = "0.87.2" }
+rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
+
+num-format = "0.4"
+which = "4.3"
+tempfile = "3.2"
+hamcrest2 = "0.3"
