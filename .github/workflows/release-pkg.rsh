@@ -123,7 +123,7 @@ if $os in ['windows-latest'] {
 # Prepare for the release archive
 # ----------------------------------------------------------------------------
 let suffix = if $os == 'windows-latest' { '.exe' }
-# nu, nu_plugin_* were all included
+# nu, rsh_plugin_* were all included
 let executable = $'target/($target)/release/($bin)*($suffix)'
 print $'Current executable file: ($executable)'
 
@@ -136,7 +136,7 @@ print (ls -f $executable); sleep 1sec
 print $'(char nl)Copying release files...'; hr-line
 "To use Nu plugins, use the register command to tell Nu where to find the plugin. For example:
 
-> register ./nu_plugin_query" | save $'($dist)/README.txt' -f
+> register ./rsh_plugin_query" | save $'($dist)/README.txt' -f
 [LICENSE $executable] | each {|it| cp -rv $it $dist } | flatten
 
 print $'(char nl)Check binary release version detail:'; hr-line
