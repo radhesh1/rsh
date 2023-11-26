@@ -1,7 +1,7 @@
 [package]
 authors = ["The rsh Project Developers"]
 description = "Rsh grid printing"
-repository = "https://github.com/radhesh1/rsh/tree/main/crates/nu-term-grid"
+repository = "https://github.com/radhesh1/rsh/tree/main/crates/rs-term-grid"
 edition = "2021"
 license = "MIT"
 name = "rsh-term-grid"

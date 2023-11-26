@@ -2,15 +2,15 @@
 /scratch
 **/*.rs.bk
 history.txt
-tests/fixtures/nuplayground
+tests/fixtures/rshplayground
 crates/*/target
 
 # Debian/Ubuntu
 debian/.debhelper/
 debian/debhelper-build-stamp
 debian/files
-debian/nu.substvars
-debian/nu/
+debian/rsh.substvars
+debian/rsh/
 
 # macOS junk
 .DS_Store

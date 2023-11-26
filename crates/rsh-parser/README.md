@@ -1,4 +1,4 @@
-# nu-parser, the rsh parser
+# rs-parser, the rsh parser
 
 rsh's parser is a type-directed parser, meaning that the parser will use type information available during parse time to configure the parser. This allows it to handle a broader range of techniques to handle the arguments of a command.
 

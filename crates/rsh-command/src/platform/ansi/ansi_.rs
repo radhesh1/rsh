@@ -806,7 +806,7 @@ fn generate_ansi_code_list(
             let short_name = Value::string(ansi_code.short_name.unwrap_or(""), call_span);
             // The first 102 items in the ansi array are colors
             let preview = if i < 389 {
-                Value::string(format!("{}NUSHELL\u{1b}[0m", &ansi_code.code), call_span)
+                Value::string(format!("{}RSH\u{1b}[0m", &ansi_code.code), call_span)
             } else {
                 Value::string("\u{1b}[0m", call_span)
             };

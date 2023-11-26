@@ -109,13 +109,13 @@ impl Command for TimeIt {
 // Due to difficulty in observing side-effects from time closures,
 // checks that the closures have run correctly must use the filesystem.
 fn test_time_block() {
-    use rsh_test_support::{nu, nu_repl_code, playground::Playground};
+    use rsh_test_support::{rs, rs_repl_code, playground::Playground};
     Playground::setup("test_time_block", |dirs, _| {
         let inp = [
             r#"[2 3 4] | timeit {to nuon | save foo.txt }"#,
             "open foo.txt",
         ];
-        let actual_repl = nu!(cwd: dirs.test(), nu_repl_code(&inp));
+        let actual_repl = rs!(cwd: dirs.test(), rs_repl_code(&inp));
         assert_eq!(actual_repl.err, "");
         assert_eq!(actual_repl.out, "[2, 3, 4]");
     });
@@ -123,13 +123,13 @@ fn test_time_block() {
 
 #[test]
 fn test_time_block_2() {
-    use rsh_test_support::{nu, nu_repl_code, playground::Playground};
+    use rsh_test_support::{rs, rs_repl_code, playground::Playground};
     Playground::setup("test_time_block", |dirs, _| {
         let inp = [
             r#"[2 3 4] | timeit {{result: $in} | to nuon | save foo.txt }"#,
             "open foo.txt",
         ];
-        let actual_repl = nu!(cwd: dirs.test(), nu_repl_code(&inp));
+        let actual_repl = rs!(cwd: dirs.test(), nu_repl_code(&inp));
         assert_eq!(actual_repl.err, "");
         assert_eq!(actual_repl.out, "{result: [2, 3, 4]}");
     });

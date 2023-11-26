@@ -1,6 +1,6 @@
 # rsh-json
 
-[![crate](https://img.shields.io/crates/v/nu-json.svg?style=flat-square)](https://crates.io/crates/nu-json)
+[![crate](https://img.shields.io/crates/v/rs-json.svg?style=flat-square)](https://crates.io/crates/rs-json)
 
 > a fork of [serde_hjson](https://crates.io/crates/serde-hjson). 
 

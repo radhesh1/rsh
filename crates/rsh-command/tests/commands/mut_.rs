@@ -1,4 +1,4 @@
-use rsh_test_support::nu;
+use rsh_test_support::rs;
 
 #[test]
 fn mut_variable() {

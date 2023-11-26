@@ -15,7 +15,7 @@
 # >_ assert (42 == 3)
 # Error:
 #   × Assertion failed:
-#     ╭─[myscript.nu:11:1]
+#     ╭─[myscript.rs:11:1]
 #  11 │ assert (3 == 3)
 #  12 │ assert (42 == 3)
 #     ·         ───┬────
@@ -59,7 +59,7 @@ export def main [
 # >_ assert (3 == 3)
 # Error:
 #   × Assertion failed:
-#     ╭─[myscript.nu:11:1]
+#     ╭─[myscript.rs:11:1]
 #  11 │ assert (42 == 3)
 #  12 │ assert (3 == 3)
 #     ·         ───┬────

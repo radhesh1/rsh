@@ -1,6 +1,6 @@
 use rsh_test_support::fs::Stub::FileWithContentToBeTrimmed;
 use rsh_test_support::playground::Playground;
-use rsh_test_support::{nu, pipeline};
+use rsh_test_support::{rs, pipeline};
 
 #[test]
 fn removes_duplicate_rows() {
@@ -17,7 +17,7 @@ fn removes_duplicate_rows() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             "
                 open los_tres_caballeros.csv
@@ -45,7 +45,7 @@ fn uniq_values() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             "
                 open los_tres_caballeros.csv
@@ -61,7 +61,7 @@ fn uniq_values() {
 
 #[test]
 fn uniq_empty() {
-    let actual = nu!("[] | uniq | to nuon");
+    let actual = rsh!("[] | uniq | to nuon");
 
     assert_eq!(actual.out, "[]");
 }

@@ -520,7 +520,7 @@ pub fn evaluate_repl(
                     stack.add_env_var("PWD".into(), Value::string(path.clone(), Span::unknown()));
                     let cwd = Value::string(cwd, span);
 
-                    let shells = stack.get_env_var(engine_state, "NUSHELL_SHELLS");
+                    let shells = stack.get_env_var(engine_state, "RSH_SHELLS");
                     let mut shells = if let Some(v) = shells {
                         v.as_list()
                             .map(|x| x.to_vec())
@@ -529,14 +529,14 @@ pub fn evaluate_repl(
                         vec![cwd]
                     };
 
-                    let current_shell = stack.get_env_var(engine_state, "NUSHELL_CURRENT_SHELL");
+                    let current_shell = stack.get_env_var(engine_state, "RSH_CURRENT_SHELL");
                     let current_shell = if let Some(v) = current_shell {
                         v.as_int().unwrap_or_default() as usize
                     } else {
                         0
                     };
 
-                    let last_shell = stack.get_env_var(engine_state, "NUSHELL_LAST_SHELL");
+                    let last_shell = stack.get_env_var(engine_state, "RSH_LAST_SHELL");
                     let last_shell = if let Some(v) = last_shell {
                         v.as_int().unwrap_or_default() as usize
                     } else {
@@ -545,9 +545,9 @@ pub fn evaluate_repl(
 
                     shells[current_shell] = Value::string(path, span);
 
-                    stack.add_env_var("NUSHELL_SHELLS".into(), Value::list(shells, span));
+                    stack.add_env_var("RSH_SHELLS".into(), Value::list(shells, span));
                     stack.add_env_var(
-                        "NUSHELL_LAST_SHELL".into(),
+                        "RSH_LAST_SHELL".into(),
                         Value::int(last_shell as i64, span),
                     );
                 } else if !s.trim().is_empty() {
