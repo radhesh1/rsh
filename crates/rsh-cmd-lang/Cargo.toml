@@ -18,7 +18,7 @@ rsh-protocol = { path = "../rsh-protocol", version = "0.87.2" }
 rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
 nu-ansi-term = "0.49.0"
 
-fancy-regex = "0.11"
+fancy-regex = "0.12"
 itertools = "0.11"
 shadow-rs = { version = "0.24", default-features = false }
 

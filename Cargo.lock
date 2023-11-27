@@ -1265,6 +1265,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "fancy-regex"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7493d4c459da9f84325ad297371a6b2b8a162800873a22e3b6b6512e61d18c05"
+dependencies = [
+ "bit-set",
+ "regex",
+]
+
+[[package]]
 name = "fast-float"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3951,7 +3961,7 @@ version = "0.87.2"
 dependencies = [
  "chrono",
  "crossterm",
- "fancy-regex",
+ "fancy-regex 0.12.0",
  "fuzzy-matcher",
  "is_executable",
  "log",
@@ -3999,7 +4009,7 @@ version = "0.87.2"
 dependencies = [
  "chrono",
  "chrono-tz",
- "fancy-regex",
+ "fancy-regex 0.12.0",
  "indexmap",
  "num 0.4.1",
  "polars",
@@ -4018,7 +4028,7 @@ name = "rsh-cmd-extra"
 version = "0.87.2"
 dependencies = [
  "ahash",
- "fancy-regex",
+ "fancy-regex 0.12.0",
  "heck",
  "htmlescape",
  "nu-ansi-term",
@@ -4042,7 +4052,7 @@ dependencies = [
 name = "rsh-cmd-lang"
 version = "0.87.2"
 dependencies = [
- "fancy-regex",
+ "fancy-regex 0.12.0",
  "itertools 0.11.0",
  "nu-ansi-term",
  "rsh-engine",
@@ -4086,7 +4096,7 @@ dependencies = [
  "dirs-next",
  "dtparse",
  "encoding_rs",
- "fancy-regex",
+ "fancy-regex 0.12.0",
  "filesize",
  "filetime",
  "fs_extra",
@@ -4290,7 +4300,7 @@ dependencies = [
  "byte-unit",
  "chrono",
  "chrono-humanize",
- "fancy-regex",
+ "fancy-regex 0.12.0",
  "indexmap",
  "lru",
  "miette",
@@ -4339,7 +4349,7 @@ dependencies = [
 name = "rsh-table"
 version = "0.87.2"
 dependencies = [
- "fancy-regex",
+ "fancy-regex 0.11.0",
  "nu-ansi-term",
  "once_cell",
  "rsh-color-config",
