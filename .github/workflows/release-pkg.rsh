@@ -134,7 +134,7 @@ print $'(char nl)All executable files:'; hr-line
 print (ls -f $executable); sleep 1sec
 
 print $'(char nl)Copying release files...'; hr-line
-"To use Nu plugins, use the register command to tell Nu where to find the plugin. For example:
+"To use Rsh plugins, use the register command to tell Rsh where to find the plugin. For example:
 
 > register ./rsh_plugin_query" | save $'($dist)/README.txt' -f
 [LICENSE $executable] | each {|it| cp -rv $it $dist } | flatten
@@ -146,7 +146,7 @@ let ver = if $os == 'windows-latest' {
     (do -i { ./output/nu -c 'version' }) | str join
 }
 if ($ver | str trim | is-empty) {
-    print $'(ansi r)Incompatible Nu binary: The binary cross compiled is not runnable on current arch...(ansi reset)'
+    print $'(ansi r)Incompatible Rsh binary: The binary cross compiled is not runnable on current arch...(ansi reset)'
 } else { print $ver }
 
 # ----------------------------------------------------------------------------

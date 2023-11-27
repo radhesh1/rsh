@@ -147,7 +147,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Release Nu Binary
+    - name: Release Rsh Binary
       id: nu
       run: nu .github/workflows/release-pkg.rsh
       env:
@@ -261,7 +261,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Release Nu Binary
+    - name: Release Rsh Binary
       id: nu
       run: nu .github/workflows/release-pkg.rsh
       env:
