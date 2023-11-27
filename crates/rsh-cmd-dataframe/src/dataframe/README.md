@@ -9,4 +9,4 @@ There are three sections of commands:
 * [values](./values)
 
 For more details see the
-[rsh book section on dataframes](https://irsh.eu.org/book/dataframes.html)
+[rsh book section on dataframes](https://irsh.vercel.app/book/dataframes.html)

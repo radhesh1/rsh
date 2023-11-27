@@ -90,7 +90,7 @@ def borrow-second [from: record, current: record] {
 
 # Subtract later from earlier datetime and return the unit differences as a record
 # Example:
-# > dt datetime-diff 2023-05-07T04:08:45+12:00 2019-05-10T09:59:12-07:00
+# > dt datetime-diff 2023-05-07T04:08:45+12:00 2023-05-10T09:59:12-07:00
 # ╭─────────────┬────╮
 # │ year        │ 3  │
 # │ month       │ 11 │
@@ -163,7 +163,7 @@ export def datetime-diff [
 
 # Convert record from datetime-diff into humanized string
 # Example:
-# > dt pretty-print-duration (dt datetime-diff 2023-05-07T04:08:45+12:00 2019-05-10T09:59:12+12:00)
+# > dt pretty-print-duration (dt datetime-diff 2023-05-07T04:08:45+5:30 2023-05-04T22:38:45+05:30)
 # 3yrs 11months 27days 18hrs 9mins 33secs
 export def pretty-print-duration [dur: record] {
     mut result = ""

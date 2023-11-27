@@ -25,7 +25,7 @@ impl Command for Overlay {
 
     fn extra_usage(&self) -> &str {
         r#"This command is a parser keyword. For details, check:
-  https://irsh.eu.org/book/thinking_in_rsh.html
+  https://irsh.vercel.app/book/thinking_in_rsh.html
 
   You must use one of the following subcommands. Using this command as-is will only produce this help message."#
     }

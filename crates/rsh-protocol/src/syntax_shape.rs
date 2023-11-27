@@ -32,7 +32,7 @@ pub enum SyntaxShape {
     /// A [`SyntaxShape`] with custom completion logic
     CompleterWrapper(Box<SyntaxShape>, DeclId),
 
-    /// A datetime value, eg `2022-02-02` or `2019-10-12T07:20:50.52+00:00`
+    /// A datetime value, eg `2022-02-02` or `2023-10-12T07:20:50.52+00:00`
     DateTime,
 
     /// A directory is allowed
@@ -135,10 +135,11 @@ impl SyntaxShape {
         let mk_ty = |tys: &[(String, SyntaxShape)]| {
             tys.iter()
                 .map(|(key, val)| (key.clone(), val.to_type()))
-                .collect()
+                .collect::<Vec<(String, Type)>>() // Ensure the correct return type
         };
 
         match self {
+
             SyntaxShape::Any => Type::Any,
             SyntaxShape::Block => Type::Block,
             SyntaxShape::Closure(_) => Type::Closure,

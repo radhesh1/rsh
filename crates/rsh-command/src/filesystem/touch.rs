@@ -225,7 +225,7 @@ impl Command for Touch {
             },
             Example {
                 description: r#"Changes the last accessed time of "fixture.json" to a date"#,
-                example: r#"touch -a -d "August 24, 2019; 12:30:30" fixture.json"#,
+                example: r#"touch -a -d "November 26, 2023; 12:30:30" fixture.json"#,
                 result: None,
             },
         ]

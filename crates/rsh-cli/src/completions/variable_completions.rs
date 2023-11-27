@@ -43,7 +43,7 @@ impl Completer for VariableCompletion {
         options: &CompletionOptions,
     ) -> Vec<Suggestion> {
         let mut output = vec![];
-        let builtins = ["$nu", "$in", "$env"];
+        let builtins = ["$rsh", "$in", "$env"];
         let var_str = std::str::from_utf8(&self.var_context.0).unwrap_or("");
         let var_id = working_set.find_variable(&self.var_context.0);
         let current_span = reedline::Span {
@@ -107,7 +107,7 @@ impl Completer for VariableCompletion {
             }
 
             // Completions for $rsh.<tab>
-            if var_str == "$nu" {
+            if var_str == "$rsh" {
                 // Eval rsh var
                 if let Ok(nuval) = eval_variable(
                     &self.engine_state,

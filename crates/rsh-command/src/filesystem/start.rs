@@ -128,7 +128,7 @@ impl Command for Start {
             },
             Example {
                 description: "Open a website with default browser",
-                example: "start https://irsh.eu.org",
+                example: "start https://irsh.vercel.app",
                 result: None,
             },
         ]

@@ -744,7 +744,7 @@ Each stage in the pipeline works together to load, parse, and display informatio
     Get the processes on your system actively using CPU
     > ('ps | where cpu > 0' | rsh-highlight)
 
-You can also learn more at (ansi default_italic)(ansi light_cyan_underline)https://irsh.eu.org/book/(ansi reset)"
+You can also learn more at (ansi default_italic)(ansi light_cyan_underline)https://irsh.vercel.app/book/(ansi reset)"
         return
     }
 

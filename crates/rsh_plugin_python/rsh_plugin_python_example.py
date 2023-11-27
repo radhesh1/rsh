@@ -40,7 +40,7 @@ def signatures():
         "Signature": [
             {
                 "sig": {
-                    "name": "nu-python",
+                    "name": "rshpython",
                     "usage": "Signature test for Python",
                     "extra_usage": "",
                     "input_type": "Any",

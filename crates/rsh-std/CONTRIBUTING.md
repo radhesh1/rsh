@@ -245,4 +245,4 @@ rsh's `CONTRIBUTING.md` for details.
 [`CONTRIBUTING.md`]: https://github.com/radhesh1/rsh/blob/main/CONTRIBUTING.md
 [`CONTRIBUTING.md`#setup]: https://github.com/radhesh1/rsh/blob/main/CONTRIBUTING.md#setup
 [`CONTRIBUTING.md`#git-etiquette]: https://github.com/radhesh1/rsh/blob/main/CONTRIBUTING.md#git-etiquette
-[book@modules]: https://irsh.eu.org/book/modules.html
+[book@modules]: https://irsh.vercel.app/book/modules.html

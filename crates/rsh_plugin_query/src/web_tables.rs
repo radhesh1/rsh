@@ -516,10 +516,10 @@ mod tests {
         <
          d colspan="2" class="infobox-image">
          <a
-           href="/wiki/File:Microsoft_Office_Excel_(2019%E2%80%93present).svg"
+           href="/wiki/File:Microsoft_Office_Excel_(2023%E2%80%93present).svg"
            class="image"
            ><img
-             alt="Microsoft Office Excel (2019–present).svg"
+             alt="Microsoft Office Excel (2023–present).svg"
              src="//upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%2vgpx-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png"
               decoding="async"          width="69"
               height="64"          srcset="

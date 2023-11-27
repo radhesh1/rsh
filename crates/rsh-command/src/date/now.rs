@@ -46,13 +46,13 @@ impl Command for SubCommand {
                 result: None,
             },
             Example {
-                description: "Get the time duration from 2019-04-30 to now",
-                example: r#"(date now) - 2019-05-01"#,
+                description: "Get the time duration from 2023-04-30 to now",
+                example: r#"(date now) - 2023-11-25"#,
                 result: None,
             },
             Example {
                 description: "Get the time duration since a more accurate time",
-                example: r#"(date now) - 2019-05-01T04:12:05.20+08:00"#,
+                example: r#"(date now) - 2023-11-25T04:12:05.20+05:30"#,
                 result: None,
             },
             Example {

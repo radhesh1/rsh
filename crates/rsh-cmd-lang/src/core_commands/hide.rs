@@ -30,7 +30,7 @@ impl Command for Hide {
         r#"Definitions are hidden by priority: First aliases, then custom commands.
 
 This command is a parser keyword. For details, check:
-  https://irsh.eu.org/book/thinking_in_rsh.html"#
+  https://irsh.vercel.app/book/thinking_in_rsh.html"#
     }
 
     fn is_parser_keyword(&self) -> bool {

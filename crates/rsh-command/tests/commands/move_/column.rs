@@ -1,6 +1,6 @@
 use rsh_test_support::fs::Stub::FileWithContentToBeTrimmed;
 use rsh_test_support::playground::Playground;
-use rsh_test_support::{nu, pipeline};
+use rsh_test_support::{rsh, pipeline};
 
 #[test]
 fn moves_a_column_before() {
@@ -18,7 +18,7 @@ fn moves_a_column_before() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 open sample.csv
@@ -49,7 +49,7 @@ fn moves_columns_before() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 open sample.csv
@@ -81,7 +81,7 @@ fn moves_a_column_after() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 open sample.csv
@@ -114,7 +114,7 @@ fn moves_columns_after() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 open sample.csv

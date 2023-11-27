@@ -1,6 +1,6 @@
 use rsh_test_support::fs::Stub::FileWithContentToBeTrimmed;
 use rsh_test_support::playground::Playground;
-use rsh_test_support::{rs, pipeline};
+use rsh_test_support::{rsh, pipeline};
 
 #[test]
 fn removes_duplicate_rows() {
@@ -117,7 +117,7 @@ fn nested_json_structures() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             "
                 open nested_json_structures.json
@@ -131,7 +131,7 @@ fn nested_json_structures() {
 
 #[test]
 fn uniq_when_keys_out_of_order() {
-    let actual = nu!(pipeline(
+    let actual = rsh!(pipeline(
         r#"
             [{"a": "a", "b": [1,2,3]}, {"b": [1,2,3], "a": "a"}]
             | uniq
@@ -144,7 +144,7 @@ fn uniq_when_keys_out_of_order() {
 
 #[test]
 fn uniq_counting() {
-    let actual = nu!(pipeline(
+    let actual = rsh!(pipeline(
         r#"
             ["A", "B", "A"]
             | wrap item
@@ -157,7 +157,7 @@ fn uniq_counting() {
     ));
     assert_eq!(actual.out, "2");
 
-    let actual = nu!(pipeline(
+    let actual = rsh!(pipeline(
         r#"
             ["A", "B", "A"]
             | wrap item
@@ -173,41 +173,41 @@ fn uniq_counting() {
 
 #[test]
 fn uniq_unique() {
-    let actual = nu!("[1 2 3 4 1 5] | uniq --unique");
-    let expected = nu!("[2 3 4 5]");
+    let actual = rsh!("[1 2 3 4 1 5] | uniq --unique");
+    let expected = rsh!("[2 3 4 5]");
     assert_eq!(actual.out, expected.out);
 }
 
 #[test]
 fn uniq_simple_vals_ints() {
-    let actual = nu!("[1 2 3 4 1 5] | uniq");
-    let expected = nu!("[1 2 3 4 5]");
+    let actual = rsh!("[1 2 3 4 1 5] | uniq");
+    let expected = rsh!("[1 2 3 4 5]");
     assert_eq!(actual.out, expected.out);
 }
 
 #[test]
 fn uniq_simple_vals_strs() {
-    let actual = nu!("[A B C A] | uniq");
-    let expected = nu!("[A B C]");
+    let actual = rsh!("[A B C A] | uniq");
+    let expected = rsh!("[A B C]");
     assert_eq!(actual.out, expected.out);
 }
 
 #[test]
 fn table() {
-    let actual = nu!(pipeline(
+    let actual = rsh!(pipeline(
         "
             [[fruit day]; [apple monday] [apple friday] [Apple friday] [apple monday] [pear monday] [orange tuesday]]
             | uniq
         "
     ));
 
-    let expected = nu!("[[fruit day]; [apple monday] [apple friday] [Apple friday] [pear monday] [orange tuesday]]");
+    let expected = rsh!("[[fruit day]; [apple monday] [apple friday] [Apple friday] [pear monday] [orange tuesday]]");
     assert_eq!(actual.out, expected.out);
 }
 
 #[test]
 fn table_with_ignore_case() {
-    let actual = nu!(pipeline(
+    let actual = rsh!(pipeline(
         r#"
             [[origin, people];
                 [World, (
@@ -229,7 +229,7 @@ fn table_with_ignore_case() {
         "#
     ));
 
-    let expected = nu!(pipeline(
+    let expected = rsh!(pipeline(
         r#"
         echo [[origin, people];
                 [World, (

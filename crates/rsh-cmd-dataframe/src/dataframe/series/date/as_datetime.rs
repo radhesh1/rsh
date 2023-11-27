@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use chrono::DateTime;
 use rsh_engine::CallExt;
@@ -31,7 +31,7 @@ impl Command for AsDateTime {
         "%Y-%m-%d %H:%M:%S"  => 2021-12-31 24:58:01
         "%Y/%m/%d %H:%M:%S"  => 2021/12/31 24:58:01
         "%Y%m%d %H:%M:%S"    => 20210319 23:58:50
-        "%FT%H:%M:%S"        => 2019-04-18T02:45:55
+        "%FT%H:%M:%S"        => 2023-11-25T02:45:55
         "%FT%H:%M:%S.%6f"    => microseconds
         "%FT%H:%M:%S.%9f"    => nanoseconds"#
     }
@@ -53,7 +53,7 @@ impl Command for AsDateTime {
                 description: "Converts string to datetime",
                 example: r#"["2021-12-30 00:00:00" "2021-12-31 00:00:00"] | dfr into-df | dfr as-datetime "%Y-%m-%d %H:%M:%S""#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "datetime".to_string(),
                         vec![
                             Value::date(
@@ -82,7 +82,7 @@ impl Command for AsDateTime {
                 description: "Converts string to datetime with high resolutions",
                 example: r#"["2021-12-30 00:00:00.123456789" "2021-12-31 00:00:00.123456789"] | dfr into-df | dfr as-datetime "%Y-%m-%d %H:%M:%S.%9f""#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "datetime".to_string(),
                         vec![
                             Value::date(
@@ -130,7 +130,7 @@ fn command(
     let format: String = call.req(engine_state, stack, 0)?;
     let not_exact = call.has_flag("not-exact");
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
     let casted = series.utf8().map_err(|e| {
         ShellError::GenericError(
@@ -174,8 +174,8 @@ fn command(
         .into_series();
 
     res.rename("datetime");
-    RshDataFrame::try_from_series(vec![res], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

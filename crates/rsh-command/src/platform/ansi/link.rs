@@ -69,9 +69,9 @@ impl Command for SubCommand {
             },
             Example {
                 description: "Create a link without text",
-                example: "'https://irsh.eu.org/' | ansi link",
+                example: "'https://irsh.vercel.app/' | ansi link",
                 result: Some(Value::string(
-                    "\u{1b}]8;;https://irsh.eu.org/\u{1b}\\https://irsh.eu.org/\u{1b}]8;;\u{1b}\\",
+                    "\u{1b}]8;;https://irsh.vercel.app/\u{1b}\\https://irsh.vercel.app/\u{1b}]8;;\u{1b}\\",
                     Span::unknown(),
                 )),
             },

@@ -14,7 +14,7 @@ A new type of shell.
 ## Table of Contents <!-- omit in toc -->
 
 - [Status](#status)
-- [Learning About Rsh](#learning-about-nu)
+- [Learning About Rsh](#learning-about-rsh)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Philosophy](#philosophy)
@@ -32,7 +32,7 @@ This project has reached a minimum-viable-product level of quality. Many people 
 
 ## Learning About Rsh
 
-The [rsh book](https://irsh.eu.org/book/) is the primary source of rsh documentation. You can find [a full list of Rsh commands in the book](https://irsh.eu.org/commands/), and we have many examples of using Rsh in our [cookbook](https://irsh.eu.org/cookbook/).
+The [rsh book](https://irsh.vercel.app/book/) is the primary source of rsh documentation. You can find [a full list of Rsh commands in the book](https://irsh.vercel.app/commands/), and we have many examples of using Rsh in our [cookbook](https://irsh.vercel.app/cookbook/).
 
 We're also active on [Discord](`https://discord.gg/KTDnbZMv) and [Twitter](https://twitter.com/Radhesh_Goel); come and chat with us!
 
@@ -49,7 +49,7 @@ winget install rsh
 
 To use `Rsh` in GitHub Action, check [setup-nu](https://github.com/marketplace/actions/setup-nu) for more detail.
 
-Detailed installation instructions can be found in the [installation chapter of the book](https://irsh.eu.org/book/installation.html). Rsh is available via many package managers:
+Detailed installation instructions can be found in the [installation chapter of the book](https://irsh.vercel.app/book/installation.html). Rsh is available via many package managers:
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/rsh.svg)](https://repology.org/project/rsh/versions)
 
@@ -57,7 +57,7 @@ For details about which platforms the rsh team actively supports, see [our platf
 
 ## Configuration
 
-The default configurations can be found at [sample_config](crates/nu-utils/src/sample_config)
+The default configurations can be found at [sample_config](crates/rsh-utils/src/sample_config)
 which are the configuration files one gets when they startup rsh for the first time.
 
 It sets all of the default configuration to run rsh.  From here one can
@@ -66,10 +66,10 @@ then customize this file for their specific needs.
 To see where *config.nu* is located on your system simply type this command.
 
 ```rust
-$nu.config-path
+$rsh.config-path
 ```
 
-Please see our [book](https://irsh.eu.org) for all of the rsh documentation.
+Please see our [book](https://irsh.vercel.app) for all of the rsh documentation.
 
 
 ## Philosophy
@@ -162,10 +162,10 @@ We can pipe this into a command that gets the contents of one of the columns:
 │ authors       │ [list 1 item]                      │
 │ default-run   │ nu                                 │
 │ description   │ A new type of shell                │
-│ documentation │ https://irsh.eu.org/book/       │
+│ documentation │ https://irsh.vercel.app/book/       │
 │ edition       │ 2018                               │
 │ exclude       │ [list 1 item]                      │
-│ homepage      │ https://irsh.eu.org             │
+│ homepage      │ https://irsh.vercel.app             │
 │ license       │ MIT                                │
 │ metadata      │ {record 1 field}                   │
 │ name          │ nu                                 │
@@ -191,7 +191,7 @@ These binaries interact with nu via a simple JSON-RPC protocol where the command
 If the plugin is a filter, data streams to it one element at a time, and it can stream data back in return via stdin/stdout.
 If the plugin is a sink, it is given the full vector of final data and is given free reign over stdin/stdout to use as it pleases.
 
-The [awesome-nu repo](https://github.com/rsh/awesome-nu#plugins) lists a variety of nu-plugins while the [showcase repo](https://github.com/rsh/showcase) *shows* off informative blog posts that have been written about rsh along with videos that highlight technical
+The [awesome-nu repo](https://github.com/radhesh1.awesome-nu#plugins) lists a variety of nu-plugins while the [showcase repo](https://github.com/rsh/showcase) *shows* off informative blog posts that have been written about rsh along with videos that highlight technical
 topics that have been presented.
 
 ## Goals
@@ -227,7 +227,7 @@ Please submit an issue or PR to be added to this list.
 See [Contributing](CONTRIBUTING.md) for details. Thanks to all the people who already contributed!
 
 <a href="https://github.com/radhesh1/rsh/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=rsh/rsh&max=600" />
+  <img src="https://contributors-img.web.app/image?repo=rsh/rsh&max=600" alt="contributor"/>
 </a>
 
 ## License

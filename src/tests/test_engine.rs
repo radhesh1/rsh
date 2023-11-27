@@ -252,7 +252,7 @@ fn test_redirection_stderr() -> TestResult {
 
 #[test]
 fn datetime_literal() -> TestResult {
-    run_test(r#"(date now) - 2019-08-23 > 1hr"#, "true")
+    run_test(r#"(date now) - 2023-08-23 > 1hr"#, "true")
 }
 
 #[test]

@@ -57,7 +57,7 @@ pub fn process_range(range: &Range) -> Result<(isize, isize), MakeRangeError> {
 }
 
 const HELP_MSG: &str = "rsh's config file can be found with the command: $rsh.config-path. \
-For more help: (https://irsh.eu.org/book/configuration.html#configurations-with-built-in-commands)";
+For more help: (https://irsh.vercel.app/book/configuration.html#configurations-with-built-in-commands)";
 
 fn get_editor_commandline(
     value: &Value,

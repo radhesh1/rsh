@@ -81,7 +81,7 @@ Get information about the current system:
 Get the processes on your system actively using CPU:
     ps | where cpu > 0
 
-You can also learn more at https://irsh.eu.org/book/"#;
+You can also learn more at https://irsh.vercel.app/book/"#;
 
             Ok(Value::string(msg, head).into_pipeline_data())
         } else if find.is_some() {

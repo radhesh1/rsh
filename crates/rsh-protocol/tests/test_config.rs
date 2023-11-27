@@ -1,4 +1,4 @@
-use rsh_test_support::{rs, rs_repl_code};
+use rsh_test_support::{rsh, rsh_repl_code};
 
 #[test]
 fn filesize_metric_true() {
@@ -6,7 +6,7 @@ fn filesize_metric_true() {
         r#"$env.config = { filesize: { metric: true, format:"mb" } }"#,
         r#"20mib | into string"#,
     ];
-    let actual = rs!(rs_repl_code(code));
+    let actual = rsh!(rsh_repl_code(code));
     assert_eq!(actual.out, "21.0 MB");
 }
 

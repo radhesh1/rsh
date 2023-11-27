@@ -49,7 +49,7 @@ impl Command for OverlayUse {
 
     fn extra_usage(&self) -> &str {
         r#"This command is a parser keyword. For details, check:
-  https://irsh.eu.org/book/thinking_in_nu.html"#
+  https://irsh.vercel.app/book/thinking_in_nu.html"#
     }
 
     fn is_parser_keyword(&self) -> bool {

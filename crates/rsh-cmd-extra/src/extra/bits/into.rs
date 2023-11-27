@@ -112,7 +112,7 @@ impl Command for BitsInto {
             },
             Example {
                 description: "convert a string into a raw binary string, padded with 0s to 8 places",
-                example: "'irsh.eu.org' | into bits",
+                example: "'irsh.vercel.app' | into bits",
                 result: Some(Value::string("01101110 01110101 01110011 01101000 01100101 01101100 01101100 00101110 01110011 01101000",
                     Span::test_data(),
                 )),

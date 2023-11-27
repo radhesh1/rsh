@@ -283,7 +283,7 @@ fn main() -> Result<()> {
         use_color,
     );
 
-    // Set up the $nu constant before evaluating config files (need to have $nu available in them)
+    // Set up the $rsh constant before evaluating config files (need to have $rsh available in them)
     let nu_const = create_rsh_constant(&engine_state, input.span().unwrap_or_else(Span::unknown))?;
     engine_state.set_variable_const_val(RSH_VARIABLE_ID, nu_const);
 

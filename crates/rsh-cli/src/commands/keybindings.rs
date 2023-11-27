@@ -27,7 +27,7 @@ impl Command for Keybindings {
         r#"You must use one of the following subcommands. Using this command as-is will only produce this help message.
 
 For more information on input and keybindings, check:
-  https://iirsh.eu.org/book/line_editor.html"#
+  https://iirsh.vercel.app/book/line_editor.html"#
     }
 
     fn search_terms(&self) -> Vec<&str> {

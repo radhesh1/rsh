@@ -1,6 +1,6 @@
-<h1 align="center">
+<h1 style="text-align: center;">
   Welcome to the standard library of `rsh`!
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="28"></img>
+  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="28" alt="random gif">
 </h1>
 
 The standard library is a pure-`rsh` collection of custom commands which
@@ -27,7 +27,7 @@ To see what's here:
 ## :toolbox: Using the standard library in the REPL or in scripts
 All commands in the standard library must be "imported" into the running environment
 (the interactive read-execute-print-loop (REPL) or a `.rsh` script) using the
-[`use`](https://irsh.eu.org/commands/docs/use.html) command.
+[`use`](https://irsh.vercel.app/commands/docs/use.html) command.
 
 You can choose to import the whole module, but then must refer to individual commands with a `std` prefix, e.g:
 ```rsh

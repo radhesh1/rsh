@@ -16,8 +16,8 @@ Welcome to rsh and thank you for considering contributing!
 
 More resources can be found in the nascent [developer documentation](devdocs/README.md) in this repo.
 
-- [Developer FAQ](FAQ.md)
-- [Platform support policy](PLATFORM_SUPPORT.md)
+- [Developer FAQ](devdocs/FAQ.md)
+- [Platform support policy](devdocs/PLATFORM_SUPPORT.md)
 - [Our Rust style](devdocs/rust_style.md)
 
 ## Proposing design changes
@@ -41,7 +41,7 @@ The review process can be summarized as follows:
 
 ### Setup
 
-rsh requires a recent Rust toolchain and some dependencies; [refer to the Rsh Book for up-to-date requirements](https://irsh.eu.org/book/installation.html#build-from-source). After installing dependencies, you should be able to clone+build Rsh like any other Rust project:
+rsh requires a recent Rust toolchain and some dependencies; [refer to the Rsh Book for up-to-date requirements](https://irsh.vercel.app/book/installation.html#build-from-source). After installing dependencies, you should be able to clone+build Rsh like any other Rust project:
 
 ```bash
 git clone https://github.com/radhesh1/rsh
@@ -59,7 +59,7 @@ Tests can be found in different places:
 * command examples
 * crate-specific tests
 
-Most of the tests are built upon the `nu-test-support` crate. For testing specific features, such as running rsh in a REPL mode, we have so called "testbins". For simple tests, you can find `run_test()` and `fail_test()` functions.
+Most of the tests are built upon the `rshtest-support` crate. For testing specific features, such as running rsh in a REPL mode, we have so called "testbins". For simple tests, you can find `run_test()` and `fail_test()` functions.
 
 ### Useful Commands
 
@@ -108,7 +108,7 @@ Read cargo's documentation for more details: https://doc.rust-lang.org/cargo/ref
 - Run all tests for a specific command
 
   ```rsh
-  cargo test --package nu-cli --test main -- commands::<command_name_here>
+  cargo test --package rshcli --test main -- commands::<command_name_here>
   ```
 
 - Check to see if there are code formatting issues
@@ -152,7 +152,7 @@ Read cargo's documentation for more details: https://doc.rust-lang.org/cargo/ref
 - To redirect trace logs to a file, enable the `--log-target file` switch.
   ```rsh
   cargo run --release -- --log-level trace --log-target file
-  open $"($nu.temp-path)/nu-($nu.pid).log"
+  open $"($rsh.temp-path)/rsh($rsh.pid).log"
   ```
 
 ## Git etiquette

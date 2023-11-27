@@ -16,7 +16,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::ffi::OsString;
 use std::mem::{size_of, zeroed, MaybeUninit};
-use std::os::windows::ffi::OsStringExt;
+// use std::os::windows::ffi::OsStringExt4;
 use std::path::PathBuf;
 use std::ptr;
 use std::ptr::null_mut;
@@ -444,7 +444,7 @@ trait RtlUserProcessParameters {
     fn get_environ(&self, handle: HANDLE) -> Result<Vec<u16>, &'static str>;
 }
 
-macro_rules! impl_RtlUserProcessParameters {
+macro_rules! impl_rtl_user_process_parameters {
     ($t:ty) => {
         impl RtlUserProcessParameters for $t {
             fn get_cmdline(&self, handle: HANDLE) -> Result<Vec<u16>, &'static str> {
@@ -468,8 +468,8 @@ macro_rules! impl_RtlUserProcessParameters {
     };
 }
 
-impl_RtlUserProcessParameters!(RTL_USER_PROCESS_PARAMETERS32);
-impl_RtlUserProcessParameters!(RTL_USER_PROCESS_PARAMETERS);
+impl_RtlUserProcessParameter!(RTL_USER_PROCESS_PARAMETERS32);
+impl_RtlUserProcessParameter!(RTL_USER_PROCESS_PARAMETERS);
 
 unsafe fn null_terminated_wchar_to_string(slice: &[u16]) -> String {
     match slice.iter().position(|&x| x == 0) {
@@ -932,7 +932,7 @@ thread_local!(
 fn get_name_cached(psid: PSID) -> Option<(String, String)> {
     NAME_CACHE.with(|c| {
         let mut c = c.borrow_mut();
-        if let Some(x) = c.get(&psid) {
+        if let Some(x) = c.get() {
             x.clone()
         } else {
             let x = get_name(psid);

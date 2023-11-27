@@ -366,17 +366,17 @@ fn split_words_helper(v: &Value, word_length: Option<usize>, span: Span, graphem
 #[cfg(test)]
 mod test {
     use super::*;
-    use rsh_test_support::nu;
+    use rsh_test_support::rsh;
 
     #[test]
     fn test_incompat_flags() {
-        let out = nu!("'a' | split words -bg -l 2");
+        let out = rsh!("'a' | split words -bg -l 2");
         assert!(out.err.contains("incompatible_parameters"));
     }
 
     #[test]
     fn test_incompat_flags_2() {
-        let out = nu!("'a' | split words -g");
+        let out = rsh!("'a' | split words -g");
         assert!(out.err.contains("incompatible_parameters"));
     }
 

@@ -12,7 +12,7 @@ fn moves_a_file() {
         let original = dirs.test().join("andres.txt");
         let expected = dirs.test().join("expected/yehuda.txt");
 
-        nu!(
+        rsh!(
             cwd: dirs.test(),
             "mv andres.txt expected/yehuda.txt"
         );
@@ -30,7 +30,7 @@ fn overwrites_if_moving_to_existing_file_and_force_provided() {
         let original = dirs.test().join("andres.txt");
         let expected = dirs.test().join("jttxt");
 
-        nu!(
+        rsh!(
             cwd: dirs.test(),
             "mv andres.txt -f jttxt"
         );
@@ -48,7 +48,7 @@ fn moves_a_directory() {
         let original_dir = dirs.test().join("empty_dir");
         let expected = dirs.test().join("renamed_dir");
 
-        nu!(
+        rsh!(
             cwd: dirs.test(),
             "mv empty_dir renamed_dir"
         );
@@ -68,7 +68,7 @@ fn moves_the_file_inside_directory_if_path_to_move_is_existing_directory() {
         let original_dir = dirs.test().join("jttxt");
         let expected = dirs.test().join("expected/jttxt");
 
-        nu!(
+        rsh!(
             cwd: dirs.test(),
             "mv jttxt expected"
         );
@@ -89,7 +89,7 @@ fn moves_the_directory_inside_directory_if_path_to_move_is_existing_directory() 
         let original_dir = dirs.test().join("contributors");
         let expected = dirs.test().join("expected/contributors");
 
-        nu!(
+        rsh!(
             cwd: dirs.test(),
             "mv contributors expected"
         );
@@ -122,7 +122,7 @@ fn moves_using_path_with_wildcard() {
         let work_dir = dirs.test().join("work_dir");
         let expected = dirs.test().join("expected");
 
-        nu!(cwd: work_dir, "mv ../originals/*.ini ../expected");
+        rsh!(cwd: work_dir, "mv ../originals/*.ini ../expected");
 
         assert!(files_exist_at(
             vec!["yehuda.ini", "jt.ini", "sample.ini", "andres.ini",],
@@ -148,7 +148,7 @@ fn moves_using_a_glob() {
         let work_dir = dirs.test().join("work_dir");
         let expected = dirs.test().join("expected");
 
-        nu!(cwd: work_dir, "mv ../meals/* ../expected");
+        rsh!(cwd: work_dir, "mv ../meals/* ../expected");
 
         assert!(meal_dir.exists());
         assert!(files_exist_at(
@@ -176,7 +176,7 @@ fn moves_a_directory_with_files() {
         let original_dir = dirs.test().join("vehicles");
         let expected_dir = dirs.test().join("expected");
 
-        nu!(
+        rsh!(
             cwd: dirs.test(),
             "mv vehicles expected"
         );
@@ -199,7 +199,7 @@ fn moves_a_directory_with_files() {
 fn errors_if_source_doesnt_exist() {
     Playground::setup("mv_test_10", |dirs, sandbox| {
         sandbox.mkdir("test_folder");
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(),
             "mv non-existing-file test_folder/"
         );
@@ -212,7 +212,7 @@ fn error_if_moving_to_existing_file_without_force() {
     Playground::setup("mv_test_10_0", |dirs, sandbox| {
         sandbox.with_files(vec![EmptyFile("andres.txt"), EmptyFile("jttxt")]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(),
             "mv andres.txt jttxt"
         );
@@ -225,7 +225,7 @@ fn errors_if_destination_doesnt_exist() {
     Playground::setup("mv_test_10_1", |dirs, sandbox| {
         sandbox.with_files(vec![EmptyFile("empty.txt")]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(),
             "mv empty.txt does/not/exist"
         );
@@ -243,7 +243,7 @@ fn errors_if_multiple_sources_but_destination_not_a_directory() {
             EmptyFile("file3.txt"),
         ]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(),
             "mv file?.txt not_a_dir"
         );
@@ -261,7 +261,7 @@ fn errors_if_renaming_directory_to_an_existing_file() {
             .mkdir("mydir")
             .with_files(vec![EmptyFile("empty.txt")]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(),
             "mv mydir empty.txt"
         );
@@ -276,7 +276,7 @@ fn errors_if_moving_to_itself() {
     Playground::setup("mv_test_10_4", |dirs, sandbox| {
         sandbox.mkdir("mydir").mkdir("mydir/mydir_2");
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(),
             "mv mydir mydir/mydir_2/"
         );
@@ -295,7 +295,7 @@ fn does_not_error_on_relative_parent_path() {
         let original = dirs.test().join("first/william_hartnell.txt");
         let expected = dirs.test().join("william_hartnell.txt");
 
-        nu!(
+        rsh!(
             cwd: dirs.test().join("first"),
             "mv william_hartnell.txt ./.."
         );

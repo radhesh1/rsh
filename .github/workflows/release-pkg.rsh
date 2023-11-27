@@ -38,7 +38,7 @@
 # After msi is generated, you have to update winget-pkgs repo, you'll need to patch the release
 # by deleting the existing msi and uploading this new msi. Then you'll need to update the hash
 # on the winget-pkgs PR. To generate the hash, run this command
-# 17. open target\wix\nu-0.74.0-x86_64-pc-windows-msvc.msi | hash sha256
+# 17. open target\wix\rsh0.74.0-x86_64-pc-windows-msvc.msi | hash sha256
 # Then, just take the output and put it in the winget-pkgs PR for the hash on the msi
 
 

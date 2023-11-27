@@ -26,7 +26,7 @@ impl Command for Return {
 
     fn extra_usage(&self) -> &str {
         r#"This command is a parser keyword. For details, check:
-  https://irsh.eu.org/book/thinking_in_rsh.html"#
+  https://irsh.vercel.app/book/thinking_in_rsh.html"#
     }
 
     fn is_parser_keyword(&self) -> bool {

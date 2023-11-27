@@ -141,7 +141,7 @@ fn from_nothing() {
 
 #[test]
 fn int_into_string() {
-    let actual = nu!(r#"
+    let actual = rsh!(r#"
         10 | into string
         "#);
 
@@ -150,7 +150,7 @@ fn int_into_string() {
 
 #[test]
 fn int_into_string_decimals_0() {
-    let actual = nu!(
+    let actual = rsh!(
         locale: "en_US.UTF-8",
         pipeline(
             r#"
@@ -164,7 +164,7 @@ fn int_into_string_decimals_0() {
 
 #[test]
 fn int_into_string_decimals_1() {
-    let actual = nu!(
+    let actual = rsh!(
         locale: "en_US.UTF-8",
         pipeline(
             r#"
@@ -178,7 +178,7 @@ fn int_into_string_decimals_1() {
 
 #[test]
 fn int_into_string_decimals_10() {
-    let actual = nu!(
+    let actual = rsh!(
         locale: "en_US.UTF-8",
         pipeline(
             r#"
@@ -193,7 +193,7 @@ fn int_into_string_decimals_10() {
 #[test]
 fn int_into_string_decimals_respects_system_locale_de() {
     // Set locale to `de_DE`, which uses `,` (comma) as decimal separator
-    let actual = nu!(
+    let actual = rsh!(
         locale: "de_DE.UTF-8",
         pipeline(
             r#"
@@ -208,7 +208,7 @@ fn int_into_string_decimals_respects_system_locale_de() {
 #[test]
 fn int_into_string_decimals_respects_system_locale_en() {
     // Set locale to `en_US`, which uses `.` (period) as decimal separator
-    let actual = nu!(
+    let actual = rsh!(
         locale: "en_US.UTF-8",
         pipeline(
             r#"

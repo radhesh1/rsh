@@ -3,7 +3,7 @@
 # version = "0.87.2"
 
 # For more information on defining custom themes, see
-# https://irsh.eu.org/book/coloring_and_theming.html
+# https://irsh.vercel.app/book/coloring_and_theming.html
 # And here is the theme collection
 # https://github.com/rsh/rsh_scripts/tree/main/themes
 let dark_theme = {

@@ -14,7 +14,7 @@ them into their own custom release.
 ### How to build the commands in this crate
 
 Step 1 is to
-[read the installation notes](https://irsh.eu.org/book/installation.html#build-from-source)
+[read the installation notes](https://irsh.vercel.app/book/installation.html#build-from-source)
 for rsh which is located in our rsh book.
 
 Once Rust is installed you can then build rsh with the following command.

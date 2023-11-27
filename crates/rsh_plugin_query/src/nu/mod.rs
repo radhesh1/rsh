@@ -82,7 +82,7 @@ pub fn web_examples() -> Vec<PluginExample> {
         result: None
     },
     PluginExample {
-        example: "http get https://irsh.eu.org | query web --query 'h2, h2 + p' | group 2 | each {rotate --ccw tagline description} | flatten".into(),
+        example: "http get https://irsh.vercel.app | query web --query 'h2, h2 + p' | group 2 | each {rotate --ccw tagline description} | flatten".into(),
         description: "Pass multiple css selectors to extract several elements within single query, group the query results together and rotate them to create a table".into(),
         result: None,
     },

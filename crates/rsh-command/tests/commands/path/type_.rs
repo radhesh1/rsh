@@ -41,7 +41,7 @@ fn returns_type_of_existing_directory() {
             .within("menu")
             .with_files(vec![EmptyFile("spam.txt")]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 echo "menu/spam.txt"
@@ -51,7 +51,7 @@ fn returns_type_of_existing_directory() {
 
         assert_eq!(actual.out, "file");
 
-        let actual = nu!(pipeline(
+        let actual = rsh!(pipeline(
             r#"
                 echo "~"
                 | path type
@@ -69,7 +69,7 @@ fn returns_type_of_existing_file_const() {
             .within("menu")
             .with_files(vec![EmptyFile("spam.txt")]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 const ty = ("menu" | path type);

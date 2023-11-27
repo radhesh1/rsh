@@ -2,7 +2,7 @@ use rsh_test_support::fs::Stub::EmptyFile;
 use rsh_test_support::fs::Stub::FileWithContent;
 use rsh_test_support::fs::Stub::FileWithContentToBeTrimmed;
 use rsh_test_support::playground::Playground;
-use rsh_test_support::{nu, pipeline};
+use rsh_test_support::{rsh, pipeline};
 
 #[test]
 fn parses_file_with_uppercase_extension() {
@@ -22,7 +22,7 @@ fn parses_file_with_uppercase_extension() {
             }"#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 open rsh.zion.JSON
@@ -42,7 +42,7 @@ fn parses_file_with_multiple_extensions() {
             FileWithContent("file.tar.xz", "this is a tar.xz file"),
         ]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 hide "from tar.gz" ;
@@ -56,7 +56,7 @@ fn parses_file_with_multiple_extensions() {
 
         assert_eq!(actual.out, "opened tar.gz");
 
-        let actual2 = nu!(
+        let actual2 = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 hide "from tar.xz" ;
@@ -83,7 +83,7 @@ fn parses_dotfile() {
             "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 hide "from gitignore" ;
@@ -110,7 +110,7 @@ fn parses_csv() {
                 "#,
         )]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             r#"
                 open rsh.zion.csv
@@ -152,7 +152,7 @@ fn parses_csv() {
 #[cfg(feature = "sqlite")]
 #[test]
 fn parses_sqlite() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
             open sample.db
@@ -167,7 +167,7 @@ fn parses_sqlite() {
 #[cfg(feature = "sqlite")]
 #[test]
 fn parses_sqlite_get_column_name() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
             open sample.db
@@ -181,7 +181,7 @@ fn parses_sqlite_get_column_name() {
 
 #[test]
 fn parses_toml() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats",
         "open cargo_sample.toml | get package.edition"
     );
@@ -191,7 +191,7 @@ fn parses_toml() {
 
 #[test]
 fn parses_tsv() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
             open caco3_plastics.tsv
@@ -205,7 +205,7 @@ fn parses_tsv() {
 
 #[test]
 fn parses_json() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
             open sgml_description.json
@@ -218,7 +218,7 @@ fn parses_json() {
 
 #[test]
 fn parses_xml() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats",
         pipeline("
             open jt.xml
@@ -240,7 +240,7 @@ fn parses_xml() {
 #[cfg(feature = "dataframe")]
 #[test]
 fn parses_arrow_ipc() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
             dfr open caco3_plastics.arrow
@@ -255,7 +255,7 @@ fn parses_arrow_ipc() {
 
 #[test]
 fn errors_if_file_not_found() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats",
         "open i_dont_exist.txt"
     );
@@ -275,7 +275,7 @@ fn errors_if_file_not_found() {
 
 #[test]
 fn open_wildcard() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
             open *.rsh | where $it =~ echo | length
@@ -287,7 +287,7 @@ fn open_wildcard() {
 
 #[test]
 fn open_multiple_files() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats", pipeline(
         "
         open caco3_plastics.csv caco3_plastics.tsv | get tariff_item | math sum
@@ -299,7 +299,7 @@ fn open_multiple_files() {
 
 #[test]
 fn test_open_block_command() {
-    let actual = nu!(
+    let actual = rsh!(
         cwd: "tests/fixtures/formats",
         r#"
             def "from blockcommandparser" [] { lines | split column ",|," }
@@ -319,7 +319,7 @@ fn open_ignore_ansi() {
     Playground::setup("open_test_ansi", |dirs, sandbox| {
         sandbox.with_files(vec![EmptyFile("rsh.zion.txt")]);
 
-        let actual = nu!(
+        let actual = rsh!(
             cwd: dirs.test(), pipeline(
             "
                 ls | find rsh.zion | get 0 | get name | open $in
@@ -332,7 +332,7 @@ fn open_ignore_ansi() {
 
 #[test]
 fn open_no_parameter() {
-    let actual = nu!("open");
+    let actual = rsh!("open");
 
     assert!(actual.err.contains("needs filename"));
 }

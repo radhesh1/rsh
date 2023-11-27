@@ -370,7 +370,7 @@
         <Icon Id='ProductICO' SourceFile='assets/rsh_logo.ico'/>
         <Property Id='ARPPRODUCTICON' Value='ProductICO' />
 
-        <Property Id='ARPHELPLINK' Value='https://irsh.eu.org/book/'/>
+        <Property Id='ARPHELPLINK' Value='https://irsh.vercel.app/book/'/>
 
         <SetProperty
             Id="ReplacePathsInWindowsTerminalProfile"
