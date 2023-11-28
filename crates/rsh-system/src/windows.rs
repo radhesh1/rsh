@@ -16,7 +16,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::ffi::OsString;
 use std::mem::{size_of, zeroed, MaybeUninit};
-// use std::os::windows::ffi::OsStringExt4;
+use std::os::windows::ffi::OsStringExt;
 use std::path::PathBuf;
 use std::ptr;
 use std::ptr::null_mut;
@@ -444,7 +444,7 @@ trait RtlUserProcessParameters {
     fn get_environ(&self, handle: HANDLE) -> Result<Vec<u16>, &'static str>;
 }
 
-macro_rules! impl_rtl_user_process_parameters {
+macro_rules! impl_RtlUserProcessParameters {
     ($t:ty) => {
         impl RtlUserProcessParameters for $t {
             fn get_cmdline(&self, handle: HANDLE) -> Result<Vec<u16>, &'static str> {
@@ -468,8 +468,8 @@ macro_rules! impl_rtl_user_process_parameters {
     };
 }
 
-impl_RtlUserProcessParameter!(RTL_USER_PROCESS_PARAMETERS32);
-impl_RtlUserProcessParameter!(RTL_USER_PROCESS_PARAMETERS);
+impl_RtlUserProcessParameters!(RTL_USER_PROCESS_PARAMETERS32);
+impl_RtlUserProcessParameters!(RTL_USER_PROCESS_PARAMETERS);
 
 unsafe fn null_terminated_wchar_to_string(slice: &[u16]) -> String {
     match slice.iter().position(|&x| x == 0) {
@@ -819,7 +819,7 @@ fn get_user(handle: HANDLE) -> Option<SidName> {
         }
 
         #[allow(clippy::cast_ptr_alignment)]
-        let token_user = buf.as_ptr() as *const TOKEN_USER;
+            let token_user = buf.as_ptr() as *const TOKEN_USER;
         let psid = (*token_user).User.Sid;
 
         let sid = get_sid(psid);
@@ -872,7 +872,7 @@ fn get_groups(handle: HANDLE) -> Option<Vec<SidName>> {
         }
 
         #[allow(clippy::cast_ptr_alignment)]
-        let token_groups = buf.as_ptr() as *const TOKEN_GROUPS;
+            let token_groups = buf.as_ptr() as *const TOKEN_GROUPS;
 
         let mut ret = Vec::new();
         let sa = (*token_groups).Groups.as_ptr();
@@ -932,7 +932,7 @@ thread_local!(
 fn get_name_cached(psid: PSID) -> Option<(String, String)> {
     NAME_CACHE.with(|c| {
         let mut c = c.borrow_mut();
-        if let Some(x) = c.get() {
+        if let Some(x) = c.get(&psid) {
             x.clone()
         } else {
             let x = get_name(psid);
