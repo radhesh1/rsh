@@ -56,7 +56,7 @@ impl Command for SubCommand {
         vec![
             Example {
                 description: "Downcase contents",
-                example: "'NU' | str downcase",
+                example: "'RSH' | str downcase",
                 result: Some(Value::test_string("rsh")),
             },
             Example {

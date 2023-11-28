@@ -55,7 +55,7 @@ impl Command for SubCommand {
         vec![Example {
             description: "Upcase contents",
             example: "'rsh' | str upcase",
-            result: Some(Value::test_string("NU")),
+            result: Some(Value::test_string("")),
         }]
     }
 }

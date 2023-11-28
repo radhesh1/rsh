@@ -168,7 +168,7 @@ fn main() -> Result<()> {
             .map(|x| Value::string(x.trim().to_string(), span))
             .collect();
 
-        engine_state.add_env_var("NU_LIB_DIRS".into(), Value::list(vals, span));
+        engine_state.add_env_var("RSH_LIB_DIRS".into(), Value::list(vals, span));
     }
 
     start_time = std::time::Instant::now();
@@ -184,7 +184,7 @@ fn main() -> Result<()> {
     );
 
     engine_state.add_env_var(
-        "NU_VERSION".to_string(),
+        "RSH_VERSION".to_string(),
         Value::string(env!("CARGO_PKG_VERSION"), Span::unknown()),
     );
 

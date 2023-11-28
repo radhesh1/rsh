@@ -37,6 +37,6 @@ def env_log_short_prefix [] {
 }
 
 #[test]
-def env_log_format [] {
-    assert equal $env.NU_LOG_FORMAT $"%ANSI_START%%DATE%|%LEVEL%|%MSG%%ANSI_STOP%"
+def env_log_forRmat [] {
+    assert equal $env.RSH_LOG_FORMAT $"%ANSI_START%%DATE%|%LEVEL%|%MSG%%ANSI_STOP%"
 }
