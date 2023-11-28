@@ -1,25 +1,22 @@
+name: continuous-integration
+
 on:
   pull_request:
   push:
     branches:
       - main
 
-name: continuous-integration
-
 env:
   RSH_CARGO_PROFILE: ci
   RSH_LOG_LEVEL: DEBUG
-  # If changing these settings also change toolkit.nu
   CLIPPY_OPTIONS: "-D warnings -D clippy::unwrap_used"
 
 jobs:
   fmt-clippy:
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: true
       matrix:
-        # Pinning to Ubuntu 20.04 because building on newer Ubuntu versions causes linux-gnu
-        # builds to link against a too-new-for-many-Linux-installs glibc version. Consider
-        # revisiting this when 20.04 is closer to EOL (April 2025)
         platform: [windows-latest, macos-latest, ubuntu-20.04]
         feature: [default, dataframe, extra]
         include:
@@ -35,10 +32,9 @@ jobs:
           - platform: macos-latest
             feature: dataframe
 
-    runs-on: ${{ matrix.platform }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Rust toolchain and cache
         uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
@@ -48,15 +44,14 @@ jobs:
       - name: cargo fmt
         run: cargo fmt --all -- --check
 
-        # If changing these settings also change toolkit.nu
       - name: Clippy
         run: cargo clippy --workspace ${{ matrix.flags }} --exclude rsh_plugin_* -- $CLIPPY_OPTIONS
 
-        # In tests we don't have to deny unwrap
       - name: Clippy of tests
         run: cargo clippy --tests --workspace ${{ matrix.flags }} --exclude rsh_plugin_* -- -D warnings
 
   tests:
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: true
       matrix:
@@ -79,10 +74,9 @@ jobs:
           - platform: macos-latest
             feature: extra
 
-    runs-on: ${{ matrix.platform }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Rust toolchain and cache
         uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
@@ -93,6 +87,7 @@ jobs:
         run: cargo test --workspace --profile ci --exclude rsh_plugin_* ${{ matrix.flags }}
 
   std-lib-and-python-virtualenv:
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: true
       matrix:
@@ -100,10 +95,9 @@ jobs:
         py:
           - py
 
-    runs-on: ${{ matrix.platform }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Rust toolchain and cache
         uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
@@ -130,15 +124,15 @@ jobs:
         shell: bash
 
   plugins:
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: true
       matrix:
         platform: [windows-latest, macos-latest, ubuntu-20.04]
 
-    runs-on: ${{ matrix.platform }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Rust toolchain and cache
         uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
