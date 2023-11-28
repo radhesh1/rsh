@@ -1,4 +1,5 @@
 name: Security audit
+
 on:
   pull_request:
     paths:
@@ -6,7 +7,7 @@ on:
       - '**/Cargo.lock'
   push:
     branches:
-    - main
+      - main
 
 env:
   RUST_BACKTRACE: 1
@@ -16,10 +17,12 @@ env:
 jobs:
   security_audit:
     runs-on: ubuntu-latest
-    # Prevent sudden announcement of a new advisory from failing ci:
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: rustsec/audit-check@v1.4.1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run security audit
+        uses: rustsec/audit-check@v1.4.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
