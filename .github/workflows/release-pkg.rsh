@@ -1,4 +1,4 @@
-#!/usr/bin/env nu
+#!/usr/bin/env rsh
 
 # Created: 2022/05/26 19:05:20
 # Description:
@@ -91,23 +91,23 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
         'aarch64-unknown-linux-gnu' => {
             sudo apt-get install gcc-aarch64-linux-gnu -y
             $env.CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER = 'aarch64-linux-gnu-gcc'
-            cargo-build-nu $flags
+            cargo-build-rsh $flags
         }
         'riscv64gc-unknown-linux-gnu' => {
             sudo apt-get install gcc-riscv64-linux-gnu -y
             $env.CARGO_TARGET_RISCV64GC_UNKNOWN_LINUX_GNU_LINKER = 'riscv64-linux-gnu-gcc'
-            cargo-build-nu $flags
+            cargo-build-rsh $flags
         }
         'armv7-unknown-linux-gnueabihf' => {
             sudo apt-get install pkg-config gcc-arm-linux-gnueabihf -y
             $env.CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER = 'arm-linux-gnueabihf-gcc'
-            cargo-build-nu $flags
+            cargo-build-rsh $flags
         }
         _ => {
             # musl-tools to fix 'Failed to find tool. Is `musl-gcc` installed?'
             # Actually just for x86_64-unknown-linux-musl target
             if $os == $USE_UBUNTU { sudo apt install musl-tools -y }
-            cargo-build-nu $flags
+            cargo-build-rsh $flags
         }
     }
 }
@@ -116,7 +116,7 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
 # Build for Windows without static-link-openssl feature
 # ----------------------------------------------------------------------------
 if $os in ['windows-latest'] {
-    cargo-build-nu $flags
+    cargo-build-rsh $flags
 }
 
 # ----------------------------------------------------------------------------
@@ -207,7 +207,7 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
     }
 }
 
-def 'cargo-build-nu' [ options: string ] {
+def 'cargo-build-rsh' [ options: string ] {
     if ($options | str trim | is-empty) {
         if $os == 'windows-latest' {
             cargo build --release --all --target $target

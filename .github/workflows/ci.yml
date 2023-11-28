@@ -8,7 +8,7 @@ name: continuous-integration
 
 env:
   RSH_CARGO_PROFILE: ci
-  NU_LOG_LEVEL: DEBUG
+  RSH_LOG_LEVEL: DEBUG
   # If changing these settings also change toolkit.nu
   CLIPPY_OPTIONS: "-D warnings -D clippy::unwrap_used"
 
@@ -114,7 +114,7 @@ jobs:
         run: cargo install --path . --locked --no-default-features
 
       - name: Standard library tests
-        run: nu -c 'use std testing; testing run-tests --path crates/rsh-std'
+        run: rsh -c 'use std testing; testing run-tests --path crates/rsh-std'
 
       - name: Setup Python
         uses: actions/setup-python@v4
