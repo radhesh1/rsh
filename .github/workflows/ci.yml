@@ -120,7 +120,7 @@ jobs:
         shell: bash
 
       - name: Test rsh in virtualenv
-        run: rsh scripts/test_virtualenv.nu
+        run: rsh scripts/test_virtualenv.rsh
         shell: bash
 
   plugins:
