@@ -6,7 +6,7 @@ DIR=$(readlink -f $(dirname "${BASH_SOURCE[0]}"))
 REPO_ROOT=$(dirname $DIR)
 
 echo "---------------------------------------------------------------"
-echo "Building rsh (nu) with dataframes and all the plugins"
+echo "Building rsh (rsh) with dataframes and all the plugins"
 echo "---------------------------------------------------------------"
 echo ""
 
