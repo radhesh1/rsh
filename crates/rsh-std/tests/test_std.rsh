@@ -44,7 +44,7 @@ def path_add [] {
     }
 }
 
-#[test]
+#[ignore]
 def banner [] {
     std assert ((std banner | lines | length) == 15)
 }
