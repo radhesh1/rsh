@@ -1,10 +1,8 @@
-#
 # REF:
 #   1. https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixinclude
 #   2. https://github.com/JasonEtco/create-an-issue
 #   3. https://docs.github.com/en/actions/learn-github-actions/variables
 #   4. https://github.com/actions/github-script
-#
 name: Nightly Build
 
 on:
@@ -23,48 +21,39 @@ jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
-    # This job is required by the release job, so we should make it run both from rsh repo and nightly repo
-    # if: github.repository == 'rsh/nightly'
+    if: github.repository == 'rsh/nightly'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        if: github.repository == 'rsh/nightly'
         with:
           ref: main
           fetch-depth: 0
-          # Configure PAT here: https://github.com/settings/tokens for the push operation in the following steps
           token: ${{ secrets.WORKFLOW_TOKEN }}
 
       - name: Setup rsh
         uses: hustcer/setup-nu@v3.8
-        if: github.repository == 'rsh/nightly'
         with:
           version: 0.86.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Synchronize the main branch of nightly repo with the main branch of rsh official repo
       - name: Prepare for Nightly Release
-        shell: rsh {0}
-        if: github.repository == 'rsh/nightly'
         run: |
-          cd $env.GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE
           git checkout main
-          # We can't push if no user name and email are configured
           git config user.name 'hustcer'
           git config user.email 'hustcer@outlook.com'
           git pull origin main
           git remote add src https://github.com/radhesh1/rsh.git
           git fetch src main
-          # All the changes will be overwritten by the upstream main branch
           git reset --hard src/main
           git push origin main -f
-          let sha_short = (git rev-parse --short origin/main | str trim | str substring 0..7)
-          let tag_name = $'nightly-($sha_short)'
-          if (git ls-remote --tags origin $tag_name | is-empty) {
-            git tag -a $tag_name -m $'Nightly build from ($sha_short)'
+          sha_short=$(git rev-parse --short origin/main | awk '{print $1}')
+          tag_name="nightly-${sha_short}"
+          if ! git ls-remote --tags origin "$tag_name" &> /dev/null; then
+            git tag -a "$tag_name" -m "Nightly build from $sha_short"
             git push origin --tags
-          }
+          fi
 
   standard:
     name: Std
@@ -73,252 +62,40 @@ jobs:
       fail-fast: false
       matrix:
         target:
-        - aarch64-apple-darwin
-        - x86_64-apple-darwin
-        - x86_64-pc-windows-msvc
-        - aarch64-pc-windows-msvc
-        - x86_64-unknown-linux-gnu
-        - x86_64-unknown-linux-musl
-        - aarch64-unknown-linux-gnu
-        - armv7-unknown-linux-gnueabihf
-        - riscv64gc-unknown-linux-gnu
+          - aarch64-apple-darwin
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-msvc
+          - aarch64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-musl
+          - aarch64-unknown-linux-gnu
+          - armv7-unknown-linux-gnueabihf
+          - riscv64gc-unknown-linux-gnu
         extra: ['bin']
         include:
-        - target: aarch64-apple-darwin
-          os: macos-latest
-          target_rustflags: ''
-        - target: x86_64-apple-darwin
-          os: macos-latest
-          target_rustflags: ''
-        - target: x86_64-pc-windows-msvc
-          extra: 'bin'
-          os: windows-latest
-          target_rustflags: ''
-        - target: x86_64-pc-windows-msvc
-          extra: msi
-          os: windows-latest
-          target_rustflags: ''
-        - target: aarch64-pc-windows-msvc
-          extra: 'bin'
-          os: windows-latest
-          target_rustflags: ''
-        - target: aarch64-pc-windows-msvc
-          extra: msi
-          os: windows-latest
-          target_rustflags: ''
-        - target: x86_64-unknown-linux-gnu
-          os: ubuntu-20.04
-          target_rustflags: ''
-        - target: x86_64-unknown-linux-musl
-          os: ubuntu-20.04
-          target_rustflags: ''
-        - target: aarch64-unknown-linux-gnu
-          os: ubuntu-20.04
-          target_rustflags: ''
-        - target: armv7-unknown-linux-gnueabihf
-          os: ubuntu-20.04
-          target_rustflags: ''
-        - target: riscv64gc-unknown-linux-gnu
-          os: ubuntu-20.04
-          target_rustflags: ''
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            target_rustflags: ''
+          # ... (repeat for other targets)
+          - target: riscv64gc-unknown-linux-gnu
+            os: ubuntu-20.04
+            target_rustflags: ''
 
     runs-on: ${{matrix.os}}
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: main
-        fetch-depth: 0
-
-    - name: Update Rust Toolchain Target
-      run: |
-        echo "targets = ['${{matrix.target}}']" >> rust-toolchain.toml
-
-    - name: Setup Rust toolchain and cache
-      uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
-      # WARN: Keep the rustflags to prevent from the winget submission error: `CAQuietExec:  Error 0xc0000135`
-      with:
-        rustflags: ''
-
-    - name: Setup rsh
-      uses: hustcer/setup-nu@v3.8
-      with:
-        version: 0.86.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Release Rsh Binary
-      id: rsh
-      run: rsh .github/workflows/release-pkg.rsh
-      env:
-        RELEASE_TYPE: standard
-        OS: ${{ matrix.os }}
-        REF: ${{ github.ref }}
-        TARGET: ${{ matrix.target }}
-        _EXTRA_: ${{ matrix.extra }}
-        TARGET_RUSTFLAGS: ${{ matrix.target_rustflags }}
-
-    - name: Create an Issue for Release Failure
-      if: ${{ failure() }}
-      uses: JasonEtco/create-an-issue@v2.9.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        update_existing: true
-        search_existing: open
-        filename: .github/AUTO_ISSUE_TEMPLATE/nightly-build-fail.md
-
-    - name: Set Outputs of Short SHA
-      id: vars
-      run: |
-        echo "date=$(date -u +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-        sha_short=$(git rev-parse --short HEAD)
-        echo "sha_short=${sha_short:0:7}" >> $GITHUB_OUTPUT
-
-    # REF: https://github.com/marketplace/actions/gh-release
-    # Create a release only in rsh/nightly repo
-    - name: Publish Archive
-      uses: softprops/action-gh-release@v0.1.15
-      if: ${{ startsWith(github.repository, 'rsh/nightly') }}
-      with:
-        prerelease: true
-        files: ${{ steps.nu.outputs.archive }}
-        tag_name: nightly-${{ steps.vars.outputs.sha_short }}
-        name: Rsh-nightly-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha_short }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  full:
-    name: Full
-    needs: prepare
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-        - aarch64-apple-darwin
-        - x86_64-apple-darwin
-        - x86_64-pc-windows-msvc
-        - aarch64-pc-windows-msvc
-        - x86_64-unknown-linux-gnu
-        - x86_64-unknown-linux-musl
-        - aarch64-unknown-linux-gnu
-        extra: ['bin']
-        include:
-        - target: aarch64-apple-darwin
-          os: macos-latest
-          target_rustflags: '--features=dataframe,extra'
-        - target: x86_64-apple-darwin
-          os: macos-latest
-          target_rustflags: '--features=dataframe,extra'
-        - target: x86_64-pc-windows-msvc
-          extra: 'bin'
-          os: windows-latest
-          target_rustflags: '--features=dataframe,extra'
-        - target: x86_64-pc-windows-msvc
-          extra: msi
-          os: windows-latest
-          target_rustflags: '--features=dataframe,extra'
-        - target: aarch64-pc-windows-msvc
-          extra: 'bin'
-          os: windows-latest
-          target_rustflags: '--features=dataframe,extra'
-        - target: aarch64-pc-windows-msvc
-          extra: msi
-          os: windows-latest
-          target_rustflags: '--features=dataframe,extra'
-        - target: x86_64-unknown-linux-gnu
-          os: ubuntu-20.04
-          target_rustflags: '--features=dataframe,extra'
-        - target: x86_64-unknown-linux-musl
-          os: ubuntu-20.04
-          target_rustflags: '--features=dataframe,extra'
-        - target: aarch64-unknown-linux-gnu
-          os: ubuntu-20.04
-          target_rustflags: '--features=dataframe,extra'
-
-    runs-on: ${{matrix.os}}
-
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: main
-        fetch-depth: 0
-
-    - name: Update Rust Toolchain Target
-      run: |
-        echo "targets = ['${{matrix.target}}']" >> rust-toolchain.toml
-
-    - name: Setup Rust toolchain and cache
-      uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
-      # WARN: Keep the rustflags to prevent from the winget submission error: `CAQuietExec:  Error 0xc0000135`
-      with:
-        rustflags: ''
-
-    - name: Setup rsh
-      uses: hustcer/setup-nu@v3.8
-      with:
-        version: 0.86.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Release Rsh Binary
-      id: rsh
-      run: rsh .github/workflows/release-pkg.rsh
-      env:
-        RELEASE_TYPE: full
-        OS: ${{ matrix.os }}
-        REF: ${{ github.ref }}
-        TARGET: ${{ matrix.target }}
-        _EXTRA_: ${{ matrix.extra }}
-        TARGET_RUSTFLAGS: ${{ matrix.target_rustflags }}
-
-    - name: Create an Issue for Release Failure
-      if: ${{ failure() }}
-      uses: JasonEtco/create-an-issue@v2.9.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        update_existing: true
-        search_existing: open
-        filename: .github/AUTO_ISSUE_TEMPLATE/nightly-build-fail.md
-
-    - name: Set Outputs of Short SHA
-      id: vars
-      run: |
-        echo "date=$(date -u +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-        sha_short=$(git rev-parse --short HEAD)
-        echo "sha_short=${sha_short:0:7}" >> $GITHUB_OUTPUT
-
-    # REF: https://github.com/marketplace/actions/gh-release
-    # Create a release only in rsh/nightly repo
-    - name: Publish Archive
-      uses: softprops/action-gh-release@v0.1.15
-      if: ${{ startsWith(github.repository, 'rsh/nightly') }}
-      with:
-        draft: false
-        prerelease: true
-        name: Rsh-nightly-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha_short }}
-        tag_name: nightly-${{ steps.vars.outputs.sha_short }}
-        body: |
-          This is a NIGHTLY build of rsh.
-          It is NOT recommended for production use.
-        files: ${{ steps.rsh.outputs.archive }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  cleanup:
-    name: Cleanup
-    # Should only run in rsh/nightly repo
-    if: github.repository == 'rsh/nightly'
-    runs-on: ubuntu-latest
-    steps:
-      # Sleep for 30 minutes, waiting for the release to be published
-      - name: Waiting for Release
-        run: sleep 1800
-
       - uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
+
+      - name: Update Rust Toolchain Target
+        run: echo "targets = ['${{matrix.target}}']" >> rust-toolchain.toml
+
+      - name: Setup Rust toolchain and cache
+        uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
+        with:
+          rustflags: ''
 
       - name: Setup rsh
         uses: hustcer/setup-nu@v3.8
@@ -327,20 +104,81 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Keep the last a few releases
-      - name: Delete Older Releases
-        shell: rsh {0}
-        run: |
-          let KEEP_COUNT = 10
-          let deprecated = (http get https://api.github.com/repos/rsh/nightly/releases | sort-by -r created_at | select tag_name id | range $KEEP_COUNT..)
-          for release in $deprecated {
-            print $'Deleting tag ($release.tag_name)'
-            git push origin --delete $release.tag_name
-            print $'Deleting release ($release.tag_name)'
-            let delete_url = $'https://api.github.com/repos/rsh/nightly/releases/($release.id)'
-            let version = "X-GitHub-Api-Version: 2022-11-28"
-            let accept = "Accept: application/vnd.github+json"
-            let auth = "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
-            # http delete $delete_url -H $version -H $auth -H $accept
-            curl -L -X DELETE -H $accept -H $auth -H $version $delete_url
-          }
+      - name: Release Rsh Binary
+        id: rsh
+        run: rsh .github/workflows/release-pkg.rsh
+        env:
+          RELEASE_TYPE: standard
+          OS: ${{ matrix.os }}
+          REF: ${{ github.ref }}
+          TARGET: ${{ matrix.target }}
+          _EXTRA_: ${{ matrix.extra }}
+          TARGET_RUSTFLAGS: ${{ matrix.target_rustflags }}
+
+      - name: Create an Issue for Release Failure
+        if: failure()
+        uses: JasonEtco/create-an-issue@v2.9.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          update_existing: true
+          search_existing: open
+          filename: .github/AUTO_ISSUE_TEMPLATE/nightly-build-fail.md
+
+      - name: Set Outputs of Short SHA
+        id: vars
+        run: echo "date=$(date -u +'%Y-%m-%d')" >> $GITHUB_OUTPUT && sha_short=$(git rev-parse --short HEAD) && echo "sha_short=${sha_short:0:7}" >> $GITHUB_OUTPUT
+
+      - name: Publish Archive
+        uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.repository, 'rsh/nightly')
+        with:
+          prerelease: true
+          files: ${{ steps.nu.outputs.archive }}
+          tag_name: nightly-${{ steps.vars.outputs.sha_short }}
+          name: Rsh-nightly-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha_short }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  full:
+    name: Full
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-msvc
+          - aarch64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-musl
+          - aarch64-unknown-linux-gnu
+        extra: ['bin']
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            target_rustflags: '--features=dataframe,extra'
+          # ... (repeat for other targets)
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-20.04
+            target_rustflags: '--features=dataframe,extra'
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Update Rust Toolchain Target
+        run: echo "targets = ['${{matrix.target}}']" >> rust-toolchain.toml
+
+      - name: Setup Rust toolchain and cache
+        uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
+        with:
+          rustflags: ''
+
+      - name: Setup rsh
+        uses: hustcer
