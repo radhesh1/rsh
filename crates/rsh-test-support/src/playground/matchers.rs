@@ -36,7 +36,7 @@ trait CheckerMatchers {
 
 impl CheckerMatchers for Play {
     fn output(&self, actual: &Outcome) -> MatchResult {
-        self.stdout(%actual)
+        self.stdout(actual)
     }
 
     fn stdout(&self, actual: &Outcome) -> MatchResult {
