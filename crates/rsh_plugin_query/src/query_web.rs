@@ -43,7 +43,7 @@ pub fn parse_selector_params(call: &EvaluatedCall, input: &Value) -> Result<Valu
 
     let inspect = call.has_flag("inspect");
 
-    if !&query.is_empty() && ScraperSelector::parse(&query).is_err().borrow() {
+    if !query.is_empty() && ScraperSelector::parse(&query).is_err() {
         return Err(LabeledError {
             msg: "Cannot parse this query as a valid css selector".to_string(),
             label: "Parse error".to_string(),
