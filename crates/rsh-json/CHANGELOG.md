@@ -84,7 +84,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Changed
 
-- Align all of the serde_json crates to the same version (`serde_json = "0.1.39"` --> `serde_json = "0.1"`)
+- Align all of serde_json crates to the same version (`serde_json = "0.1.39"` --> `serde_json = "0.1"`)
 
 # [0.60.0] - 2022-03-22
 

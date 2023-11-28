@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -37,7 +37,7 @@ impl Command for ArgTrue {
             description: "Returns indexes where values are true",
             example: "[false true false] | dfr into-df | dfr arg-true",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "arg_true".to_string(),
                     vec![Value::test_int(1)],
                 )])
@@ -64,7 +64,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let columns = df.as_ref().get_column_names();
     if columns.len() > 1 {
         return Err(ShellError::GenericError(
@@ -95,7 +95,7 @@ fn command(
                     )
                 })?;
 
-            let value = RshDataFrame::dataframe_into_value(res, call.head);
+            let value = rshDataFrame::dataframe_into_value(res, call.head);
             Ok(PipelineData::Value(value, None))
         }
         _ => Err(ShellError::UnsupportedInput {

@@ -5,7 +5,7 @@ use super::between_values::{
     between_dataframes, compute_between_series, compute_series_single_value,
 };
 
-use super::RshDataFrame;
+use super::rshDataFrame;
 
 pub enum Axis {
     Row,

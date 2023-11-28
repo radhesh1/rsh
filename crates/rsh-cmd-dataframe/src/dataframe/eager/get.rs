@@ -7,7 +7,7 @@ use rsh_protocol::{
 
 use crate::dataframe::values::utils::convert_columns_string;
 
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct GetDF;
@@ -36,7 +36,7 @@ impl Command for GetDF {
             description: "Returns the selected column",
             example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr get a",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "a".to_string(),
                     vec![Value::test_int(1), Value::test_int(3)],
                 )])
@@ -66,7 +66,7 @@ fn command(
     let columns: Vec<Value> = call.rest(engine_state, stack, 0)?;
     let (col_string, col_span) = convert_columns_string(columns, call.head)?;
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     df.as_ref()
         .select(col_string)
@@ -79,7 +79,7 @@ fn command(
                 Vec::new(),
             )
         })
-        .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }
 
 #[cfg(test)]

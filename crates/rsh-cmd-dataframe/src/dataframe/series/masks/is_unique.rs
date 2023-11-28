@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -34,7 +34,7 @@ impl Command for IsUnique {
                 description: "Create mask indicating unique values",
                 example: "[5 6 6 6 8 8 8] | dfr into-df | dfr is-unique",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "is_unique".to_string(),
                         vec![
                             Value::test_bool(true),
@@ -54,7 +54,7 @@ impl Command for IsUnique {
                 description: "Create mask indicating duplicated rows in a dataframe",
                 example: "[[a, b]; [1 2] [1 2] [3 3] [3 3] [1 1]] | dfr into-df | dfr is-unique",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "is_unique".to_string(),
                         vec![
                             Value::test_bool(false),
@@ -88,7 +88,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let mut res = df
         .as_ref()
@@ -106,8 +106,8 @@ fn command(
 
     res.rename("is_unique");
 
-    RshDataFrame::try_from_series(vec![res], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

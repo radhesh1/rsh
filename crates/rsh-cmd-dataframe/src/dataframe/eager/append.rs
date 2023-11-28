@@ -5,7 +5,7 @@ use rsh_protocol::{
     Category, Example, PipelineData, ShellError, Signature, Span, SyntaxShape, Type, Value,
 };
 
-use super::super::values::{Axis, Column, RshDataFrame};
+use super::super::values::{Axis, Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct AppendDF;
@@ -37,7 +37,7 @@ impl Command for AppendDF {
                 example: r#"let a = ([[a b]; [1 2] [3 4]] | dfr into-df);
     $a | dfr append $a"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -64,7 +64,7 @@ impl Command for AppendDF {
                 example: r#"let a = ([[a b]; [1 2] [3 4]] | dfr into-df);
     $a | dfr append $a --col"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![
@@ -115,11 +115,11 @@ fn command(
     } else {
         Axis::Row
     };
-    let df_other = RshDataFrame::try_from_value(other)?;
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df_other = rshDataFrame::try_from_value(other)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     df.append_df(&df_other, axis, call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

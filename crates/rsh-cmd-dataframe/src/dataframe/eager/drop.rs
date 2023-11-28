@@ -6,7 +6,7 @@ use rsh_protocol::{
 };
 
 use super::super::values::utils::convert_columns;
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct DropDF;
@@ -35,7 +35,7 @@ impl Command for DropDF {
             description: "drop column a",
             example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr drop a",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "b".to_string(),
                     vec![Value::test_int(2), Value::test_int(4)],
                 )])
@@ -65,7 +65,7 @@ fn command(
     let columns: Vec<Value> = call.rest(engine_state, stack, 0)?;
     let (col_string, col_span) = convert_columns(columns, call.head)?;
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let new_df = col_string
         .first()
@@ -106,7 +106,7 @@ fn command(
                 )
             })
         })
-        .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }
 
 #[cfg(test)]

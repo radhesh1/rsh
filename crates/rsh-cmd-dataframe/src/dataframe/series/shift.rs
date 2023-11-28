@@ -1,6 +1,6 @@
-use crate::dataframe::values::{RshExpression, RshLazyFrame};
+use crate::dataframe::values::{rshExpression, rshLazyFrame};
 
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -42,7 +42,7 @@ impl Command for Shift {
             description: "Shifts the values by a given period",
             example: "[1 2 2 3 3] | dfr into-df | dfr shift 2 | dfr drop-nulls",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![Value::test_int(1), Value::test_int(2), Value::test_int(2)],
                 )])
@@ -61,11 +61,11 @@ impl Command for Shift {
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
 
-        if RshLazyFrame::can_downcast(&value) {
-            let df = RshLazyFrame::try_from_value(value)?;
+        if rshLazyFrame::can_downcast(&value) {
+            let df = rshLazyFrame::try_from_value(value)?;
             command_lazy(engine_state, stack, call, df)
         } else {
-            let df = RshDataFrame::try_from_value(value)?;
+            let df = rshDataFrame::try_from_value(value)?;
             command_eager(engine_state, stack, call, df)
         }
     }
@@ -75,29 +75,29 @@ fn command_eager(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let period: i64 = call.req(engine_state, stack, 0)?;
     let series = df.as_series(call.head)?.shift(period);
 
-    RshDataFrame::try_from_series(vec![series], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![series], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 fn command_lazy(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    lazy: RshLazyFrame,
+    lazy: rshLazyFrame,
 ) -> Result<PipelineData, ShellError> {
     let shift: i64 = call.req(engine_state, stack, 0)?;
     let fill: Option<Value> = call.get_flag(engine_state, stack, "fill")?;
 
     let lazy = lazy.into_polars();
 
-    let lazy: RshLazyFrame = match fill {
+    let lazy: rshLazyFrame = match fill {
         Some(fill) => {
-            let expr = RshExpression::try_from_value(fill)?.into_polars();
+            let expr = rshExpression::try_from_value(fill)?.into_polars();
             lazy.shift_and_fill(shift, expr).into()
         }
         None => lazy.shift(shift).into(),

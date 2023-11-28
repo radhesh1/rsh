@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshLazyFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -38,7 +38,7 @@ impl Command for LazyQuantile {
             description: "quantile value from columns in a dataframe",
             example: "[[a b]; [6 2] [1 4] [4 1]] | dfr into-df | dfr quantile 0.5",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new("a".to_string(), vec![Value::test_float(4.0)]),
                     Column::new("b".to_string(), vec![Value::test_float(2.0)]),
                 ])
@@ -58,8 +58,8 @@ impl Command for LazyQuantile {
         let value = input.into_value(call.head);
         let quantile: f64 = call.req(engine_state, stack, 0)?;
 
-        let lazy = RshLazyFrame::try_from_value(value)?;
-        let lazy = RshLazyFrame::new(
+        let lazy = rshLazyFrame::try_from_value(value)?;
+        let lazy = rshLazyFrame::new(
             lazy.from_eager,
             lazy.into_polars()
                 .quantile(lit(quantile), QuantileInterpolOptions::default()),

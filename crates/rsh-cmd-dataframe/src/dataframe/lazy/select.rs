@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -37,7 +37,7 @@ impl Command for LazySelect {
             description: "Select a column from the dataframe",
             example: "[[a b]; [6 2] [4 2] [2 2]] | dfr into-df | dfr select a",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "a".to_string(),
                     vec![Value::test_int(6), Value::test_int(4), Value::test_int(2)],
                 )])
@@ -56,10 +56,10 @@ impl Command for LazySelect {
     ) -> Result<PipelineData, ShellError> {
         let vals: Vec<Value> = call.rest(engine_state, stack, 0)?;
         let value = Value::list(vals, call.head);
-        let expressions = RshExpression::extract_exprs(value)?;
+        let expressions = rshExpression::extract_exprs(value)?;
 
-        let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
-        let lazy = RshLazyFrame::new(lazy.from_eager, lazy.into_polars().select(&expressions));
+        let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
+        let lazy = rshLazyFrame::new(lazy.from_eager, lazy.into_polars().select(&expressions));
 
         Ok(PipelineData::Value(lazy.into_value(call.head)?, None))
     }

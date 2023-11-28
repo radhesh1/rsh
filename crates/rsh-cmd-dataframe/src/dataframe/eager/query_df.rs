@@ -1,6 +1,6 @@
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 use crate::dataframe::values::Column;
-use crate::dataframe::{eager::SQLContext, values::RshLazyFrame};
+use crate::dataframe::{eager::SQLContext, values::rshLazyFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -44,7 +44,7 @@ impl Command for QueryDf {
             description: "Query dataframe using SQL",
             example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr query 'select a from df'",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "a".to_string(),
                     vec![Value::test_int(1), Value::test_int(3)],
                 )])
@@ -72,7 +72,7 @@ fn command(
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
     let sql_query: String = call.req(engine_state, stack, 0)?;
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let mut ctx = SQLContext::new();
     ctx.register("df", &df.df);
@@ -85,7 +85,7 @@ fn command(
             Vec::new(),
         )
     })?;
-    let lazy = RshLazyFrame::new(false, df_sql);
+    let lazy = rshLazyFrame::new(false, df_sql);
 
     let eager = lazy.collect(call.head)?;
     let value = Value::custom_value(Box::new(eager), call.head);

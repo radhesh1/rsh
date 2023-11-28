@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -43,7 +43,7 @@ impl Command for SetWithIndex {
     let indices = ([0 2] | dfr into-df);
     $series | dfr set-with-idx 6 --indices $indices"#,
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![
                         Value::test_int(6),
@@ -83,7 +83,7 @@ fn command(
         .get_flag(engine_state, stack, "indices")?
         .expect("required named value");
     let indices_span = indices_value.span();
-    let indices = RshDataFrame::try_from_value(indices_value)?.as_series(indices_span)?;
+    let indices = rshDataFrame::try_from_value(indices_value)?.as_series(indices_span)?;
 
     let casted = match indices.dtype() {
         DataType::UInt32 | DataType::UInt64 | DataType::Int32 | DataType::Int64 => {
@@ -120,7 +120,7 @@ fn command(
         .into_iter()
         .flatten();
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
 
     let span = value.span();
@@ -146,7 +146,7 @@ fn command(
                 )
             })?;
 
-            RshDataFrame::try_from_series(vec![res.into_series()], call.head)
+            rshDataFrame::try_from_series(vec![res.into_series()], call.head)
         }
         Value::Float { val, .. } => {
             let chunked = series.f64().map_err(|e| {
@@ -169,7 +169,7 @@ fn command(
                 )
             })?;
 
-            RshDataFrame::try_from_series(vec![res.into_series()], call.head)
+            rshDataFrame::try_from_series(vec![res.into_series()], call.head)
         }
         Value::String { val, .. } => {
             let chunked = series.utf8().map_err(|e| {
@@ -197,7 +197,7 @@ fn command(
             let mut res = res.into_series();
             res.rename("string");
 
-            RshDataFrame::try_from_series(vec![res.into_series()], call.head)
+            rshDataFrame::try_from_series(vec![res.into_series()], call.head)
         }
         _ => Err(ShellError::GenericError(
             "Incorrect value type".into(),
@@ -211,7 +211,7 @@ fn command(
         )),
     };
 
-    res.map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    res.map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

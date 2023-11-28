@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -34,7 +34,7 @@ impl Command for ValueCount {
             description: "Calculates value counts",
             example: "[5 5 5 5 6 6] | dfr into-df | dfr value-counts",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "0".to_string(),
                         vec![Value::test_int(5), Value::test_int(6)],
@@ -67,7 +67,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
 
     let res = series.value_counts(false, false).map_err(|e| {
@@ -81,7 +81,7 @@ fn command(
     })?;
 
     Ok(PipelineData::Value(
-        RshDataFrame::dataframe_into_value(res, call.head),
+        rshDataFrame::dataframe_into_value(res, call.head),
         None,
     ))
 }

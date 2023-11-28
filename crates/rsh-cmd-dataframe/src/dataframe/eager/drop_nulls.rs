@@ -6,7 +6,7 @@ use rsh_protocol::{
 };
 
 use super::super::values::utils::convert_columns_string;
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct DropNulls;
@@ -43,7 +43,7 @@ impl Command for DropNulls {
     let a = ($df | dfr with-column $res --name res);
     $a | dfr drop-nulls"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(1)],
@@ -66,7 +66,7 @@ impl Command for DropNulls {
                 example: r#"let s = ([1 2 0 0 3 4] | dfr into-df);
     ($s / $s) | dfr drop-nulls"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "div_0_0".to_string(),
                         vec![
                             Value::test_int(1),
@@ -99,7 +99,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let columns: Option<Vec<Value>> = call.opt(engine_state, stack, 0)?;
 
@@ -124,7 +124,7 @@ fn command(
                 Vec::new(),
             )
         })
-        .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }
 
 #[cfg(test)]

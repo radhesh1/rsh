@@ -1,9 +1,12 @@
+
 use rsh_protocol::ast::Call;
 use rsh_protocol::engine::{Command, EngineState, Stack, StateWorkingSet};
 use rsh_protocol::{
     Category, Example, IntoPipelineData, PipelineData, Record, ShellError, Signature, Type, Value,
 };
 use shadow_rs::shadow;
+
+// The `shadow` macro should be defined and imported correctly.
 
 shadow!(build);
 
@@ -58,8 +61,7 @@ impl Command for Version {
     }
 }
 
-pub fn version(engine_state: &EngineState, call: &Call) -> Result<PipelineData, ShellError> {
-    // Pre-allocate the arrays in the worst case (12 items):
+pub fn version(engine_state: &EngineState, call: &Call) -> Result<PipelineData, ShellError> {    // Pre-allocate the arrays in the worst case (12 items):
     // - version
     // - branch
     // - commit_hash

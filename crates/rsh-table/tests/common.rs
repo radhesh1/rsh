@@ -1,16 +1,16 @@
 #![allow(dead_code)]
 
-use rsh_table::{string_width, rshTable, rshTableConfig};
+use rsh_table::{string_width, RshTable, RshTableConfig};
 use tabled::grid::records::vec_records::CellInfo;
 
 pub struct TestCase {
-    cfg: rshTableConfig,
+    cfg: RshTableConfig,
     termwidth: usize,
     expected: Option<String>,
 }
 
 impl TestCase {
-    pub fn new(cfg: rshTableConfig, termwidth: usize, expected: Option<String>) -> Self {
+    pub fn new(cfg: RshTableConfig, termwidth: usize, expected: Option<String>) -> Self {
         Self {
             cfg,
             termwidth,
@@ -37,8 +37,8 @@ pub fn test_table<I: IntoIterator<Item = TestCase>>(data: Data, tests: I) {
     }
 }
 
-pub fn create_table(data: Data, config: rshTableConfig, termwidth: usize) -> Option<String> {
-    let table = rshTable::from(data);
+pub fn create_table(data: Data, config: RshTableConfig, termwidth: usize) -> Option<String> {
+    let table = RshTable::from(data);
     table.draw(config, termwidth)
 }
 

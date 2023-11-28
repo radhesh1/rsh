@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame, RshLazyGroupBy};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame, rshLazyGroupBy};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -47,7 +47,7 @@ impl Command for LazyAggregate {
         (dfr col b | dfr sum | dfr as "b_sum")
      ]"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(2)],
@@ -81,7 +81,7 @@ impl Command for LazyAggregate {
      ]
     | dfr collect"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(2)],
@@ -115,9 +115,9 @@ impl Command for LazyAggregate {
     ) -> Result<PipelineData, ShellError> {
         let vals: Vec<Value> = call.rest(engine_state, stack, 0)?;
         let value = Value::list(vals, call.head);
-        let expressions = RshExpression::extract_exprs(value)?;
+        let expressions = rshExpression::extract_exprs(value)?;
 
-        let group_by = RshLazyGroupBy::try_from_pipeline(input, call.head)?;
+        let group_by = rshLazyGroupBy::try_from_pipeline(input, call.head)?;
 
         if let Some(schema) = &group_by.schema {
             for expr in expressions.iter() {
@@ -137,7 +137,7 @@ impl Command for LazyAggregate {
             }
         }
 
-        let lazy = RshLazyFrame {
+        let lazy = rshLazyFrame {
             from_eager: group_by.from_eager,
             lazy: Some(group_by.into_polars().agg(&expressions)),
             schema: None,

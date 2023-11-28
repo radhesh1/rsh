@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -35,7 +35,7 @@ impl Command for GetWeekDay {
     let df = ([$dt $dt] | dfr into-df);
     $df | dfr get-weekday"#,
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![Value::test_int(2), Value::test_int(2)],
                 )])
@@ -62,7 +62,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
 
     let casted = series.datetime().map_err(|e| {
@@ -77,8 +77,8 @@ fn command(
 
     let res = casted.weekday().into_series();
 
-    RshDataFrame::try_from_series(vec![res], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(explore_refactor_IntoDatetime)]

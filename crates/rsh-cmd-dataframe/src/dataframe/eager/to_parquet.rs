@@ -8,7 +8,7 @@ use rsh_protocol::{
 };
 use polars::prelude::ParquetWriter;
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct ToParquet;
@@ -56,7 +56,7 @@ fn command(
 ) -> Result<PipelineData, ShellError> {
     let file_name: Spanned<PathBuf> = call.req(engine_state, stack, 0)?;
 
-    let mut df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let mut df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let file = File::create(&file_name.item).map_err(|e| {
         ShellError::GenericError(

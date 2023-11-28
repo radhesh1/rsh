@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame, RshLazyGroupBy};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame, rshLazyGroupBy};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -46,7 +46,7 @@ impl Command for ToLazyGroupBy {
         (dfr col b | dfr sum | dfr as "b_sum")
      ]"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(2)],
@@ -80,7 +80,7 @@ impl Command for ToLazyGroupBy {
      ]
     | dfr collect"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(2)],
@@ -114,7 +114,7 @@ impl Command for ToLazyGroupBy {
     ) -> Result<PipelineData, ShellError> {
         let vals: Vec<Value> = call.rest(engine_state, stack, 0)?;
         let value = Value::list(vals, call.head);
-        let expressions = RshExpression::extract_exprs(value)?;
+        let expressions = rshExpression::extract_exprs(value)?;
 
         if expressions
             .iter()
@@ -127,8 +127,8 @@ impl Command for ToLazyGroupBy {
             });
         }
 
-        let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
-        let group_by = RshLazyGroupBy {
+        let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
+        let group_by = rshLazyGroupBy {
             schema: lazy.schema.clone(),
             from_eager: lazy.from_eager,
             group_by: Some(lazy.into_polars().group_by(&expressions)),

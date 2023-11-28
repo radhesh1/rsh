@@ -1,4 +1,4 @@
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -34,7 +34,7 @@ impl Command for Dummies {
                 description: "Create new dataframe with dummy variables from a dataframe",
                 example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr dummies",
                 result: Some(
-                    RshDataFrame::try_from_series(
+                    rshDataFrame::try_from_series(
                         vec![
                             Series::new("a_1", &[1_u8, 0]),
                             Series::new("a_3", &[0_u8, 1]),
@@ -51,7 +51,7 @@ impl Command for Dummies {
                 description: "Create new dataframe with dummy variables from a series",
                 example: "[1 2 2 3 3] | dfr into-df | dfr dummies",
                 result: Some(
-                    RshDataFrame::try_from_series(
+                    rshDataFrame::try_from_series(
                         vec![
                             Series::new("0_1", &[1_u8, 0, 0, 0, 0]),
                             Series::new("0_2", &[0_u8, 1, 1, 0, 0]),
@@ -84,7 +84,7 @@ fn command(
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
     let drop_first: bool = call.has_flag("drop-first");
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     df.as_ref()
         .to_dummies(None, drop_first)
@@ -97,7 +97,7 @@ fn command(
                 Vec::new(),
             )
         })
-        .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }
 
 #[cfg(test)]

@@ -1,5 +1,5 @@
-use super::super::values::{Column, RshDataFrame};
-use crate::dataframe::values::{RshExpression, RshLazyFrame};
+use super::super::values::{Column, rshDataFrame};
+use crate::dataframe::values::{rshExpression, rshLazyFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -42,7 +42,7 @@ impl Command for WithColumn {
     | dfr into-df
     | dfr with-column ([5 6] | dfr into-df) --name c"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -70,7 +70,7 @@ impl Command for WithColumn {
       ]
     | dfr collect"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -104,11 +104,11 @@ impl Command for WithColumn {
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
 
-        if RshLazyFrame::can_downcast(&value) {
-            let df = RshLazyFrame::try_from_value(value)?;
+        if rshLazyFrame::can_downcast(&value) {
+            let df = rshLazyFrame::try_from_value(value)?;
             command_lazy(engine_state, stack, call, df)
-        } else if RshDataFrame::can_downcast(&value) {
-            let df = RshDataFrame::try_from_value(value)?;
+        } else if rshDataFrame::can_downcast(&value) {
+            let df = rshDataFrame::try_from_value(value)?;
             command_eager(engine_state, stack, call, df)
         } else {
             Err(ShellError::CantConvert {
@@ -125,22 +125,22 @@ fn command_eager(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    mut df: RshDataFrame,
+    mut df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let new_column: Value = call.req(engine_state, stack, 0)?;
     let column_span = new_column.span();
 
-    if RshExpression::can_downcast(&new_column) {
+    if rshExpression::can_downcast(&new_column) {
         let vals: Vec<Value> = call.rest(engine_state, stack, 0)?;
         let value = Value::list(vals, call.head);
-        let expressions = RshExpression::extract_exprs(value)?;
-        let lazy = RshLazyFrame::new(true, df.lazy().with_columns(&expressions));
+        let expressions = rshExpression::extract_exprs(value)?;
+        let lazy = rshLazyFrame::new(true, df.lazy().with_columns(&expressions));
 
         let df = lazy.collect(call.head)?;
 
         Ok(PipelineData::Value(df.into_value(call.head), None))
     } else {
-        let mut other = RshDataFrame::try_from_value(new_column)?.as_series(column_span)?;
+        let mut other = rshDataFrame::try_from_value(new_column)?.as_series(column_span)?;
 
         let name = match call.get_flag::<String>(engine_state, stack, "name")? {
             Some(name) => name,
@@ -162,7 +162,7 @@ fn command_eager(
             })
             .map(|df| {
                 PipelineData::Value(
-                    RshDataFrame::dataframe_into_value(df.clone(), call.head),
+                    rshDataFrame::dataframe_into_value(df.clone(), call.head),
                     None,
                 )
             })
@@ -173,16 +173,16 @@ fn command_lazy(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    lazy: RshLazyFrame,
+    lazy: rshLazyFrame,
 ) -> Result<PipelineData, ShellError> {
     let vals: Vec<Value> = call.rest(engine_state, stack, 0)?;
     let value = Value::list(vals, call.head);
-    let expressions = RshExpression::extract_exprs(value)?;
+    let expressions = rshExpression::extract_exprs(value)?;
 
-    let lazy: RshLazyFrame = lazy.into_polars().with_columns(&expressions).into();
+    let lazy: rshLazyFrame = lazy.into_polars().with_columns(&expressions).into();
 
     Ok(PipelineData::Value(
-        RshLazyFrame::into_value(lazy, call.head)?,
+        rshLazyFrame::into_value(lazy, call.head)?,
         None,
     ))
 }

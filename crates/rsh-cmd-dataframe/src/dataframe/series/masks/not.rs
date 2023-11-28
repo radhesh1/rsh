@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -34,7 +34,7 @@ impl Command for NotSeries {
             description: "Inverts boolean mask",
             example: "[true false true] | dfr into-df | dfr not",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![
                         Value::test_bool(false),
@@ -55,7 +55,7 @@ impl Command for NotSeries {
         call: &Call,
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
-        let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+        let df = rshDataFrame::try_from_pipeline(input, call.head)?;
         command(engine_state, stack, call, df)
     }
 }
@@ -64,7 +64,7 @@ fn command(
     _engine_state: &EngineState,
     _stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let series = df.as_series(call.head)?;
 
@@ -80,8 +80,8 @@ fn command(
 
     let res = bool.not();
 
-    RshDataFrame::try_from_series(vec![res.into_series()], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res.into_series()], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

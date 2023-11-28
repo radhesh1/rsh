@@ -1,6 +1,6 @@
-use crate::dataframe::{utils::extract_strings, values::RshLazyFrame};
+use crate::dataframe::{utils::extract_strings, values::rshLazyFrame};
 
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -53,7 +53,7 @@ impl Command for Unique {
                 description: "Returns unique values from a series",
                 example: "[2 2 2 2 2] | dfr into-df | dfr unique",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0".to_string(),
                         vec![Value::test_int(2)],
                     )])
@@ -78,11 +78,11 @@ impl Command for Unique {
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
 
-        if RshLazyFrame::can_downcast(&value) {
-            let df = RshLazyFrame::try_from_value(value)?;
+        if rshLazyFrame::can_downcast(&value) {
+            let df = rshLazyFrame::try_from_value(value)?;
             command_lazy(engine_state, stack, call, df)
         } else {
-            let df = RshDataFrame::try_from_value(value)?;
+            let df = rshDataFrame::try_from_value(value)?;
             command_eager(engine_state, stack, call, df)
         }
     }
@@ -92,7 +92,7 @@ fn command_eager(
     _engine_state: &EngineState,
     _stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let series = df.as_series(call.head)?;
 
@@ -106,15 +106,15 @@ fn command_eager(
         )
     })?;
 
-    RshDataFrame::try_from_series(vec![res.into_series()], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res.into_series()], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 fn command_lazy(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    lazy: RshLazyFrame,
+    lazy: rshLazyFrame,
 ) -> Result<PipelineData, ShellError> {
     let last = call.has_flag("last");
     let maintain = call.has_flag("maintain-order");
@@ -132,7 +132,7 @@ fn command_lazy(
     };
 
     let lazy = lazy.into_polars();
-    let lazy: RshLazyFrame = if maintain {
+    let lazy: rshLazyFrame = if maintain {
         lazy.unique(subset, strategy).into()
     } else {
         lazy.unique_stable(subset, strategy).into()

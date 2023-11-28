@@ -249,7 +249,7 @@ impl Default for TextStyle {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rsh_ansi_term::Style;
+    use nu_ansi_term::Style;
 
     #[test]
     fn test_is_bold() {

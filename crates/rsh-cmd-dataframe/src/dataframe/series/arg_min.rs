@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -37,7 +37,7 @@ impl Command for ArgMin {
             description: "Returns index for min value",
             example: "[1 3 2] | dfr into-df | dfr arg-min",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "arg_min".to_string(),
                     vec![Value::test_int(0)],
                 )])
@@ -64,7 +64,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
 
     let res = series.arg_min();
@@ -74,8 +74,8 @@ fn command(
     };
 
     let res = chunked.into_series();
-    RshDataFrame::try_from_series(vec![res], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
 # Dataframe
 
-This dataframe directory holds all of the definitions of the dataframe data structures and commands.
+This dataframe directory holds all the definitions of the dataframe data structures and commands.
 
 There are three sections of commands:
 

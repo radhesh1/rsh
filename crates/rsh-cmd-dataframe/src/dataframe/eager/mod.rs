@@ -60,7 +60,7 @@ pub use to_avro::ToAvro;
 pub use to_csv::ToCSV;
 pub use to_df::ToDataFrame;
 pub use to_json_lines::ToJsonLines;
-pub use to_nu::ToRsh;
+pub use to_rsh::ToRsh;
 pub use to_parquet::ToParquet;
 pub use with_column::WithColumn;
 

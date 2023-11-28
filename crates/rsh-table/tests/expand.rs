@@ -2,7 +2,7 @@ mod common;
 
 use common::{create_row, create_table};
 
-use rsh_table::{rshTableConfig, TableTheme as theme};
+use rsh_table::{RshTableConfig, TableTheme as theme};
 
 #[test]
 fn test_expand() {

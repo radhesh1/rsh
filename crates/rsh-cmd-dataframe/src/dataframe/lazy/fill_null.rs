@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -37,7 +37,7 @@ impl Command for LazyFillNull {
             description: "Fills the null values by 0",
             example: "[1 2 2 3 3] | dfr into-df | dfr shift 2 | dfr fill-null 0",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![
                         Value::test_int(0),
@@ -63,19 +63,19 @@ impl Command for LazyFillNull {
         let fill: Value = call.req(engine_state, stack, 0)?;
         let value = input.into_value(call.head);
 
-        if RshExpression::can_downcast(&value) {
-            let expr = RshExpression::try_from_value(value)?;
-            let fill = RshExpression::try_from_value(fill)?.into_polars();
-            let expr: RshExpression = expr.into_polars().fill_null(fill).into();
+        if rshExpression::can_downcast(&value) {
+            let expr = rshExpression::try_from_value(value)?;
+            let fill = rshExpression::try_from_value(fill)?.into_polars();
+            let expr: rshExpression = expr.into_polars().fill_null(fill).into();
 
             Ok(PipelineData::Value(
-                RshExpression::into_value(expr, call.head),
+                rshExpression::into_value(expr, call.head),
                 None,
             ))
         } else {
-            let lazy = RshLazyFrame::try_from_value(value)?;
-            let expr = RshExpression::try_from_value(fill)?.into_polars();
-            let lazy = RshLazyFrame::new(lazy.from_eager, lazy.into_polars().fill_null(expr));
+            let lazy = rshLazyFrame::try_from_value(value)?;
+            let expr = rshExpression::try_from_value(fill)?.into_polars();
+            let lazy = rshLazyFrame::new(lazy.from_eager, lazy.into_polars().fill_null(expr));
 
             Ok(PipelineData::Value(lazy.into_value(call.head)?, None))
         }

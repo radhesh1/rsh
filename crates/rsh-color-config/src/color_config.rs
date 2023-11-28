@@ -91,7 +91,7 @@ fn color_string_to_rsh_style(color_string: String) -> Style {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rsh_ansi_term::{Color, Style};
+    use nu_ansi_term::{Color, Style};
     use rsh_protocol::{Span, Value};
 
     #[test]

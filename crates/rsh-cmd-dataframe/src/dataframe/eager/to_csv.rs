@@ -8,7 +8,7 @@ use rsh_protocol::{
 };
 use polars::prelude::{CsvWriter, SerWriter};
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct ToCSV;
@@ -72,7 +72,7 @@ fn command(
     let delimiter: Option<Spanned<String>> = call.get_flag(engine_state, stack, "delimiter")?;
     let no_header: bool = call.has_flag("no-header");
 
-    let mut df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let mut df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let mut file = File::create(&file_name.item).map_err(|e| {
         ShellError::GenericError(

@@ -5,9 +5,9 @@ use rsh_protocol::{
     Category, Example, PipelineData, ShellError, Signature, Span, SyntaxShape, Type, Value,
 };
 
-use crate::dataframe::{utils::extract_strings, values::RshLazyFrame};
+use crate::dataframe::{utils::extract_strings, values::rshLazyFrame};
 
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct RenameDF;
@@ -46,7 +46,7 @@ impl Command for RenameDF {
                 description: "Renames a series",
                 example: "[5 6 7 8] | dfr into-df | dfr rename '0' new_name",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "new_name".to_string(),
                         vec![
                             Value::test_int(5),
@@ -63,7 +63,7 @@ impl Command for RenameDF {
                 description: "Renames a dataframe column",
                 example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr rename a a_new",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a_new".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -81,7 +81,7 @@ impl Command for RenameDF {
                 description: "Renames two dataframe columns",
                 example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr rename [a b] [a_new b_new]",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a_new".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -107,11 +107,11 @@ impl Command for RenameDF {
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
 
-        if RshLazyFrame::can_downcast(&value) {
-            let df = RshLazyFrame::try_from_value(value)?;
+        if rshLazyFrame::can_downcast(&value) {
+            let df = rshLazyFrame::try_from_value(value)?;
             command_lazy(engine_state, stack, call, df)
         } else {
-            let df = RshDataFrame::try_from_value(value)?;
+            let df = rshDataFrame::try_from_value(value)?;
             command_eager(engine_state, stack, call, df)
         }
     }
@@ -121,7 +121,7 @@ fn command_eager(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    mut df: RshDataFrame,
+    mut df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let columns: Value = call.req(engine_state, stack, 0)?;
     let columns = extract_strings(columns)?;
@@ -148,7 +148,7 @@ fn command_lazy(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    lazy: RshLazyFrame,
+    lazy: rshLazyFrame,
 ) -> Result<PipelineData, ShellError> {
     let columns: Value = call.req(engine_state, stack, 0)?;
     let columns = extract_strings(columns)?;
@@ -165,7 +165,7 @@ fn command_lazy(
     }
 
     let lazy = lazy.into_polars();
-    let lazy: RshLazyFrame = lazy.rename(&columns, &new_names).into();
+    let lazy: rshLazyFrame = lazy.rename(&columns, &new_names).into();
 
     Ok(PipelineData::Value(lazy.into_value(call.head)?, None))
 }

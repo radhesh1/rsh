@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -72,7 +72,7 @@ impl Command for Rolling {
                 description: "Rolling sum for a series",
                 example: "[1 2 3 4 5] | dfr into-df | dfr rolling sum 2 | dfr drop-nulls",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0_rolling_sum".to_string(),
                         vec![
                             Value::test_int(3),
@@ -89,7 +89,7 @@ impl Command for Rolling {
                 description: "Rolling max for a series",
                 example: "[1 2 3 4 5] | dfr into-df | dfr rolling max 2 | dfr drop-nulls",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0_rolling_max".to_string(),
                         vec![
                             Value::test_int(2),
@@ -125,7 +125,7 @@ fn command(
     let roll_type: Spanned<String> = call.req(engine_state, stack, 0)?;
     let window_size: i64 = call.req(engine_state, stack, 1)?;
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
 
     if let DataType::Object(_) = series.dtype() {
@@ -171,8 +171,8 @@ fn command(
     let name = format!("{}_{}", series.name(), roll_type.to_str());
     res.rename(&name);
 
-    RshDataFrame::try_from_series(vec![res.into_series()], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res.into_series()], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

@@ -5,7 +5,7 @@ use rsh_protocol::{
     Category, Example, PipelineData, ShellError, Signature, Spanned, SyntaxShape, Type,
 };
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct SampleDF;
@@ -89,7 +89,7 @@ fn command(
     let replace: bool = call.has_flag("replace");
     let shuffle: bool = call.has_flag("shuffle");
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     match (rows, fraction) {
         (Some(rows), None) => df
@@ -131,5 +131,5 @@ fn command(
             Vec::new(),
         )),
     }
-    .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+    .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }

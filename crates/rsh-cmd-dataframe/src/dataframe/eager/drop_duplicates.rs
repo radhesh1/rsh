@@ -7,7 +7,7 @@ use rsh_protocol::{
 use polars::prelude::UniqueKeepStrategy;
 
 use super::super::values::utils::convert_columns_string;
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct DropDuplicates;
@@ -46,7 +46,7 @@ impl Command for DropDuplicates {
             description: "drop duplicates",
             example: "[[a b]; [1 2] [3 4] [1 2]] | dfr into-df | dfr drop-duplicates",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "a".to_string(),
                         vec![Value::test_int(3), Value::test_int(1)],
@@ -88,7 +88,7 @@ fn command(
         None => (None, call.head),
     };
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let subset_slice = subset.as_ref().map(|cols| &cols[..]);
 
@@ -109,7 +109,7 @@ fn command(
                 Vec::new(),
             )
         })
-        .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }
 
 #[cfg(test)]

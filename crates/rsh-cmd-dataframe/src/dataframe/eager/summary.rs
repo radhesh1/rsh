@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -46,7 +46,7 @@ impl Command for Summary {
             description: "list dataframe descriptives",
             example: "[[a b]; [1 1] [1 1]] | dfr into-df | dfr summary",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "descriptor".to_string(),
                         vec![
@@ -169,7 +169,7 @@ fn command(
     labels.append(&mut quantiles_labels);
     labels.push(Some("max".to_string()));
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let names = ChunkedArray::<Utf8Type>::from_slice_options("descriptor", &labels).into_series();
 
@@ -259,7 +259,7 @@ fn command(
                 Vec::new(),
             )
         })
-        .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+        .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
 }
 
 #[cfg(test)]

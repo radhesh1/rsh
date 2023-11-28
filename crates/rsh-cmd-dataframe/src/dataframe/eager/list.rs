@@ -4,7 +4,7 @@ use rsh_protocol::{
     record, Category, Example, IntoPipelineData, PipelineData, ShellError, Signature, Value,
 };
 
-use crate::dataframe::values::RshDataFrame;
+use crate::dataframe::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct ListDF;
@@ -52,7 +52,7 @@ impl Command for ListDF {
         let vals = vals
             .into_iter()
             .filter_map(|(name, value)| {
-                RshDataFrame::try_from_value(value).ok().map(|df| (name, df))
+                rshDataFrame::try_from_value(value).ok().map(|df| (name, df))
             })
             .map(|(name, df)| {
                 Value::record(

@@ -1,4 +1,4 @@
-use super::super::values::{RshDataFrame, RshLazyFrame};
+use super::super::values::{rshDataFrame, rshLazyFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -39,8 +39,8 @@ impl Command for ToLazyFrame {
         call: &Call,
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
-        let df = RshDataFrame::try_from_iter(input.into_iter())?;
-        let lazy = RshLazyFrame::from_dataframe(df);
+        let df = rshDataFrame::try_from_iter(input.into_iter())?;
+        let lazy = rshLazyFrame::from_dataframe(df);
         let value = Value::custom_value(Box::new(lazy), call.head);
 
         Ok(PipelineData::Value(value, None))

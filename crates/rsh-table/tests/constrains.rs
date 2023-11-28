@@ -1,15 +1,15 @@
 mod common;
 
 use rsh_protocol::TrimStrategy;
-use rsh_table::{rshTable, rshTableConfig, TableTheme as theme};
+use rsh_table::{RshTable, RshTableConfig, TableTheme as theme};
 
 use common::{create_row, test_table, TestCase};
 use tabled::grid::records::vec_records::CellInfo;
 
 #[test]
 fn data_and_header_has_different_size_doesnt_work() {
-    let table = rshTable::from(vec![create_row(5), create_row(5), create_row(5)]);
-    let cfg = rshTableConfig {
+    let table = RshTable::from(vec![create_row(5), create_row(5), create_row(5)]);
+    let cfg = RshTableConfig {
         theme: theme::heavy(),
         with_header: true,
         ..Default::default()
@@ -29,7 +29,7 @@ fn data_and_header_has_different_size_doesnt_work() {
         )
     );
 
-    let table = rshTable::from(vec![create_row(5), create_row(5), create_row(5)]);
+    let table = RshTable::from(vec![create_row(5), create_row(5), create_row(5)]);
 
     let table = table.draw(cfg, usize::MAX);
 
@@ -48,16 +48,16 @@ fn data_and_header_has_different_size_doesnt_work() {
 
 #[test]
 fn termwidth_too_small() {
-    let test_loop = |config: rshTableConfig| {
+    let test_loop = |config: RshTableConfig| {
         for i in 0..10 {
-            let table = rshTable::from(vec![create_row(5), create_row(5), create_row(5)]);
+            let table = RshTable::from(vec![create_row(5), create_row(5), create_row(5)]);
             let table = table.draw(config.clone(), i);
 
             assert!(table.is_none());
         }
     };
 
-    let mut cfg = rshTableConfig {
+    let mut cfg = RshTableConfig {
         theme: theme::heavy(),
         with_header: true,
         ..Default::default()
@@ -196,7 +196,7 @@ fn width_control_test_0() {
 }
 
 fn test_width(data: Vec<Vec<CellInfo<String>>>, tests: &[(usize, &str)]) {
-    let config = rshTableConfig {
+    let config = RshTableConfig {
         theme: theme::heavy(),
         trim: TrimStrategy::truncate(Some(String::from("..."))),
         with_header: true,
@@ -211,7 +211,7 @@ fn test_width(data: Vec<Vec<CellInfo<String>>>, tests: &[(usize, &str)]) {
 }
 
 fn test_trim(tests: &[(usize, Option<&str>)], trim: TrimStrategy) {
-    let config = rshTableConfig {
+    let config = RshTableConfig {
         theme: theme::heavy(),
         with_header: true,
         trim,

@@ -1,4 +1,4 @@
-use super::super::values::{RshDataFrame, RshLazyFrame};
+use super::super::values::{rshDataFrame, rshLazyFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -152,7 +152,7 @@ fn from_parquet(
             use_statistics: false,
         };
 
-        let df: RshLazyFrame = LazyFrame::scan_parquet(file, args)
+        let df: rshLazyFrame = LazyFrame::scan_parquet(file, args)
             .map_err(|e| {
                 ShellError::GenericError(
                     "Parquet reader error".into(),
@@ -185,7 +185,7 @@ fn from_parquet(
             Some(columns) => reader.with_columns(Some(columns)),
         };
 
-        let df: RshDataFrame = reader
+        let df: rshDataFrame = reader
             .finish()
             .map_err(|e| {
                 ShellError::GenericError(
@@ -226,7 +226,7 @@ fn from_avro(
         Some(columns) => reader.with_columns(Some(columns)),
     };
 
-    let df: RshDataFrame = reader
+    let df: rshDataFrame = reader
         .finish()
         .map_err(|e| {
             ShellError::GenericError(
@@ -257,7 +257,7 @@ fn from_ipc(
             memmap: true,
         };
 
-        let df: RshLazyFrame = LazyFrame::scan_ipc(file, args)
+        let df: rshLazyFrame = LazyFrame::scan_ipc(file, args)
             .map_err(|e| {
                 ShellError::GenericError(
                     "IPC reader error".into(),
@@ -290,7 +290,7 @@ fn from_ipc(
             Some(columns) => reader.with_columns(Some(columns)),
         };
 
-        let df: RshDataFrame = reader
+        let df: rshDataFrame = reader
             .finish()
             .map_err(|e| {
                 ShellError::GenericError(
@@ -326,7 +326,7 @@ fn from_json(
     let buf_reader = BufReader::new(file);
     let reader = JsonReader::new(buf_reader);
 
-    let df: RshDataFrame = reader
+    let df: rshDataFrame = reader
         .finish()
         .map_err(|e| {
             ShellError::GenericError(
@@ -364,7 +364,7 @@ fn from_jsonl(
         .with_json_format(JsonFormat::JsonLines)
         .infer_schema_len(infer_schema);
 
-    let df: RshDataFrame = reader
+    let df: rshDataFrame = reader
         .finish()
         .map_err(|e| {
             ShellError::GenericError(
@@ -428,7 +428,7 @@ fn from_csv(
             Some(r) => csv_reader.with_skip_rows(r),
         };
 
-        let df: RshLazyFrame = csv_reader
+        let df: rshLazyFrame = csv_reader
             .finish()
             .map_err(|e| {
                 ShellError::GenericError(
@@ -494,7 +494,7 @@ fn from_csv(
             Some(columns) => csv_reader.with_columns(Some(columns)),
         };
 
-        let df: RshDataFrame = csv_reader
+        let df: rshDataFrame = csv_reader
             .finish()
             .map_err(|e| {
                 ShellError::GenericError(

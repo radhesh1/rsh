@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -31,7 +31,7 @@ impl Command for DataTypes {
             description: "Dataframe dtypes",
             example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr dtypes",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "column".to_string(),
                         vec![Value::test_string("a"), Value::test_string("b")],
@@ -64,7 +64,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let mut dtypes: Vec<Value> = Vec::new();
     let names: Vec<Value> = df
@@ -88,7 +88,7 @@ fn command(
     let names_col = Column::new("column".to_string(), names);
     let dtypes_col = Column::new("dtype".to_string(), dtypes);
 
-    RshDataFrame::try_from_columns(vec![names_col, dtypes_col])
+    rshDataFrame::try_from_columns(vec![names_col, dtypes_col])
         .map(|df| PipelineData::Value(df.into_value(call.head), None))
 }
 

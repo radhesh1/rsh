@@ -201,7 +201,7 @@ impl Command for UCp {
             sources.append(&mut app_vals);
         }
 
-        // Make sure to send absolute paths to avoid uu_cp looking for cwd in std::env which is not
+        // Make sure to send absolute paths to avoid rshLazyFrame looking for cwd in std::env which is not
         // supported in Rsh
         for src in sources.iter_mut() {
             if !src.is_absolute() {

@@ -24,7 +24,7 @@ use tabled::{
     Table,
 };
 
-/// rshTable is a table rendering implementation.
+/// RshTable is a table rendering implementation.
 #[derive(Debug, Clone)]
 pub struct RshTable {
     data: RshRecords,

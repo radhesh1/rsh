@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -33,7 +33,7 @@ impl Command for AllTrue {
                 description: "Returns true if all values are true",
                 example: "[true true true] | dfr into-df | dfr all-true",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "all_true".to_string(),
                         vec![Value::test_bool(true)],
                     )])
@@ -47,7 +47,7 @@ impl Command for AllTrue {
     let res = ($s > 9);
     $res | dfr all-true"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "all_true".to_string(),
                         vec![Value::test_bool(false)],
                     )])
@@ -75,7 +75,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let series = df.as_series(call.head)?;
     let bool = series.bool().map_err(|_| {
@@ -90,8 +90,8 @@ fn command(
 
     let value = Value::bool(bool.all(), call.head);
 
-    RshDataFrame::try_from_columns(vec![Column::new("all_true".to_string(), vec![value])])
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_columns(vec![Column::new("all_true".to_string(), vec![value])])
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

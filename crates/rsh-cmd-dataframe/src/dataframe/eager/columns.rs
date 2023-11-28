@@ -1,4 +1,4 @@
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -51,7 +51,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let names: Vec<Value> = df
         .as_ref()

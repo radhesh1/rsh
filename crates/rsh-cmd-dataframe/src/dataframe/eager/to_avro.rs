@@ -9,7 +9,7 @@ use rsh_protocol::{
 use polars_io::avro::{AvroCompression, AvroWriter};
 use polars_io::SerWriter;
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct ToAvro;
@@ -83,7 +83,7 @@ fn command(
     let file_name: Spanned<PathBuf> = call.req(engine_state, stack, 0)?;
     let compression = get_compression(call)?;
 
-    let mut df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let mut df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let file = File::create(&file_name.item).map_err(|e| {
         ShellError::GenericError(

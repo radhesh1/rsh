@@ -8,7 +8,7 @@ use rsh_protocol::{
 
 use crate::dataframe::values::utils::convert_columns_string;
 
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 #[derive(Clone)]
 pub struct MeltDF;
@@ -61,7 +61,7 @@ impl Command for MeltDF {
             example:
                 "[[a b c d]; [x 1 4 a] [y 2 5 b] [z 3 6 c]] | dfr into-df | dfr melt -c [b c] -v [a d]",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "b".to_string(),
                         vec![
@@ -144,7 +144,7 @@ fn command(
     let (id_col_string, id_col_span) = convert_columns_string(id_col, call.head)?;
     let (val_col_string, val_col_span) = convert_columns_string(val_col, call.head)?;
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     check_column_datatypes(df.as_ref(), &id_col_string, id_col_span)?;
     check_column_datatypes(df.as_ref(), &val_col_string, val_col_span)?;
@@ -187,7 +187,7 @@ fn command(
     }
 
     Ok(PipelineData::Value(
-        RshDataFrame::dataframe_into_value(res, call.head),
+        rshDataFrame::dataframe_into_value(res, call.head),
         None,
     ))
 }

@@ -1,4 +1,4 @@
-use core::primitive::str;
+// use core::primitive::str;
 use core::{default::Default, fmt};
 use nu_ansi_term::{Color, Style};
 

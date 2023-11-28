@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -38,7 +38,7 @@ impl Command for LazyFillNA {
                 description: "Fills the NaN values with 0",
                 example: "[1 2 NaN 3 NaN] | dfr into-df | dfr fill-nan 0",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0".to_string(),
                         vec![
                             Value::test_int(1),
@@ -56,7 +56,7 @@ impl Command for LazyFillNA {
                 description: "Fills the NaN values of a whole dataframe",
                 example: "[[a b]; [0.2 1] [0.1 NaN]] | dfr into-df | dfr fill-nan 0",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_float(0.2), Value::test_float(0.1)],
@@ -83,18 +83,18 @@ impl Command for LazyFillNA {
         let fill: Value = call.req(engine_state, stack, 0)?;
         let value = input.into_value(call.head);
 
-        if RshExpression::can_downcast(&value) {
-            let expr = RshExpression::try_from_value(value)?;
-            let fill = RshExpression::try_from_value(fill)?.into_polars();
-            let expr: RshExpression = expr.into_polars().fill_nan(fill).into();
+        if rshExpression::can_downcast(&value) {
+            let expr = rshExpression::try_from_value(value)?;
+            let fill = rshExpression::try_from_value(fill)?.into_polars();
+            let expr: rshExpression = expr.into_polars().fill_nan(fill).into();
 
             Ok(PipelineData::Value(
-                RshExpression::into_value(expr, call.head),
+                rshExpression::into_value(expr, call.head),
                 None,
             ))
         } else {
             let val_span = value.span();
-            let frame = RshDataFrame::try_from_value(value)?;
+            let frame = rshDataFrame::try_from_value(value)?;
             let columns = frame.columns(val_span)?;
             let dataframe = columns
                 .into_iter()
@@ -113,7 +113,7 @@ impl Command for LazyFillNA {
                                     }
                                 }
                                 Value::List { vals, .. } => {
-                                    RshDataFrame::fill_list_nan(vals, span, fill.clone())
+                                    rshDataFrame::fill_list_nan(vals, span, fill.clone())
                                 }
                                 _ => value,
                             }
@@ -123,7 +123,7 @@ impl Command for LazyFillNA {
                 })
                 .collect::<Vec<Column>>();
             Ok(PipelineData::Value(
-                RshDataFrame::try_from_columns(dataframe)?.into_value(call.head),
+                rshDataFrame::try_from_columns(dataframe)?.into_value(call.head),
                 None,
             ))
         }

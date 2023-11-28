@@ -2,9 +2,9 @@ pub mod support;
 
 use std::path::PathBuf;
 
-use Rsh_cli::RshCompleter;
-use Rsh_parser::parse;
-use Rsh_protocol::engine::StateWorkingSet;
+use rsh_cli::RshCompleter;
+use rsh_parser::parse;
+use rsh_protocol::engine::StateWorkingSet;
 use reedline::{Completer, Suggestion};
 use rstest::{fixture, rstest};
 use support::{

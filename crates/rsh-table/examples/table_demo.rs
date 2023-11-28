@@ -1,6 +1,6 @@
-use rsh_ansi_term::{Color, Style};
+use nu_ansi_term::{Color, Style};
 use rsh_color_config::TextStyle;
-use rsh_table::{rshTable, rshTableConfig, TableTheme};
+use rsh_table::{RshTable, RshTableConfig, TableTheme};
 use tabled::grid::records::vec_records::CellInfo;
 
 fn main() {
@@ -24,12 +24,12 @@ fn main() {
     let mut rows = vec![rows; 3];
     rows.insert(0, headers);
 
-    let mut table = rshTable::from(rows);
+    let mut table = RshTable::from(rows);
 
     table.set_data_style(TextStyle::basic_left());
     table.set_header_style(TextStyle::basic_center().style(Style::new().on(Color::Blue)));
 
-    let table_cfg = rshTableConfig {
+    let table_cfg = RshTableConfig {
         theme: TableTheme::rounded(),
         with_header: true,
         ..Default::default()

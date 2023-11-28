@@ -104,9 +104,13 @@ impl Command for Open {
             // let path_no_whitespace = &path.item.trim_end_matches(|x| matches!(x, '\x09'..='\x0d'));
 
             for path in rsh_engine::glob_from(&path, &cwd, call_span, None)
-                .map_err(|err| match err {
-                    ShellError::DirectoryNotFound(span, _) => ShellError::FileNotFound { span },
-                    _ => err,
+                .map_err(|err| {
+                    let cloned_err = err.clone();
+
+                    match cloned_err {
+                        ShellError::DirectoryNotFound(span, _) => ShellError::FileNotFound { span },
+                        _ => cloned_err, // Use the cloned error in both branches
+                    }
                 })?
                 .1
             {

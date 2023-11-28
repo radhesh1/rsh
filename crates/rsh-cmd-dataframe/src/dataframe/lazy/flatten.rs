@@ -4,7 +4,7 @@ use rsh_protocol::{
     Category, Example, PipelineData, ShellError, Signature, Span, SyntaxShape, Type, Value,
 };
 
-use crate::dataframe::values::{Column, RshDataFrame};
+use crate::dataframe::values::{Column, rshDataFrame};
 
 use super::explode::explode;
 
@@ -46,7 +46,7 @@ Example {
                 description: "Flatten the specified dataframe",
                 example: "[[id name hobbies]; [1 Mercy [Cycling Knitting]] [2 Bob [Skiing Football]]] | dfr into-df | dfr flatten hobbies | dfr collect",
                 result: Some(
-                   RshDataFrame::try_from_columns(vec![
+                   rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "id".to_string(), 
                         vec![
@@ -79,7 +79,7 @@ Example {
                 description: "Select a column and flatten the values",
                 example: "[[id name hobbies]; [1 Mercy [Cycling Knitting]] [2 Bob [Skiing Football]]] | dfr into-df | dfr select (dfr col hobbies | dfr flatten)",
                 result: Some(
-                   RshDataFrame::try_from_columns(vec![
+                   rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "hobbies".to_string(), 
                         vec![

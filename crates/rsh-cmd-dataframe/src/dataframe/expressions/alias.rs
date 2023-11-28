@@ -78,7 +78,7 @@ impl Command for ExprAlias {
 mod test {
     use super::super::super::test_dataframe::test_dataframe;
     use super::*;
-    use crate::dataframe::eager::Torsh;
+    use crate::dataframe::eager::ToRsh;
     use crate::dataframe::expressions::ExprCol;
 
     #[test]
@@ -86,7 +86,7 @@ mod test {
         test_dataframe(vec![
             Box::new(ExprAlias {}),
             Box::new(ExprCol {}),
-            Box::new(Torsh {}),
+            Box::new(ToRsh {}),
         ])
     }
 }

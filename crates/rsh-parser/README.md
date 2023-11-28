@@ -20,7 +20,7 @@ At this point, the parser has little to no understanding of the shape of the com
 
 ## Lite parsing
 
-As rsh is a language of pipelines, pipes form a key role in both separating commands from each other as well as denoting the flow of information between commands. The lite parse phase, as the name suggests, helps to group the lexed tokens into units.
+As rsh is a language of pipelines, pipes form a key role in both separating commands from each other and denoting the flow of information between commands. The lite parse phase, as the name suggests, helps to group the lexed tokens into units.
 
 The above tokens are converted the following during the lite parse phase:
 

@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -40,7 +40,7 @@ impl Command for Concatenate {
             example: r#"let other = ([za xs cd] | dfr into-df);
     [abc abc abc] | dfr into-df | dfr concatenate $other"#,
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![
                         Value::test_string("abcza"),
@@ -71,11 +71,11 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let other: Value = call.req(engine_state, stack, 0)?;
     let other_span = other.span();
-    let other_df = RshDataFrame::try_from_value(other)?;
+    let other_df = rshDataFrame::try_from_value(other)?;
 
     let other_series = other_df.as_series(other_span)?;
     let other_chunked = other_series.utf8().map_err(|e| {
@@ -103,8 +103,8 @@ fn command(
 
     res.rename(series.name());
 
-    RshDataFrame::try_from_series(vec![res.into_series()], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res.into_series()], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

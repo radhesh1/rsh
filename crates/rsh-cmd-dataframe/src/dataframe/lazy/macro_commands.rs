@@ -1,7 +1,7 @@
 /// Definition of multiple lazyframe commands using a macro rule
 /// All of these commands have an identical body and only require
 /// to have a change in the name, description and function
-use crate::dataframe::values::{Column, RshDataFrame, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshLazyFrame};
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -42,8 +42,8 @@ macro_rules! lazy_command {
                 call: &Call,
                 input: PipelineData,
             ) -> Result<PipelineData, ShellError> {
-                let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
-                let lazy = RshLazyFrame::new(lazy.from_eager, lazy.into_polars().$func());
+                let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
+                let lazy = rshLazyFrame::new(lazy.from_eager, lazy.into_polars().$func());
 
                 Ok(PipelineData::Value(lazy.into_value(call.head)?, None))
             }
@@ -94,8 +94,8 @@ macro_rules! lazy_command {
                 call: &Call,
                 input: PipelineData,
             ) -> Result<PipelineData, ShellError> {
-                let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
-                let lazy = RshLazyFrame::new(lazy.from_eager, lazy.into_polars().$func($ddot));
+                let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
+                let lazy = rshLazyFrame::new(lazy.from_eager, lazy.into_polars().$func($ddot));
 
                 Ok(PipelineData::Value(lazy.into_value(call.head)?, None))
             }
@@ -124,7 +124,7 @@ lazy_command!(
         description: "Reverses the dataframe",
         example: "[[a b]; [6 2] [4 2] [2 2]] | dfr into-df | dfr reverse",
         result: Some(
-            RshDataFrame::try_from_columns(vec![
+            rshDataFrame::try_from_columns(vec![
                 Column::new(
                     "a".to_string(),
                     vec![Value::test_int(2), Value::test_int(4), Value::test_int(6),],
@@ -167,7 +167,7 @@ lazy_command!(
         description: "Median value from columns in a dataframe",
         example: "[[a b]; [6 2] [4 2] [2 2]] | dfr into-df | dfr median",
         result: Some(
-            RshDataFrame::try_from_columns(vec![
+            rshDataFrame::try_from_columns(vec![
                 Column::new("a".to_string(), vec![Value::test_float(4.0)],),
                 Column::new("b".to_string(), vec![Value::test_float(2.0)],),
             ])

@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -44,7 +44,7 @@ impl Command for LazyExplode {
                 description: "Explode the specified dataframe",
                 example: "[[id name hobbies]; [1 Mercy [Cycling Knitting]] [2 Bob [Skiing Football]]] | dfr into-df | dfr explode hobbies | dfr collect",
                 result: Some(
-                   RshDataFrame::try_from_columns(vec![
+                   rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "id".to_string(), 
                         vec![
@@ -77,7 +77,7 @@ impl Command for LazyExplode {
                 description: "Select a column and explode the values",
                 example: "[[id name hobbies]; [1 Mercy [Cycling Knitting]] [2 Bob [Skiing Football]]] | dfr into-df | dfr select (dfr col hobbies | dfr explode)",
                 result: Some(
-                   RshDataFrame::try_from_columns(vec![
+                   rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "hobbies".to_string(), 
                         vec![
@@ -106,8 +106,8 @@ impl Command for LazyExplode {
 
 pub(crate) fn explode(call: &Call, input: PipelineData) -> Result<PipelineData, ShellError> {
     let value = input.into_value(call.head);
-    if RshDataFrame::can_downcast(&value) {
-        let df = RshLazyFrame::try_from_value(value)?;
+    if rshDataFrame::can_downcast(&value) {
+        let df = rshLazyFrame::try_from_value(value)?;
         let columns: Vec<String> = call
             .positional_iter()
             .filter_map(|e| e.as_string())
@@ -118,15 +118,15 @@ pub(crate) fn explode(call: &Call, input: PipelineData) -> Result<PipelineData, 
             .explode(columns.iter().map(AsRef::as_ref).collect::<Vec<&str>>());
 
         Ok(PipelineData::Value(
-            RshLazyFrame::from(exploded).into_value(call.head)?,
+            rshLazyFrame::from(exploded).into_value(call.head)?,
             None,
         ))
     } else {
-        let expr = RshExpression::try_from_value(value)?;
-        let expr: RshExpression = expr.into_polars().explode().into();
+        let expr = rshExpression::try_from_value(value)?;
+        let expr: rshExpression = expr.into_polars().explode().into();
 
         Ok(PipelineData::Value(
-            RshExpression::into_value(expr, call.head),
+            rshExpression::into_value(expr, call.head),
             None,
         ))
     }

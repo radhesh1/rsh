@@ -56,7 +56,7 @@ rsh-command = { path = "./crates/rsh-command", version = "0.87.2" }
 rsh-engine = { path = "crates/rsh-engine", version = "0.87.2" }
 rsh-explore = { path = "crates/rsh-explore", version = "0.87.2" }
 rsh-json = { path = "crates/rsh-json", version = "0.87.2" }
-rsh-lsp = { path = "crates/rsh-lsp/", version = "0.87.2" }
+rsh-lsp = { path = "crates/rsh-lsp", version = "0.87.2" }
 rsh-parser = { path = "crates/rsh-parser", version = "0.87.2" }
 rsh-path = { path = "crates/rsh-path", version = "0.87.2" }
 rsh-plugin = { path = "crates/rsh-plugin", optional = true, version = "0.87.2" }

@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -33,7 +33,7 @@ impl Command for NNull {
             example: r#"let s = ([1 1 0 0 3 3 4] | dfr into-df);
     ($s / $s) | dfr count-null"#,
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "count_null".to_string(),
                     vec![Value::test_int(2)],
                 )])
@@ -60,13 +60,13 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let res = df.as_series(call.head)?.null_count();
     let value = Value::int(res as i64, call.head);
 
-    RshDataFrame::try_from_columns(vec![Column::new("count_null".to_string(), vec![value])])
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_columns(vec![Column::new("count_null".to_string(), vec![value])])
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

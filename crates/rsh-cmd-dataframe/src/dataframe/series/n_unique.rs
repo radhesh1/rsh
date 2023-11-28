@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame, RshExpression};
+use super::super::values::{Column, rshDataFrame, rshExpression};
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -38,7 +38,7 @@ impl Command for NUnique {
                 description: "Counts unique values",
                 example: "[1 1 2 2 3 3 4] | dfr into-df | dfr n-unique",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "count_unique".to_string(),
                         vec![Value::test_int(4)],
                     )])
@@ -62,15 +62,15 @@ impl Command for NUnique {
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
-        if RshDataFrame::can_downcast(&value) {
-            let df = RshDataFrame::try_from_value(value)?;
+        if rshDataFrame::can_downcast(&value) {
+            let df = rshDataFrame::try_from_value(value)?;
             command(engine_state, stack, call, df)
         } else {
-            let expr = RshExpression::try_from_value(value)?;
-            let expr: RshExpression = expr.into_polars().n_unique().into();
+            let expr = rshExpression::try_from_value(value)?;
+            let expr: rshExpression = expr.into_polars().n_unique().into();
 
             Ok(PipelineData::Value(
-                RshExpression::into_value(expr, call.head),
+                rshExpression::into_value(expr, call.head),
                 None,
             ))
         }
@@ -81,7 +81,7 @@ fn command(
     _engine_state: &EngineState,
     _stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let res = df.as_series(call.head)?.n_unique().map_err(|e| {
         ShellError::GenericError(
@@ -95,8 +95,8 @@ fn command(
 
     let value = Value::int(res as i64, call.head);
 
-    RshDataFrame::try_from_columns(vec![Column::new("count_unique".to_string(), vec![value])])
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_columns(vec![Column::new("count_unique".to_string(), vec![value])])
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

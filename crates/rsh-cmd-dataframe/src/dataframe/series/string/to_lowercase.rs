@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -33,7 +33,7 @@ impl Command for ToLowerCase {
             description: "Modifies strings to lowercase",
             example: "[Abc aBc abC] | dfr into-df | dfr lowercase",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "0".to_string(),
                     vec![
                         Value::test_string("abc"),
@@ -64,7 +64,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
 
     let casted = series.utf8().map_err(|e| {
@@ -80,8 +80,8 @@ fn command(
     let mut res = casted.to_lowercase();
     res.rename(series.name());
 
-    RshDataFrame::try_from_series(vec![res.into_series()], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res.into_series()], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

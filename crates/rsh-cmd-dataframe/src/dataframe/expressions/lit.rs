@@ -65,10 +65,10 @@ impl Command for ExprLit {
 mod test {
     use super::super::super::test_dataframe::test_dataframe;
     use super::*;
-    use crate::dataframe::eager::Torsh;
+    use crate::dataframe::eager::ToRsh;
 
     #[test]
     fn test_examples() {
-        test_dataframe(vec![Box::new(ExprLit {}), Box::new(Torsh {})])
+        test_dataframe(vec![Box::new(ExprLit {}), Box::new(ToRsh {})])
     }
 }

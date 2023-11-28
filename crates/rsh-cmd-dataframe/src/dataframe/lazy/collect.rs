@@ -1,6 +1,6 @@
-use crate::dataframe::values::{Column, RshDataFrame};
+use crate::dataframe::values::{Column, rshDataFrame};
 
-use super::super::values::RshLazyFrame;
+use super::super::values::rshLazyFrame;
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -33,7 +33,7 @@ impl Command for LazyCollect {
             description: "drop duplicates",
             example: "[[a b]; [1 2] [3 4]] | dfr into-lazy | dfr collect",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "a".to_string(),
                         vec![Value::test_int(1), Value::test_int(3)],
@@ -56,7 +56,7 @@ impl Command for LazyCollect {
         call: &Call,
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
-        let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
+        let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
         let eager = lazy.collect(call.head)?;
         let value = Value::custom_value(Box::new(eager), call.head);
 

@@ -14,9 +14,9 @@ pub enum Command {
 
 impl Command {
     pub fn view<C>(command: C, is_light: bool) -> Self
-    where
-        C: ViewCommand + Clone + 'static,
-        C::View: View,
+        where
+            C: ViewCommand + Clone + 'static,
+            C::View: View,
     {
         let cmd = Box::new(ViewCmd(command)) as Box<dyn VCommand>;
 
@@ -24,16 +24,14 @@ impl Command {
     }
 
     pub fn reactive<C>(command: C) -> Self
-    where
-        C: SimpleCommand + Clone + 'static,
+        where
+            C: SimpleCommand + Clone + 'static,
     {
         let cmd = Box::new(command) as Box<dyn SCommand>;
 
         Self::Reactive(cmd)
     }
-}
 
-impl Command {
     pub fn name(&self) -> &str {
         match self {
             Command::Reactive(cmd) => cmd.name(),
@@ -54,9 +52,9 @@ impl Command {
 struct ViewCmd<C>(C);
 
 impl<C> ViewCommand for ViewCmd<C>
-where
-    C: ViewCommand,
-    C::View: View + 'static,
+    where
+        C: ViewCommand,
+        C::View: View + 'static,
 {
     type View = Box<dyn View>;
 
@@ -96,8 +94,8 @@ pub trait SCommandClone {
 }
 
 impl<T> SCommandClone for T
-where
-    T: 'static + SCommand + Clone,
+    where
+        T: 'static + SCommand + Clone,
 {
     fn clone_box(&self) -> Box<dyn SCommand> {
         Box::new(self.clone())
@@ -119,8 +117,8 @@ pub trait VCommandClone {
 }
 
 impl<T> VCommandClone for T
-where
-    T: 'static + VCommand + Clone,
+    where
+        T: 'static + VCommand + Clone,
 {
     fn clone_box(&self) -> Box<dyn VCommand> {
         Box::new(self.clone())

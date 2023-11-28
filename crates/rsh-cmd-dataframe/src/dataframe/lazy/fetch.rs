@@ -1,5 +1,5 @@
-use super::super::values::RshLazyFrame;
-use crate::dataframe::values::{Column, RshDataFrame};
+use super::super::values::rshLazyFrame;
+use crate::dataframe::values::{Column, rshDataFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -38,7 +38,7 @@ impl Command for LazyFetch {
             description: "Fetch a rows from the dataframe",
             example: "[[a b]; [6 2] [4 2] [2 2]] | dfr into-df | dfr fetch 2",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "a".to_string(),
                         vec![Value::test_int(6), Value::test_int(4)],
@@ -63,8 +63,8 @@ impl Command for LazyFetch {
     ) -> Result<PipelineData, ShellError> {
         let rows: i64 = call.req(engine_state, stack, 0)?;
 
-        let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
-        let eager: RshDataFrame = lazy
+        let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
+        let eager: rshDataFrame = lazy
             .into_polars()
             .fetch(rows as usize)
             .map_err(|e| {
@@ -79,7 +79,7 @@ impl Command for LazyFetch {
             .into();
 
         Ok(PipelineData::Value(
-            RshDataFrame::into_value(eager, call.head),
+            rshDataFrame::into_value(eager, call.head),
             None,
         ))
     }

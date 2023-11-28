@@ -7,7 +7,7 @@ use rsh_protocol::{
 
 use crate::dataframe::values::Column;
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct SliceDF;
@@ -37,7 +37,7 @@ impl Command for SliceDF {
             description: "Create new dataframe from a slice of the rows",
             example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr slice 0 1",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new("a".to_string(), vec![Value::test_int(1)]),
                     Column::new("b".to_string(), vec![Value::test_int(2)]),
                 ])
@@ -67,12 +67,12 @@ fn command(
     let offset: i64 = call.req(engine_state, stack, 0)?;
     let size: usize = call.req(engine_state, stack, 1)?;
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let res = df.as_ref().slice(offset, size);
 
     Ok(PipelineData::Value(
-        RshDataFrame::dataframe_into_value(res, call.head),
+        rshDataFrame::dataframe_into_value(res, call.head),
         None,
     ))
 }

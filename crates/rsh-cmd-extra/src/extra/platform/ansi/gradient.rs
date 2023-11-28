@@ -1,4 +1,4 @@
-use rsh_ansi_term::{build_all_gradient_text, gradient::TargetGround, Gradient, Rgb};
+use nu_ansi_term::{build_all_gradient_text, gradient::TargetGround, Gradient, Rgb};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call, ast::CellPath, engine::Command, engine::EngineState, engine::Stack, Category,
@@ -305,7 +305,7 @@ fn action(
 #[cfg(test)]
 mod tests {
     use super::{action, SubCommand};
-    use rsh_ansi_term::Rgb;
+    use nu_ansi_term::Rgb;
     use rsh_protocol::{Span, Value};
 
     #[test]

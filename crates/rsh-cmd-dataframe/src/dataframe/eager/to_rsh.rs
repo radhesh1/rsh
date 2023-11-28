@@ -5,9 +5,9 @@ use rsh_protocol::{
     record, Category, Example, PipelineData, ShellError, Signature, Span, SyntaxShape, Type, Value,
 };
 
-use crate::dataframe::values::RshExpression;
+use crate::dataframe::values::rshExpression;
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct ToRsh;
@@ -15,10 +15,6 @@ pub struct ToRsh;
 impl Command for ToRsh {
     fn name(&self) -> &str {
         "dfr into-rsh"
-    }
-
-    fn usage(&self) -> &str {
-        "Converts a dataframe or an expression into into rsh value for access and exploration."
     }
 
     fn signature(&self) -> Signature {
@@ -36,6 +32,25 @@ impl Command for ToRsh {
             ])
             //.input_output_type(Type::Any, Type::Any)
             .category(Category::Custom("dataframe".into()))
+    }
+
+    fn usage(&self) -> &str {
+        "Converts a dataframe or an expression into into rsh value for access and exploration."
+    }
+
+    fn run(
+        &self,
+        engine_state: &EngineState,
+        stack: &mut Stack,
+        call: &Call,
+        input: PipelineData,
+    ) -> Result<PipelineData, ShellError> {
+        let value = input.into_value(call.head);
+        if rshDataFrame::can_downcast(&value) {
+            dataframe_command(engine_state, stack, call, value)
+        } else {
+            expression_command(call, value)
+        }
     }
 
     fn examples(&self) -> Vec<Example> {
@@ -76,21 +91,6 @@ impl Command for ToRsh {
             },
         ]
     }
-
-    fn run(
-        &self,
-        engine_state: &EngineState,
-        stack: &mut Stack,
-        call: &Call,
-        input: PipelineData,
-    ) -> Result<PipelineData, ShellError> {
-        let value = input.into_value(call.head);
-        if RshDataFrame::can_downcast(&value) {
-            dataframe_command(engine_state, stack, call, value)
-        } else {
-            expression_command(call, value)
-        }
-    }
 }
 
 fn dataframe_command(
@@ -102,7 +102,7 @@ fn dataframe_command(
     let rows: Option<usize> = call.get_flag(engine_state, stack, "rows")?;
     let tail: bool = call.has_flag("tail");
 
-    let df = RshDataFrame::try_from_value(input)?;
+    let df = rshDataFrame::try_from_value(input)?;
 
     let values = if tail {
         df.tail(rows, call.head)?
@@ -120,7 +120,7 @@ fn dataframe_command(
     Ok(PipelineData::Value(value, None))
 }
 fn expression_command(call: &Call, input: Value) -> Result<PipelineData, ShellError> {
-    let expr = RshExpression::try_from_value(input)?;
+    let expr = rshExpression::try_from_value(input)?;
     let value = expr.to_value(call.head)?;
 
     Ok(PipelineData::Value(value, None))

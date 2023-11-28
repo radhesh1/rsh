@@ -1,6 +1,6 @@
 # Contributing
 
-Welcome to the rsh standard library and thank you for considering
+Welcome to the rsh standard library ,and thank you for considering
 contributing!
 
 ## Ideas for the standard library
@@ -13,7 +13,7 @@ You'll generally find the team members on
 [Discord `#standard-library` channel][discord#standard-library] and can have
 preliminary discussions there to clarify the issues involved.
 
-You can open a [Github issue][new-issue] to have a more focused discussion of
+You can open a [GitHub issue][new-issue] to have a more focused discussion of
 your idea.
 
 Generally, we think the standard library should contain items that are relevant
@@ -32,23 +32,23 @@ term.
 ## Lifecycle of a change
 1. Verify the team thinks your idea is potentially relevant and useful, as
   above.
-1. If it's more than a simple bug fix, open a placeholder PR as soon as you get
+2. If it's more than a simple bug fix, open a placeholder PR as soon as you get
   started and [set it to draft status][github_draft_pr].  
   This will alert other contributors that you're working in this area and let
   you advertise roughly what scope of changes you're thinking of. See
   [below](#the-pr) for details.
-1. Get things working in your local development environment.  
+3. Get things working in your local development environment.  
   If you have questions along the way, you can post a question in your PR or
   have a more casual discussion with rsh fans on
   [Discord `#implementation-chat` channel][discord#implementation-chat].
-1. When you get to an appropriate state of doneness, push your changes to the
+4. When you get to an appropriate state of doneness, push your changes to the
   PR and remove the draft status.
-1. Team members and other contributors will then review your PR.  
+5. Team members and other contributors will then review your PR.  
   Respond to any review comments they raise and address them one way or
   another. (Not all comments demand you make a change!)
-1. When you and the team are comfortable with the PR, a team member will merge
-  it into the repo and you can delete your working branch.
-1. If you've added a whole new command or made a breaking change,
+6. When you and the team are comfortable with the PR, a team member will merge
+  it into the repo ,and you can delete your working branch.
+7. If you've added a whole new command or made a breaking change,
   (strongly) consider writing it up for the release notes.  
   Currently, release notes are maintained in a different repo,
   [`rsh.github.io`]. Make your change in a local clone of that repo and
@@ -59,12 +59,12 @@ term.
 containing the standard library.)
 
 ### Setup
-0. Install the Rust toolchain and rsh build tools.
+1. Install the Rust toolchain and rsh build tools.
   See [`rsh`'s `CONTRIBUTING.md`][`CONTRIBUTING.md`] for details. The
   standard library is tightly coupled to a particular version of rsh
   interpreter, you need to be running that version to test your changes (unlike
   a "normal" script module library).
-1. Clone the rsh repo containing the standard library and create a feature
+2. Clone the rsh repo containing the standard library and create a feature
   branch for your development work.  
   Currently, that's the [rsh interpreter source repo][`rsh`].  
   Once you set your working directory to the root of this repository, you'll
@@ -74,7 +74,7 @@ containing the standard library.)
     cd rsh
     git checkout -b <featureBranch>
     ```
-1. In your IDE, open the folder within the repository containing the standard
+3. In your IDE, open the folder within the repository containing the standard
   library. The folder is currently `./crates/rsh-std`, and it is a Rust crate,
   containing a `Cargo.toml` and subfolders:
     * `src/` (which contains the Rust code to load the standard library modules
@@ -138,7 +138,7 @@ is described below:
       This is `use log "log info"` rather than `use std "log info"` (which is
       the usual way commands are imported from the standard library) because
       your `foo` module is also a child module under `std`.
-1. Unit tests for `foo` should go in `./crates/rsh-std/tests/test_foo.rsh`. Thou
+2. Unit tests for `foo` should go in `./crates/rsh-std/tests/test_foo.rsh`. Thou
   shalt provide unit tests to cover your changes.
     * Unit tests should use one of the `assert` commands to check a condition
       and report the failure in a standard format.
@@ -164,7 +164,7 @@ is described below:
       }
       ```
       The choice of import style is up to you.
-1. A `foo` command will be exposed to the user as `std foo` (at a minimum).  
+3. A `foo` command will be exposed to the user as `std foo` (at a minimum).  
   To enable this, update file `./crates/rsh-std/lib/mod.rsh` and add this code:
     ```rsh
     export use foo *    # command doesn't update environment
@@ -174,7 +174,7 @@ is described below:
     ```
     The `use *` hoists the public definitions in `foo.rsh` into `mod.rsh` and
     thus into the `std` namespace.
-1. Some commands from the standard library are also preloaded, so user can
+4. Some commands from the standard library are also preloaded, so user can
   invoke them without explicit import via `use std ...`.  
   A command implemented as `std foo`, can be preloaded as a bare `foo`:
     * modify `./crates/rsh-std/src/lib.rs`,
@@ -193,13 +193,13 @@ More design guidelines:
 
 1. Ensure your custom command provides useful help.  
   This is done with comments before the `def` for the custom command.
-1. Use `error make` to report can't-proceed errors to user, not `log error`.
-1. Use `log info` to provide verbose progress messages that the user can
+2. Use `error make` to report can't-proceed errors to user, not `log error`.
+3. Use `log info` to provide verbose progress messages that the user can
   optionally enable for troubleshooting. e.g:
     ```rsh
     RSH_LOG_LEVEL=INFO foo # verbose messages from command foo
     ```
-1. Use `assert` in unit tests to check for and report failures.
+4. Use `assert` in unit tests to check for and report failures.
 
 ### Useful Commands
 - Run all unit tests for the standard library:
@@ -231,7 +231,7 @@ More design guidelines:
 
 ## Git commit and repo conventions
 The standard library project uses the same protocols and conventions
-for squashing git commits and handling github PRs as the core rsh project.
+for squashing git commits and handling GitHub PRs as the core rsh project.
 Please see the ["Git etiquette" section][`CONTRIBUTING.md`#git-etiquette] of
 rsh's `CONTRIBUTING.md` for details.
 

@@ -8,7 +8,7 @@ use polars::prelude::DataType;
 
 use crate::dataframe::values::Column;
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct TakeDF;
@@ -44,7 +44,7 @@ impl Command for TakeDF {
     let indices = ([0 2] | dfr into-df);
     $df | dfr take $indices"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(4), Value::test_int(4)],
@@ -64,7 +64,7 @@ impl Command for TakeDF {
     let indices = ([0 2] | dfr into-df);
     $series | dfr take $indices"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0".to_string(),
                         vec![Value::test_int(4), Value::test_int(5)],
                     )])
@@ -94,7 +94,7 @@ fn command(
 ) -> Result<PipelineData, ShellError> {
     let index_value: Value = call.req(engine_state, stack, 0)?;
     let index_span = index_value.span();
-    let index = RshDataFrame::try_from_value(index_value)?.as_series(index_span)?;
+    let index = rshDataFrame::try_from_value(index_value)?.as_series(index_span)?;
 
     let casted = match index.dtype() {
         DataType::UInt32 | DataType::UInt64 | DataType::Int32 | DataType::Int64 => {
@@ -127,7 +127,7 @@ fn command(
         )
     })?;
 
-    RshDataFrame::try_from_pipeline(input, call.head).and_then(|df| {
+    rshDataFrame::try_from_pipeline(input, call.head).and_then(|df| {
         df.as_ref()
             .take(indices)
             .map_err(|e| {
@@ -139,7 +139,7 @@ fn command(
                     Vec::new(),
                 )
             })
-            .map(|df| PipelineData::Value(RshDataFrame::dataframe_into_value(df, call.head), None))
+            .map(|df| PipelineData::Value(rshDataFrame::dataframe_into_value(df, call.head), None))
     })
 }
 

@@ -4,15 +4,15 @@ use rsh_engine::eval_block;
 use rsh_parser::parse;
 use rsh_protocol::{
     engine::{EngineState, Stack, StateWorkingSet},
-    eval_const::create_nu_constant,
-    PipelineData, ShellError, Span, Value, NU_VARIABLE_ID,
+    eval_const::create_rsh_constant,
+    PipelineData, ShellError, Span, Value, RSH_VARIABLE_ID,
 };
 use rsh_test_support::fs;
 use reedline::Suggestion;
 const SEP: char = std::path::MAIN_SEPARATOR;
 
 fn create_default_context() -> EngineState {
-    nu_command::add_shell_command_context(rsh_cmd_lang::create_default_context())
+    rsh_command::add_shell_command_context(rsh_cmd_lang::create_default_context())
 }
 
 // creates a new engine with the current path into the completions fixtures folder

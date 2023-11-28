@@ -1,7 +1,7 @@
 mod common;
 
 use common::create_row as row;
-use rsh_table::{rshTable, rshTableConfig, TableTheme as theme};
+use rsh_table::{RshTable, RshTableConfig, TableTheme as theme};
 use tabled::grid::records::vec_records::CellInfo;
 
 #[test]
@@ -476,7 +476,7 @@ fn test_with_love() {
 }
 
 fn create_table(data: Vec<Vec<CellInfo<String>>>, with_header: bool, theme: theme) -> String {
-    let config = rshTableConfig {
+    let config = RshTableConfig {
         theme,
         with_header,
         ..Default::default()
@@ -492,13 +492,13 @@ fn create_table_with_size(
     with_header: bool,
     theme: theme,
 ) -> String {
-    let config = rshTableConfig {
+    let config = RshTableConfig {
         theme,
         with_header,
         ..Default::default()
     };
 
-    let table = rshTable::from(data);
+    let table = RshTable::from(data);
 
     table
         .draw(config, usize::MAX)

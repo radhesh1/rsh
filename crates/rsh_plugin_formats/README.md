@@ -1,5 +1,5 @@
 # rsh_plugin_formats
-A rsh plugin to convert data to rsh' tables.
+A rsh plugin to convert data to rsh tables.
 
 # support commands:
 1. from eml - original ported from rsh core.

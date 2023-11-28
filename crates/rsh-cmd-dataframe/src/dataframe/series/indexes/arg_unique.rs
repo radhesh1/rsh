@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame};
+use super::super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -37,7 +37,7 @@ impl Command for ArgUnique {
             description: "Returns indexes for unique values",
             example: "[1 2 2 3 3] | dfr into-df | dfr arg-unique",
             result: Some(
-                RshDataFrame::try_from_columns(vec![Column::new(
+                rshDataFrame::try_from_columns(vec![Column::new(
                     "arg_unique".to_string(),
                     vec![Value::test_int(0), Value::test_int(1), Value::test_int(3)],
                 )])
@@ -64,7 +64,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let mut res = df
         .as_series(call.head)?
@@ -81,8 +81,8 @@ fn command(
         .into_series();
     res.rename("arg_unique");
 
-    RshDataFrame::try_from_series(vec![res], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

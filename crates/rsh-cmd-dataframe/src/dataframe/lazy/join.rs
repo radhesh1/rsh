@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -53,7 +53,7 @@ impl Command for LazyJoin {
     let df_b = ([["foo" "bar" "ham"];[1 "a" "let"] [2 "c" "var"] [3 "c" "const"]] | dfr into-lazy);
     $df_a | dfr join $df_b a foo | dfr collect"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![
@@ -110,7 +110,7 @@ impl Command for LazyJoin {
     let df_b = ([["foo" "bar" "ham"];[1 "a" "let"] [2 "c" "var"] [3 "c" "const"]] | dfr into-lazy);
     $df_a | dfr join $df_b a foo"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![
@@ -186,14 +186,14 @@ impl Command for LazyJoin {
         };
 
         let other: Value = call.req(engine_state, stack, 0)?;
-        let other = RshLazyFrame::try_from_value(other)?;
+        let other = rshLazyFrame::try_from_value(other)?;
         let other = other.into_polars();
 
         let left_on: Value = call.req(engine_state, stack, 1)?;
-        let left_on = RshExpression::extract_exprs(left_on)?;
+        let left_on = rshExpression::extract_exprs(left_on)?;
 
         let right_on: Value = call.req(engine_state, stack, 2)?;
-        let right_on = RshExpression::extract_exprs(right_on)?;
+        let right_on = rshExpression::extract_exprs(right_on)?;
 
         if left_on.len() != right_on.len() {
             let right_on: Value = call.req(engine_state, stack, 2)?;
@@ -218,7 +218,7 @@ impl Command for LazyJoin {
         let suffix = suffix.unwrap_or_else(|| "_x".into());
 
         let value = input.into_value(call.head);
-        let lazy = RshLazyFrame::try_from_value(value)?;
+        let lazy = rshLazyFrame::try_from_value(value)?;
         let from_eager = lazy.from_eager;
         let lazy = lazy.into_polars();
 
@@ -232,7 +232,7 @@ impl Command for LazyJoin {
             .suffix(suffix)
             .finish();
 
-        let lazy = RshLazyFrame::new(from_eager, lazy);
+        let lazy = rshLazyFrame::new(from_eager, lazy);
 
         Ok(PipelineData::Value(lazy.into_value(call.head)?, None))
     }

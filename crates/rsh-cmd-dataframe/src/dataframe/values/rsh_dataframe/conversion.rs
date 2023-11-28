@@ -228,7 +228,7 @@ fn value_to_input_type(value: &Value) -> InputType {
 // The ColumnMap has the parsed data from the StreamInput
 // This data can be used to create a Series object that can initialize
 // the dataframe based on the type of data that is found
-pub fn from_parsed_columns(column_values: ColumnMap) -> Result<RshDataFrame, ShellError> {
+pub fn from_parsed_columns(column_values: ColumnMap) -> Result<rshDataFrame, ShellError> {
     let mut df_series: Vec<Series> = Vec::new();
     for (name, column) in column_values {
         if let Some(column_type) = &column.column_type {
@@ -294,7 +294,7 @@ pub fn from_parsed_columns(column_values: ColumnMap) -> Result<RshDataFrame, She
     }
 
     DataFrame::new(df_series)
-        .map(|df| RshDataFrame::new(false, df))
+        .map(|df| rshDataFrame::new(false, df))
         .map_err(|e| {
             ShellError::GenericError(
                 "Error creating dataframe".into(),

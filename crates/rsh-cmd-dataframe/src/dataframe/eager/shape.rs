@@ -6,7 +6,7 @@ use rsh_protocol::{
 
 use crate::dataframe::values::Column;
 
-use super::super::values::RshDataFrame;
+use super::super::values::rshDataFrame;
 
 #[derive(Clone)]
 pub struct ShapeDF;
@@ -34,7 +34,7 @@ impl Command for ShapeDF {
             description: "Shows row and column shape",
             example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr shape",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new("rows".to_string(), vec![Value::test_int(2)]),
                     Column::new("columns".to_string(), vec![Value::test_int(2)]),
                 ])
@@ -61,7 +61,7 @@ fn command(
     call: &Call,
     input: PipelineData,
 ) -> Result<PipelineData, ShellError> {
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
 
     let rows = Value::int(df.as_ref().height() as i64, call.head);
 
@@ -70,7 +70,7 @@ fn command(
     let rows_col = Column::new("rows".to_string(), vec![rows]);
     let cols_col = Column::new("columns".to_string(), vec![cols]);
 
-    RshDataFrame::try_from_columns(vec![rows_col, cols_col])
+    rshDataFrame::try_from_columns(vec![rows_col, cols_col])
         .map(|df| PipelineData::Value(df.into_value(call.head), None))
 }
 

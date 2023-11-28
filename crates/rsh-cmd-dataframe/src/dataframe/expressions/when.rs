@@ -128,7 +128,7 @@ impl Command for ExprWhen {
 #[cfg(test)]
 mod test {
     use super::super::super::test_dataframe::test_dataframe;
-    use crate::dataframe::eager::{Torsh, WithColumn};
+    use crate::dataframe::eager::{ToRsh, WithColumn};
     use crate::dataframe::expressions::otherwise::ExprOtherwise;
     use crate::dataframe::expressions::{ExprAlias, ExprCol};
 
@@ -142,7 +142,7 @@ mod test {
             Box::new(ExprAlias {}),
             Box::new(ExprWhen {}),
             Box::new(ExprOtherwise {}),
-            Box::new(Torsh {}),
+            Box::new(ToRsh {}),
         ])
     }
 }

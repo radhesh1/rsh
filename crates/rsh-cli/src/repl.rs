@@ -21,10 +21,7 @@ use rsh_protocol::{
     Value, RSH_VARIABLE_ID,
 };
 use rsh_utils::utils::perf;
-use reedline::{
-    CursorConfig, CwdAwareHinter, EditCommand, Emacs, FileBackedHistory, HistorySessionId,
-    Reedline, SqliteBackedHistory, Vi,
-};
+use reedline::{CursorConfig, CwdAwareHinter, EditCommand, Emacs, FileBackedHistory, HistoryItem, HistorySessionId, Reedline, SqliteBackedHistory, Vi};
 use std::{
     env::temp_dir,
     io::{self, IsTerminal, Write},
@@ -44,6 +41,7 @@ const PRE_EXECUTE_MARKER: &str = "\x1b]133;C\x1b\\";
 // const CMD_FINISHED_MARKER: &str = "\x1b]133;D;{}\x1b\\";
 const RESET_APPLICATION_MODE: &str = "\x1b[?1l";
 
+//noinspection RsBorrowChecker
 pub fn evaluate_repl(
     engine_state: &mut EngineState,
     stack: &mut Stack,
@@ -448,13 +446,20 @@ pub fn evaluate_repl(
                 if history_supports_meta && !s.is_empty() && line_editor.has_last_command_context()
                 {
                     line_editor
-                        .update_last_command_context(&|mut c| {
+                        .update_last_command_context(&|c| -> HistoryItem {
+                            let mut c = c.clone();
                             c.start_timestamp = Some(chrono::Utc::now());
+
+                            // Clone the hostname directly inside the closure
                             c.hostname = hostname.clone();
 
+                            // Assuming StateWorkingSet::new(engine_state).get_cwd() returns a cloneable type
                             c.cwd = Some(StateWorkingSet::new(engine_state).get_cwd());
+
                             c
                         })
+
+
                         .into_diagnostic()?; // todo: don't stop repl if error here?
                 }
 
@@ -592,15 +597,20 @@ pub fn evaluate_repl(
 
                 if history_supports_meta && !s.is_empty() && line_editor.has_last_command_context()
                 {
+                    let cmd_duration_clone = cmd_duration.clone();
                     line_editor
                         .update_last_command_context(&|mut c| {
-                            c.duration = Some(cmd_duration);
+                            let cmd_duration_clone_inner = cmd_duration_clone.clone();
+                            c.duration = Some(cmd_duration_clone_inner);
                             c.exit_status = stack
                                 .get_env_var(engine_state, "LAST_EXIT_CODE")
                                 .and_then(|e| e.as_i64().ok());
-                            c
+                            // Other modifications to `c` if needed
+                            c.clone()
                         })
-                        .into_diagnostic()?; // todo: don't stop repl if error here?
+
+
+                    .into_diagnostic()?; // todo: don't stop repl if error here?
                 }
 
                 if shell_integration {

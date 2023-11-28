@@ -1,4 +1,4 @@
-use super::super::super::values::RshDataFrame;
+use super::super::super::values::rshDataFrame;
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -66,7 +66,7 @@ fn command(
     let format: String = call.req(engine_state, stack, 0)?;
     let not_exact = call.has_flag("not-exact");
 
-    let df = RshDataFrame::try_from_pipeline(input, call.head)?;
+    let df = rshDataFrame::try_from_pipeline(input, call.head)?;
     let series = df.as_series(call.head)?;
     let casted = series.utf8().map_err(|e| {
         ShellError::GenericError(
@@ -98,6 +98,6 @@ fn command(
 
     res.rename("date");
 
-    RshDataFrame::try_from_series(vec![res], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }

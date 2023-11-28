@@ -1,4 +1,4 @@
-use super::super::super::values::{Column, RshDataFrame, RshExpression};
+use super::super::super::values::{Column, rshDataFrame, rshExpression};
 use rsh_protocol::{
     ast::Call,
     engine::{Command, EngineState, Stack},
@@ -41,7 +41,7 @@ impl Command for IsNotNull {
     let res = ($s / $s);
     $res | dfr is-not-null"#,
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "is_not_null".to_string(),
                         vec![
                             Value::test_bool(true),
@@ -70,15 +70,15 @@ impl Command for IsNotNull {
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
-        if RshDataFrame::can_downcast(&value) {
-            let df = RshDataFrame::try_from_value(value)?;
+        if rshDataFrame::can_downcast(&value) {
+            let df = rshDataFrame::try_from_value(value)?;
             command(engine_state, stack, call, df)
         } else {
-            let expr = RshExpression::try_from_value(value)?;
-            let expr: RshExpression = expr.into_polars().is_not_null().into();
+            let expr = rshExpression::try_from_value(value)?;
+            let expr: rshExpression = expr.into_polars().is_not_null().into();
 
             Ok(PipelineData::Value(
-                RshExpression::into_value(expr, call.head),
+                rshExpression::into_value(expr, call.head),
                 None,
             ))
         }
@@ -89,13 +89,13 @@ fn command(
     _engine_state: &EngineState,
     _stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let mut res = df.as_series(call.head)?.is_not_null();
     res.rename("is_not_null");
 
-    RshDataFrame::try_from_series(vec![res.into_series()], call.head)
-        .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+    rshDataFrame::try_from_series(vec![res.into_series()], call.head)
+        .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
 }
 
 #[cfg(test)]

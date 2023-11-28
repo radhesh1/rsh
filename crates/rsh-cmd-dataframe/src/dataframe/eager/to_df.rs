@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame};
+use super::super::values::{Column, rshDataFrame};
 
 use rsh_protocol::{
     ast::Call,
@@ -30,7 +30,7 @@ impl Command for ToDataFrame {
                 description: "Takes a dictionary and creates a dataframe",
                 example: "[[a b];[1 2] [3 4]] | dfr into-df",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -48,7 +48,7 @@ impl Command for ToDataFrame {
                 description: "Takes a list of tables and creates a dataframe",
                 example: "[[1 2 a] [3 4 b] [5 6 c]] | dfr into-df",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "0".to_string(),
                             vec![Value::test_int(1), Value::test_int(3), Value::test_int(5)],
@@ -74,7 +74,7 @@ impl Command for ToDataFrame {
                 description: "Takes a list and creates a dataframe",
                 example: "[a b c] | dfr into-df",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0".to_string(),
                         vec![
                             Value::test_string("a"),
@@ -90,7 +90,7 @@ impl Command for ToDataFrame {
                 description: "Takes a list of booleans and creates a dataframe",
                 example: "[true true false] | dfr into-df",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![Column::new(
+                    rshDataFrame::try_from_columns(vec![Column::new(
                         "0".to_string(),
                         vec![
                             Value::test_bool(true),
@@ -112,8 +112,8 @@ impl Command for ToDataFrame {
         call: &Call,
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
-        RshDataFrame::try_from_iter(input.into_iter())
-            .map(|df| PipelineData::Value(RshDataFrame::into_value(df, call.head), None))
+        rshDataFrame::try_from_iter(input.into_iter())
+            .map(|df| PipelineData::Value(rshDataFrame::into_value(df, call.head), None))
     }
 }
 

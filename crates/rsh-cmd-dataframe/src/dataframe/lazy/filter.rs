@@ -1,4 +1,4 @@
-use crate::dataframe::values::{Column, RshDataFrame, RshExpression, RshLazyFrame};
+use crate::dataframe::values::{Column, rshDataFrame, rshExpression, rshLazyFrame};
 
 use rsh_engine::CallExt;
 use rsh_protocol::{
@@ -38,7 +38,7 @@ impl Command for LazyFilter {
             description: "Filter dataframe using an expression",
             example: "[[a b]; [6 2] [4 2] [2 2]] | dfr into-df | dfr filter ((dfr col a) >= 4)",
             result: Some(
-                RshDataFrame::try_from_columns(vec![
+                rshDataFrame::try_from_columns(vec![
                     Column::new(
                         "a".to_string(),
                         vec![Value::test_int(6), Value::test_int(4)],
@@ -62,10 +62,10 @@ impl Command for LazyFilter {
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
         let value: Value = call.req(engine_state, stack, 0)?;
-        let expression = RshExpression::try_from_value(value)?;
+        let expression = rshExpression::try_from_value(value)?;
 
-        let lazy = RshLazyFrame::try_from_pipeline(input, call.head)?;
-        let lazy = RshLazyFrame::new(
+        let lazy = rshLazyFrame::try_from_pipeline(input, call.head)?;
+        let lazy = rshLazyFrame::new(
             lazy.from_eager,
             lazy.into_polars().filter(expression.into_polars()),
         );

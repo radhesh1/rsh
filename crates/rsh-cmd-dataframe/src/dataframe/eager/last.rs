@@ -1,4 +1,4 @@
-use super::super::values::{utils::DEFAULT_ROWS, Column, RshDataFrame, RshExpression};
+use super::super::values::{utils::DEFAULT_ROWS, Column, rshDataFrame, rshExpression};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -40,7 +40,7 @@ impl Command for LastDF {
                 description: "Create new dataframe with last rows",
                 example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr last 1",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new("a".to_string(), vec![Value::test_int(3)]),
                         Column::new("b".to_string(), vec![Value::test_int(4)]),
                     ])
@@ -64,15 +64,15 @@ impl Command for LastDF {
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
-        if RshDataFrame::can_downcast(&value) {
-            let df = RshDataFrame::try_from_value(value)?;
+        if rshDataFrame::can_downcast(&value) {
+            let df = rshDataFrame::try_from_value(value)?;
             command(engine_state, stack, call, df)
         } else {
-            let expr = RshExpression::try_from_value(value)?;
-            let expr: RshExpression = expr.into_polars().last().into();
+            let expr = rshExpression::try_from_value(value)?;
+            let expr: rshExpression = expr.into_polars().last().into();
 
             Ok(PipelineData::Value(
-                RshExpression::into_value(expr, call.head),
+                rshExpression::into_value(expr, call.head),
                 None,
             ))
         }
@@ -83,14 +83,14 @@ fn command(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let rows: Option<usize> = call.opt(engine_state, stack, 0)?;
     let rows = rows.unwrap_or(DEFAULT_ROWS);
 
     let res = df.as_ref().tail(Some(rows));
     Ok(PipelineData::Value(
-        RshDataFrame::dataframe_into_value(res, call.head),
+        rshDataFrame::dataframe_into_value(res, call.head),
         None,
     ))
 }

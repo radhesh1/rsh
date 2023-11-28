@@ -84,7 +84,7 @@ impl Type {
         let mk_shape = |tys: &[(String, Type)]| {
             tys.iter()
                 .map(|(key, val)| (key.clone(), val.to_shape()))
-                .collect()
+                .collect::<Vec<(String, SyntaxShape)>>() // Specify the correct return type
         };
 
         match self {

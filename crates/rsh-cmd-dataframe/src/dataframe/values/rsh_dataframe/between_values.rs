@@ -7,6 +7,7 @@ use num::Zero;
 use polars::prelude::{
     BooleanType, ChunkCompare, ChunkedArray, DataType, Float64Type, Int64Type, IntoSeries,
     numOpsDispatchChecked, PolarsError, Series, Utf8NameSpaceImpl,
+
 };
 use std::ops::{Add, BitAnd, BitOr, Div, Mul, Sub};
 
@@ -48,7 +49,7 @@ pub(super) fn compute_between_series(
             res.rename(&name);
             rshDataFrame::series_to_value(res, operation_span)
         }
-        Operator::Math(Math::Mirshs) => {
+        Operator::Math(Math::Minus) => {
             let mut res = lhs - rhs;
             let name = format!("sub_{}_{}", lhs.name(), rhs.name());
             res.rename(&name);

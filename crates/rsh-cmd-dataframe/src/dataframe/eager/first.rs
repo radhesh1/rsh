@@ -1,4 +1,4 @@
-use super::super::values::{Column, RshDataFrame, RshExpression};
+use super::super::values::{Column, rshDataFrame, rshExpression};
 use rsh_engine::CallExt;
 use rsh_protocol::{
     ast::Call,
@@ -44,7 +44,7 @@ impl Command for FirstDF {
                 description: "Return the first row of a dataframe",
                 example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr first",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new("a".to_string(), vec![Value::test_int(1)]),
                         Column::new("b".to_string(), vec![Value::test_int(2)]),
                     ])
@@ -56,7 +56,7 @@ impl Command for FirstDF {
                 description: "Return the first two rows of a dataframe",
                 example: "[[a b]; [1 2] [3 4]] | dfr into-df | dfr first 2",
                 result: Some(
-                    RshDataFrame::try_from_columns(vec![
+                    rshDataFrame::try_from_columns(vec![
                         Column::new(
                             "a".to_string(),
                             vec![Value::test_int(1), Value::test_int(3)],
@@ -86,15 +86,15 @@ impl Command for FirstDF {
         input: PipelineData,
     ) -> Result<PipelineData, ShellError> {
         let value = input.into_value(call.head);
-        if RshDataFrame::can_downcast(&value) {
-            let df = RshDataFrame::try_from_value(value)?;
+        if rshDataFrame::can_downcast(&value) {
+            let df = rshDataFrame::try_from_value(value)?;
             command(engine_state, stack, call, df)
         } else {
-            let expr = RshExpression::try_from_value(value)?;
-            let expr: RshExpression = expr.into_polars().first().into();
+            let expr = rshExpression::try_from_value(value)?;
+            let expr: rshExpression = expr.into_polars().first().into();
 
             Ok(PipelineData::Value(
-                RshExpression::into_value(expr, call.head),
+                rshExpression::into_value(expr, call.head),
                 None,
             ))
         }
@@ -105,14 +105,14 @@ fn command(
     engine_state: &EngineState,
     stack: &mut Stack,
     call: &Call,
-    df: RshDataFrame,
+    df: rshDataFrame,
 ) -> Result<PipelineData, ShellError> {
     let rows: Option<usize> = call.opt(engine_state, stack, 0)?;
     let rows = rows.unwrap_or(1);
 
     let res = df.as_ref().head(Some(rows));
     Ok(PipelineData::Value(
-        RshDataFrame::dataframe_into_value(res, call.head),
+        rshDataFrame::dataframe_into_value(res, call.head),
         None,
     ))
 }
