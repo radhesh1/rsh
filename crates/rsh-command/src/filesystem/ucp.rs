@@ -7,7 +7,9 @@ use rsh_protocol::{
     Category, Example, PipelineData, ShellError, Signature, Spanned, SyntaxShape, Type,
 };
 use std::path::PathBuf;
-use uu_cp::{BackupMode, CopyMode, UpdateMode};
+use uu_cp::BackupMode;
+use uu_cp::CopyMode;
+use uu_cp::UpdateMode;
 
 // TODO: related to uucore::error::set_exit_code(EXIT_ERR)
 // const EXIT_ERR: i32 = 1;
@@ -209,29 +211,7 @@ impl Command for UCp {
             }
         }
 
-        let options = uu_cp::Options {
-            overwrite,
-            reflink_mode,
-            recursive,
-            debug,
-            verbose: verbose || debug,
-            dereference: !recursive,
-            progress_bar: progress,
-            attributes_only: false,
-            backup: BackupMode::NoBackup,
-            copy_contents: false,
-            cli_dereference: false,
-            copy_mode,
-            no_target_dir: false,
-            one_file_system: false,
-            parents: false,
-            sparse_mode: uu_cp::SparseMode::Auto,
-            strip_trailing_slashes: false,
-            attributes: uu_cp::Attributes::NONE,
-            backup_suffix: String::from("~"),
-            target_dir: None,
-            update,
-        };
+        let options = uu_cp::Options { overwrite, reflink_mode, recursive, debug, verbose: verbose || debug, dereference: !recursive, progress_bar: progress, attributes_only: false, backup: BackupMode::NoBackup, copy_contents: false, cli_dereference: false, copy_mode, no_target_dir: false, one_file_system: false, parents: false, sparse_mode: uu_cp::SparseMode::Auto, strip_trailing_slashes: false, attributes: uu_cp::Attributes::NONE, backup_suffix: String::from("~"), target_dir: None, update, };
 
         if let Err(error) = uu_cp::copy(&sources, &target_path, &options) {
             match error {

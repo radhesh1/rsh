@@ -277,10 +277,10 @@ export def bench [
 # an example can be found in [this asciinema recording](https://asciinema.org/a/566513)
 export def banner [] {
 let dt = (datetime-diff (date now) 2023-11-25T09:59:12-07:00)
-$"(ansi green)     __  ,(ansi reset)
-(ansi green) .--\(\)°'.' (ansi reset)Welcome to (ansi green)rsh(ansi reset),
-(ansi green)'|, . ,'   (ansi reset)based on the (ansi green)rsh(ansi reset) language,
-(ansi green) !_-\(_\\    (ansi reset)where all data is structured!
+$"(ansi green)    _____,,;;;`; (ansi reset)
+(ansi green) ,~(  )  , )~~\| (ansi reset)Welcome to (ansi green)rsh(ansi reset),
+(ansi green) ' / / --`--,    (ansi reset)based on the (ansi green)rsh(ansi reset) language,
+(ansi green)  /  \    | '    (ansi reset)where all data is structured and crabs do rave!
 
 Our (ansi green_bold)GitHub(ansi reset) repository is at (ansi green_bold)https://github.com/radhesh1/rsh(ansi reset)
 Our (ansi green)Documentation(ansi reset) is located at (ansi green)https://irsh.vercel.app(ansi reset)

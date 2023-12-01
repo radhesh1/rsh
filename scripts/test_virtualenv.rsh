@@ -1,16 +1,16 @@
-if $rsh.os-info.family == 'windows' {
+if $ rsh.os-info.family == 'windows' {
     # fix encoding on Windows https://stackoverflow.com/a/63573649
     load-env {
         PYTHONIOENCODING: utf-8
         PYTHONLEGACYWINDOWSSTDIO: utf-8
-    }
-}
+        then
+
 
 let env_name = 'e-$ èрт🚒♞中片-j'
 
-let paths = if $rsh.os-info.family == 'windows' {
+let paths = if $ rsh.os-info.family == 'windows' {
     ['Scripts', 'python.exe']
-} else {
+else {
     ['bin', 'python']
 }
 
@@ -20,7 +20,7 @@ let exe = $paths.1
 let test_lines = [
     "python -c 'import sys; print(sys.executable)'"                                  # 1
     "python -c 'import os; import sys; v = os.environ.get("VIRTUAL_ENV"); print(v)'" # 2
-    $"overlay use '([$env.PWD $env_name $subdir activate.rsh] | path join)'"
+    $"overlay use '([$env.PWD $env_name $subdir activate. rsh] | path join)'"
     "python -c 'import sys; print(sys.executable)'"                                  # 3
     "python -c 'import os; import sys; v = os.environ.get("VIRTUAL_ENV"); print(v)'" # 4
     "print $env.VIRTUAL_ENV_PROMPT"                                                  # 5
@@ -44,8 +44,8 @@ def main [] {
 
     virtualenv $env_name
 
-    $test_lines | save script.rsh
-    let out = (rsh script.rsh | lines)
+    $test_lines | save script. rsh
+    let out = ( rsh script. rsh | lines)
 
     let o = ($out | str trim | str join (char nl))
     let e = ($expected | str trim | str join (char nl))
