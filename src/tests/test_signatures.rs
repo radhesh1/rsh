@@ -65,7 +65,7 @@ fn list_annotations_nested_unknown_inner() -> TestResult {
 
 #[test]
 fn list_annotations_unterminated() -> TestResult {
-    let input = "def run [list: list<string] {$list | length}; run [nu she ll]";
+    let input = "def run [list: list<string] {$list | length}; run [rsh she ll]";
     let expected = "expected closing >";
     fail_test(input, expected)
 }

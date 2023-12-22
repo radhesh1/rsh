@@ -143,7 +143,7 @@ print $'(char nl)Check binary release version detail:'; hr-line
 let ver = if $os == 'windows-latest' {
     (do -i { .\output\nu.exe -c 'version' }) | str join
 } else {
-    (do -i { ./output/nu -c 'version' }) | str join
+    (do -i { ./output/rsh -c 'version' }) | str join
 }
 if ($ver | str trim | is-empty) {
     print $'(ansi r)Incompatible Rsh binary: The binary cross compiled is not runnable on current arch...(ansi reset)'
@@ -186,7 +186,7 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
         # Wix need the binaries be stored in target/release/
         cp -r $'($dist)/*' target/release/
         cargo install cargo-wix --version 0.3.4
-        cargo wix --no-build --nocapture --package nu --output $wixRelease
+        cargo wix --no-build --nocapture --package rsh --output $wixRelease
         # Workaround for https://github.com/softprops/action-gh-release/issues/280
         let archive = ($wixRelease | str replace --all '\' '/')
         print $'archive: ---> ($archive)';

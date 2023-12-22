@@ -101,7 +101,7 @@ Read cargo's documentation for more details: https://doc.rust-lang.org/cargo/ref
   ```
   or via the `toolkit` command:
   ```rsh
-  use toolkit.nu test
+  use toolkit.rsh test
   test
   ```
 
@@ -118,7 +118,7 @@ Read cargo's documentation for more details: https://doc.rust-lang.org/cargo/ref
   ```
   or via the `toolkit.nu` command:
   ```rsh
-  use toolkit.nu fmt
+  use toolkit.rsh fmt
   fmt --check
   ```
 
@@ -129,14 +129,14 @@ Read cargo's documentation for more details: https://doc.rust-lang.org/cargo/ref
   ```
   or via the `toolkit.nu` command:
   ```rsh
-  use toolkit.nu fmt
+  use toolkit.rsh fmt
   fmt
   ```
 
 - Set up `git` hooks to check formatting and run `clippy` before committing and pushing:
 
   ```rsh
-  use toolkit.nu setup-git-hooks
+  use toolkit.rsh setup-git-hooks
   setup-git-hooks
   ```
   _Unfortunately, this hook isn't available on Windows._

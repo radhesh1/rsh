@@ -93,7 +93,7 @@ jobs:
 
     - name: Release Rsh Binary
       id: nu
-      run: nu .github/workflows/release-pkg.rsh
+      run: rsh .github/workflows/release-pkg.rsh
       env:
         RELEASE_TYPE: standard
         OS: ${{ matrix.os }}
@@ -184,7 +184,7 @@ jobs:
 
     - name: Release Rsh Binary
       id: nu
-      run: nu .github/workflows/release-pkg.rsh
+      run: rsh .github/workflows/release-pkg.rsh
       env:
         RELEASE_TYPE: full
         OS: ${{ matrix.os }}

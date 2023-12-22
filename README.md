@@ -160,7 +160,7 @@ We can pipe this into a command that gets the contents of one of the columns:
 > open Cargo.toml | get package
 ╭───────────────┬────────────────────────────────────╮
 │ authors       │ [list 1 item]                      │
-│ default-run   │ nu                                 │
+│ default-run   │ rsh                                 │
 │ description   │ A new type of shell                │
 │ documentation │ https://irsh.vercel.app/book/       │
 │ edition       │ 2018                               │
@@ -168,7 +168,7 @@ We can pipe this into a command that gets the contents of one of the columns:
 │ homepage      │ https://irsh.vercel.app             │
 │ license       │ MIT                                │
 │ metadata      │ {record 1 field}                   │
-│ name          │ nu                                 │
+│ name          │ rsh                                 │
 │ repository    │ https://github.com/radhesh1/rsh │
 │ rust-version  │ 1.60                               │
 │ version       │ 0.72.0                             │
@@ -187,11 +187,11 @@ And if needed we can drill down further:
 Rsh supports plugins that offer additional functionality to the shell and follow the same structured data model that built-in commands use. There are a few examples in the `crates/rsh_plugin_*` directories.
 
 Plugins are binaries that are available in your path and follow a `rsh_plugin_*` naming convention.
-These binaries interact with nu via a simple JSON-RPC protocol where the command identifies itself and passes along its configuration, making it available for use.
+These binaries interact with rsh via a simple JSON-RPC protocol where the command identifies itself and passes along its configuration, making it available for use.
 If the plugin is a filter, data streams to it one element at a time, and it can stream data back in return via stdin/stdout.
 If the plugin is a sink, it is given the full vector of final data and is given free reign over stdin/stdout to use as it pleases.
 
-The [awesome-nu repo](https://github.com/radhesh1.awesome-nu#plugins) lists a variety of nu-plugins while the [showcase repo](https://github.com/rsh/showcase) *shows* off informative blog posts that have been written about rsh along with videos that highlight technical
+The [awesome-rsh repo](https://github.com/radhesh1.awesome-nu#plugins) lists a variety of nu-plugins while the [showcase repo](https://github.com/rsh/showcase) *shows* off informative blog posts that have been written about rsh along with videos that highlight technical
 topics that have been presented.
 
 ## Goals
