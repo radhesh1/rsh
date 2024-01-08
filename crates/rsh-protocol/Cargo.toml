@@ -17,7 +17,7 @@ rsh-utils = { path = "../rsh-utils", version = "0.87.2" }
 rsh-path = { path = "../rsh-path", version = "0.87.2" }
 rsh-system = { path = "../rsh-system", version = "0.87.2" }
 
-byte-unit = "4.0"
+byte-unit = "5.1"
 chrono = { version = "0.4", features = [ "serde", "std", "unstable-locales" ], default-features = false }
 chrono-humanize = "0.2"
 fancy-regex = "0.11"
